@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HomeKit
 
 struct HomeView: View {
     @State var homeName: String = "Alésia"
@@ -14,8 +15,31 @@ struct HomeView: View {
     @State var percentage: Float = 100.0
     @State var isOnLight: Bool = false
     @State var isOnHeater: Bool = false
-    
     @State var showLightView: Bool = false
+    
+    @State var accessoriesManager: AccessoriesManager = AccessoriesManager()
+    
+    @State var accessories: [HMAccessory]!
+    
+    @State var temperature: Float = 20.0
+    @State var humidity: Float = 44
+    
+    @State var currentLight: Light!
+    
+    var lights: [HMAccessory]!
+    
+    func fetchData() {
+        /**TODO: find another solution to wait for accessories to be reachable **/
+        sleep(1)
+        self.accessoriesManager.fetchValues(valueType: ValueType.temperature) { temp in
+            self.temperature = temp
+        }
+        self.accessoriesManager.fetchValues(valueType: ValueType.humidity) { hum in
+            self.humidity = hum
+        }
+        
+        print(self.accessoriesManager.lights)
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -31,21 +55,22 @@ struct HomeView: View {
                         Spacer()
                     }
                     HStack {
-                        Text("20.0°c")
+                        Text(String(temperature) + "°c")
                             .frame(width: 80, height: 80)
                             .clipShape(Circle())
                             .shadow(radius: 3)
                             .overlay(Circle().stroke(Color.blue, lineWidth: 2))
                             .padding()
                         
-                        Text("44%")
+                        Text(String(humidity) + "%")
                             .frame(width: 80, height: 80)
                             .clipShape(Circle())
                             .shadow(radius: 3)
                             .overlay(Circle().stroke(Color.blue, lineWidth: 2))
                             .padding()
                     }
-                    HStack {
+                    
+                    /*HStack {
                         Toggle("Chauffage:", isOn: $heaterOn)
                         
                         if self.heaterOn {
@@ -63,10 +88,17 @@ struct HomeView: View {
                         } else {
                             Text("Bureau éteint")
                         }
-                    }
+                    }*/
                     HStack {
-                        CustomButton(isOn: $isOnLight, showLightView: $showLightView, type: AccessoryType.heater)
-                        CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.light)
+                        ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                            CustomButton(isOn: $isOnLight, showLightView: $showLightView, type: AccessoryType.light, name: light.accessory!.name)
+                                .gesture(LongPressGesture()
+                                .onEnded { action in
+                                    self.showLightView = true
+                                    self.currentLight = light
+                                })
+                        }
+                        //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
                     }
                     
                     
@@ -77,9 +109,13 @@ struct HomeView: View {
                     Text(value)
                 }
                 if showLightView {
-                    LightView(isOpen: $showLightView, percentage: $percentage)
+                    LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
                 }
             }
+        }
+        .onAppear {
+            self.accessoriesManager.fetchAccessories()
+            self.fetchData()
         }
     }
 }

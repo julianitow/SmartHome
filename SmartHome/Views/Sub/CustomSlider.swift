@@ -10,9 +10,9 @@ import SwiftUI
 struct CustomSlider: View {
     
     @Binding var percentage: Float
-    
+    @Binding var tintColor: Color
     let bgColor = Color(UIColor.gray.withAlphaComponent(0.5))
-    let tintColor = Color(UIColor.yellow.withAlphaComponent(0.5))
+    //let tintColor = Color(UIColor.yellow.withAlphaComponent(0.5))
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -26,6 +26,7 @@ struct CustomSlider: View {
                     .frame(width: 30, height: 40)
                     .rotationEffect(.degrees(90.0))
                     .padding(.leading, geometry.size.width / 2)
+                    .foregroundColor(.white)
             }
             .cornerRadius(30)
             .gesture(DragGesture(minimumDistance: 0)
@@ -34,7 +35,7 @@ struct CustomSlider: View {
             }))
             .rotationEffect(.degrees(-90.0))
             .frame(width: geometry.size.width, height: 100)
-            .padding(.top, 200)
+            .offset(x: 0,y: 150)
         }
     }
 }

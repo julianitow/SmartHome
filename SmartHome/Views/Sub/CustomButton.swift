@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-enum AccessoryType{ case heater, light }
-
 struct CustomButton: View {
     let width = CGFloat(75)
     let height = CGFloat(75)
@@ -16,6 +14,7 @@ struct CustomButton: View {
     @Binding var isOn: Bool
     @Binding var showLightView: Bool
     @State var type: AccessoryType
+    @State var name: String
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,18 +28,27 @@ struct CustomButton: View {
                         .foregroundColor(.gray)
                         .frame(width: self.width, height: self.height)
                 }
-                if self.type == AccessoryType.heater {
-                    Image(systemName: "flame")
-                        .resizable()
-                        .frame(width: 30, height: 40)
-                        .padding(.leading, 20)
-                } else if self.type == AccessoryType.light {
-                    Image(systemName: "lightbulb")
-                        .resizable()
-                        .frame(width: 30, height: 40)
-                        .padding(.leading, 20)
+                VStack {
+                    if self.type == AccessoryType.relay {
+                        Image(systemName: "flame")
+                            .resizable()
+                            .frame(width: 30, height: 40)
+                            .padding(.leading, 20)
+                            .foregroundColor(.white)
+                        Text("Heater")
+                            .padding(.leading)
+                            .foregroundColor(.white)
+                    } else if self.type == AccessoryType.light {
+                        Image(systemName: "lightbulb")
+                            .resizable()
+                            .frame(width: 30, height: 40)
+                            .padding(.leading, 20)
+                            .foregroundColor(.white)
+                        Text("light")
+                            .padding(.leading)
+                            .foregroundColor(.white)
+                    }
                 }
-                
             }
             .cornerRadius(15)
             .gesture(TapGesture()
@@ -48,12 +56,12 @@ struct CustomButton: View {
                 self.isOn.toggle()
                 print(self.isOn)
             })
-            .gesture(LongPressGesture()
+            /*.gesture(LongPressGesture()
             .onEnded { action in
                 if self.type == AccessoryType.light {
                     self.showLightView.toggle()
                 }
-            })
+            })*/
         }
     }
 }
@@ -62,6 +70,6 @@ struct CustomButton_Previews: PreviewProvider {
     
     @State static var value = false
     static var previews: some View {
-        CustomButton(isOn: .constant(value), showLightView: .constant(true), type: AccessoryType.heater)
+        CustomButton(isOn: .constant(value), showLightView: .constant(true), type: AccessoryType.relay, name: "Light")
     }
 }
