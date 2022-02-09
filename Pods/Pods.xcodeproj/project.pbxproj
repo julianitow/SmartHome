@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1BF325A94F66DF3C64B18065505296C6 /* Introspect-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A6904905A321A85268BBE120721CD19 /* Introspect-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2301777C0379039857D5AD0E20A74849 /* Pods-SmartHome-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D43B7A8C4BEF29B51AA13159B901B9 /* Pods-SmartHome-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		48BCE0FB07332E0F6AB7CDEF7FC0BA5B /* UIKitIntrospectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51300A4CF1723BB967664301F742DE0 /* UIKitIntrospectionViewController.swift */; };
+		5834A3D7BAB8466E5347A1FD0375B031 /* Introspect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25F86C9987573D7B5A7C5B4C5A932A /* Introspect.swift */; };
+		58693C1B2B7274856BE62D35CE6E4BC3 /* AppKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B49C99C2F4E842FDEBBF3C286D38C5 /* AppKitIntrospectionView.swift */; };
+		689E1D3B924569D165303923E192CC9F /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1486B828B8C8BA3C41E7721898B6D25 /* ViewExtensions.swift */; };
+		93409ED4EF6F2380AA7EE42714A7034D /* Pods-SmartHome-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E5ACEA6286B218F019CBCCA030EC7C51 /* Pods-SmartHome-dummy.m */; };
+		E22CBD31FAE4E8D6CF29555C348DBB8C /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D605CFA53A8A241D2858E82714CEEF13 /* UIKitIntrospectionView.swift */; };
+		F73189EFCB73F00809CFBB6AED83E7A4 /* Introspect-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D2DB8F46DA7F5E333EF2B5E93732FE /* Introspect-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		665A540615180043A17A685BE1C95B34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97E3685499568DCCBA6C15905F707BDC;
+			remoteInfo = Introspect;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		13B49C99C2F4E842FDEBBF3C286D38C5 /* AppKitIntrospectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppKitIntrospectionView.swift; path = Introspect/AppKitIntrospectionView.swift; sourceTree = "<group>"; };
+		28AF26034C8510C5F40FD55B1AB8001B /* Pods-SmartHome-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SmartHome-acknowledgements.markdown"; sourceTree = "<group>"; };
+		33AE875090AA680D37006EA7C7BBDBB2 /* Pods-SmartHome.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SmartHome.modulemap"; sourceTree = "<group>"; };
+		41333CF5FC807B71B66F19E513DA7FD1 /* Introspect.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Introspect.modulemap; sourceTree = "<group>"; };
+		41BFFB9F36A1A5E4907345AE7C8D7B55 /* Pods-SmartHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartHome.release.xcconfig"; sourceTree = "<group>"; };
+		4A6904905A321A85268BBE120721CD19 /* Introspect-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Introspect-umbrella.h"; sourceTree = "<group>"; };
+		6BDC15DB0FC3C43631E55A62B102691B /* Introspect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Introspect.release.xcconfig; sourceTree = "<group>"; };
+		77C212E71EF2B7B5A6B612283A979282 /* Pods-SmartHome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SmartHome.debug.xcconfig"; sourceTree = "<group>"; };
+		96D43B7A8C4BEF29B51AA13159B901B9 /* Pods-SmartHome-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SmartHome-umbrella.h"; sourceTree = "<group>"; };
+		9A25F86C9987573D7B5A7C5B4C5A932A /* Introspect.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Introspect.swift; path = Introspect/Introspect.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AB6F613B313A13AF52F5F04B3835EC10 /* Introspect-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Introspect-prefix.pch"; sourceTree = "<group>"; };
+		B51300A4CF1723BB967664301F742DE0 /* UIKitIntrospectionViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIKitIntrospectionViewController.swift; path = Introspect/UIKitIntrospectionViewController.swift; sourceTree = "<group>"; };
+		D0A70003FD5E49B30CA83DAAFE03116B /* Introspect */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = Introspect; path = libIntrospect.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1486B828B8C8BA3C41E7721898B6D25 /* ViewExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewExtensions.swift; path = Introspect/ViewExtensions.swift; sourceTree = "<group>"; };
+		D605CFA53A8A241D2858E82714CEEF13 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIKitIntrospectionView.swift; path = Introspect/UIKitIntrospectionView.swift; sourceTree = "<group>"; };
+		DBA99445137DBCA587D38B6AF844793F /* Introspect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Introspect.debug.xcconfig; sourceTree = "<group>"; };
+		DE9AFE0E366555B1D1208BA4454679B0 /* Pods-SmartHome */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-SmartHome"; path = "libPods-SmartHome.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2D2DB8F46DA7F5E333EF2B5E93732FE /* Introspect-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Introspect-dummy.m"; sourceTree = "<group>"; };
+		E5ACEA6286B218F019CBCCA030EC7C51 /* Pods-SmartHome-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SmartHome-dummy.m"; sourceTree = "<group>"; };
+		F7BC980EE104278C3F2C2DBF70E86100 /* Pods-SmartHome-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SmartHome-acknowledgements.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		61BFBB5A0DECFCEEC227D6422F37D08A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E720A7C4F98B047DF8A1A34F2D4CB214 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1BB5D4B86293B65D4F13E8E4D8C77552 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				41333CF5FC807B71B66F19E513DA7FD1 /* Introspect.modulemap */,
+				E2D2DB8F46DA7F5E333EF2B5E93732FE /* Introspect-dummy.m */,
+				AB6F613B313A13AF52F5F04B3835EC10 /* Introspect-prefix.pch */,
+				4A6904905A321A85268BBE120721CD19 /* Introspect-umbrella.h */,
+				DBA99445137DBCA587D38B6AF844793F /* Introspect.debug.xcconfig */,
+				6BDC15DB0FC3C43631E55A62B102691B /* Introspect.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Introspect";
+			sourceTree = "<group>";
+		};
+		20C24BE28A8BC1948F8DA34D666339A7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F7C45FD70C611531A4AFB4DD536D8F1F /* Introspect */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C3311440124B6933EFB4980BA964D3D8 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D47E5931B805A6A8AD1A4859F848855C /* Pods-SmartHome */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
+				20C24BE28A8BC1948F8DA34D666339A7 /* Pods */,
+				F3CBDB31965EDAAA577340CDB8606FE1 /* Products */,
+				C3311440124B6933EFB4980BA964D3D8 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D47E5931B805A6A8AD1A4859F848855C /* Pods-SmartHome */ = {
+			isa = PBXGroup;
+			children = (
+				33AE875090AA680D37006EA7C7BBDBB2 /* Pods-SmartHome.modulemap */,
+				28AF26034C8510C5F40FD55B1AB8001B /* Pods-SmartHome-acknowledgements.markdown */,
+				F7BC980EE104278C3F2C2DBF70E86100 /* Pods-SmartHome-acknowledgements.plist */,
+				E5ACEA6286B218F019CBCCA030EC7C51 /* Pods-SmartHome-dummy.m */,
+				96D43B7A8C4BEF29B51AA13159B901B9 /* Pods-SmartHome-umbrella.h */,
+				77C212E71EF2B7B5A6B612283A979282 /* Pods-SmartHome.debug.xcconfig */,
+				41BFFB9F36A1A5E4907345AE7C8D7B55 /* Pods-SmartHome.release.xcconfig */,
+			);
+			name = "Pods-SmartHome";
+			path = "Target Support Files/Pods-SmartHome";
+			sourceTree = "<group>";
+		};
+		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F3CBDB31965EDAAA577340CDB8606FE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0A70003FD5E49B30CA83DAAFE03116B /* Introspect */,
+				DE9AFE0E366555B1D1208BA4454679B0 /* Pods-SmartHome */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7C45FD70C611531A4AFB4DD536D8F1F /* Introspect */ = {
+			isa = PBXGroup;
+			children = (
+				13B49C99C2F4E842FDEBBF3C286D38C5 /* AppKitIntrospectionView.swift */,
+				9A25F86C9987573D7B5A7C5B4C5A932A /* Introspect.swift */,
+				D605CFA53A8A241D2858E82714CEEF13 /* UIKitIntrospectionView.swift */,
+				B51300A4CF1723BB967664301F742DE0 /* UIKitIntrospectionViewController.swift */,
+				D1486B828B8C8BA3C41E7721898B6D25 /* ViewExtensions.swift */,
+				1BB5D4B86293B65D4F13E8E4D8C77552 /* Support Files */,
+			);
+			name = Introspect;
+			path = Introspect;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CCD623BA63BEA64E45EC1EBCC4C9A884 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BF325A94F66DF3C64B18065505296C6 /* Introspect-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3954FC2571F23D74BD41DA398745F05 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2301777C0379039857D5AD0E20A74849 /* Pods-SmartHome-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC0A71D5CC5DDF7F493315568565AB9 /* Pods-SmartHome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AEC585676805DDEF3F18CCB5AA91DC8 /* Build configuration list for PBXNativeTarget "Pods-SmartHome" */;
+			buildPhases = (
+				D3954FC2571F23D74BD41DA398745F05 /* Headers */,
+				E96C2914D8F166C3A80A64879A4676D4 /* Sources */,
+				61BFBB5A0DECFCEEC227D6422F37D08A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9622184D02E193BB8C3BAC78C5AE6C27 /* PBXTargetDependency */,
+			);
+			name = "Pods-SmartHome";
+			productName = "Pods-SmartHome";
+			productReference = DE9AFE0E366555B1D1208BA4454679B0 /* Pods-SmartHome */;
+			productType = "com.apple.product-type.library.static";
+		};
+		97E3685499568DCCBA6C15905F707BDC /* Introspect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3499D8064D16E11A47ED838D8D1C60B7 /* Build configuration list for PBXNativeTarget "Introspect" */;
+			buildPhases = (
+				CCD623BA63BEA64E45EC1EBCC4C9A884 /* Headers */,
+				80BF3B8B4F2C42DE0F072253C812B393 /* Sources */,
+				E720A7C4F98B047DF8A1A34F2D4CB214 /* Frameworks */,
+				663858388BAAFA3C27BEA5FED861A416 /* Copy generated compatibility header */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Introspect;
+			productName = Introspect;
+			productReference = D0A70003FD5E49B30CA83DAAFE03116B /* Introspect */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = F3CBDB31965EDAAA577340CDB8606FE1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				97E3685499568DCCBA6C15905F707BDC /* Introspect */,
+				8DC0A71D5CC5DDF7F493315568565AB9 /* Pods-SmartHome */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		663858388BAAFA3C27BEA5FED861A416 /* Copy generated compatibility header */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
+				"${PODS_ROOT}/Headers/Public/Introspect/Introspect.modulemap",
+				"${PODS_ROOT}/Headers/Public/Introspect/Introspect-umbrella.h",
+			);
+			name = "Copy generated compatibility header";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
+				"${BUILT_PRODUCTS_DIR}/Introspect-umbrella.h",
+				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/Introspect/Introspect.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/Introspect/Introspect-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		80BF3B8B4F2C42DE0F072253C812B393 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58693C1B2B7274856BE62D35CE6E4BC3 /* AppKitIntrospectionView.swift in Sources */,
+				5834A3D7BAB8466E5347A1FD0375B031 /* Introspect.swift in Sources */,
+				F73189EFCB73F00809CFBB6AED83E7A4 /* Introspect-dummy.m in Sources */,
+				E22CBD31FAE4E8D6CF29555C348DBB8C /* UIKitIntrospectionView.swift in Sources */,
+				48BCE0FB07332E0F6AB7CDEF7FC0BA5B /* UIKitIntrospectionViewController.swift in Sources */,
+				689E1D3B924569D165303923E192CC9F /* ViewExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E96C2914D8F166C3A80A64879A4676D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93409ED4EF6F2380AA7EE42714A7034D /* Pods-SmartHome-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9622184D02E193BB8C3BAC78C5AE6C27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Introspect;
+			target = 97E3685499568DCCBA6C15905F707BDC /* Introspect */;
+			targetProxy = 665A540615180043A17A685BE1C95B34 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0F0D8777495AC574D991EA0024FB0BC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BDC15DB0FC3C43631E55A62B102691B /* Introspect.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/Introspect/Introspect-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MODULEMAP_FILE = Headers/Public/Introspect/Introspect.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Introspect;
+				PRODUCT_NAME = Introspect;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4214E6946993DF02ED98D89047C64016 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		4F2241863204B68802C1708B5A1D4A6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41BFFB9F36A1A5E4907345AE7C8D7B55 /* Pods-SmartHome.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SmartHome/Pods-SmartHome.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BAB1B3A47DAC4CAA5E39193B39CC06FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77C212E71EF2B7B5A6B612283A979282 /* Pods-SmartHome.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SmartHome/Pods-SmartHome.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFD824F2C44D411715B371EC5C2734D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBA99445137DBCA587D38B6AF844793F /* Introspect.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/Introspect/Introspect-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MODULEMAP_FILE = Headers/Public/Introspect/Introspect.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Introspect;
+				PRODUCT_NAME = Introspect;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CD85FD90473CFBE797E4264E7BBC70AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3499D8064D16E11A47ED838D8D1C60B7 /* Build configuration list for PBXNativeTarget "Introspect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFD824F2C44D411715B371EC5C2734D4 /* Debug */,
+				0F0D8777495AC574D991EA0024FB0BC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4214E6946993DF02ED98D89047C64016 /* Debug */,
+				CD85FD90473CFBE797E4264E7BBC70AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AEC585676805DDEF3F18CCB5AA91DC8 /* Build configuration list for PBXNativeTarget "Pods-SmartHome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAB1B3A47DAC4CAA5E39193B39CC06FE /* Debug */,
+				4F2241863204B68802C1708B5A1D4A6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

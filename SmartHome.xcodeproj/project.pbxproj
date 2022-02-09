@@ -11,6 +11,14 @@
 		4D3A25C227B29E74006FFF3A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25C127B29E74006FFF3A /* ContentView.swift */; };
 		4D3A25C427B29E75006FFF3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D3A25C327B29E75006FFF3A /* Assets.xcassets */; };
 		4D3A25C727B29E75006FFF3A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D3A25C627B29E75006FFF3A /* Preview Assets.xcassets */; };
+		4D3A25CF27B2A4AD006FFF3A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25CE27B2A4AD006FFF3A /* HomeView.swift */; };
+		4D3A25D227B2A7D0006FFF3A /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D127B2A7D0006FFF3A /* Accessory.swift */; };
+		4D3A25D427B2A90A006FFF3A /* LightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D327B2A90A006FFF3A /* LightView.swift */; };
+		4D3A25D827B2D327006FFF3A /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D727B2D327006FFF3A /* CustomSlider.swift */; };
+		4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D927B2DB44006FFF3A /* CustomButton.swift */; };
+		4D3A25DC27B2E3B8006FFF3A /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */; };
+		4D3A25DE27B2E4D8006FFF3A /* CustomCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */; };
+		61D25057DB0B14B58189D38C /* libPods-SmartHome.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA8ADA23ABED86E2BC671BD /* libPods-SmartHome.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +27,16 @@
 		4D3A25C127B29E74006FFF3A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4D3A25C327B29E75006FFF3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D3A25C627B29E75006FFF3A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4D3A25CE27B2A4AD006FFF3A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4D3A25D127B2A7D0006FFF3A /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
+		4D3A25D327B2A90A006FFF3A /* LightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightView.swift; sourceTree = "<group>"; };
+		4D3A25D727B2D327006FFF3A /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		4D3A25D927B2DB44006FFF3A /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCorner.swift; sourceTree = "<group>"; };
+		4FA8ADA23ABED86E2BC671BD /* libPods-SmartHome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmartHome.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA2CBF62D601F946D69E5F8B /* Pods-SmartHome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.debug.xcconfig"; path = "Target Support Files/Pods-SmartHome/Pods-SmartHome.debug.xcconfig"; sourceTree = "<group>"; };
+		E8C45EACA7711408C293915D /* Pods-SmartHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartHome.release.xcconfig"; path = "Target Support Files/Pods-SmartHome/Pods-SmartHome.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61D25057DB0B14B58189D38C /* libPods-SmartHome.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +56,8 @@
 			children = (
 				4D3A25BE27B29E74006FFF3A /* SmartHome */,
 				4D3A25BD27B29E74006FFF3A /* Products */,
+				746D5EF8A540F33341565CCE /* Pods */,
+				64D2E0C6D66283464FD89C68 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,6 +72,8 @@
 		4D3A25BE27B29E74006FFF3A /* SmartHome */ = {
 			isa = PBXGroup;
 			children = (
+				4D3A25D027B2A7BC006FFF3A /* Models */,
+				4D3A25CD27B2A49D006FFF3A /* Views */,
 				4D3A25BF27B29E74006FFF3A /* SmartHomeApp.swift */,
 				4D3A25C127B29E74006FFF3A /* ContentView.swift */,
 				4D3A25C327B29E75006FFF3A /* Assets.xcassets */,
@@ -67,6 +90,44 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		4D3A25CD27B2A49D006FFF3A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4D3A25CE27B2A4AD006FFF3A /* HomeView.swift */,
+				4D3A25D327B2A90A006FFF3A /* LightView.swift */,
+				4D3A25D727B2D327006FFF3A /* CustomSlider.swift */,
+				4D3A25D927B2DB44006FFF3A /* CustomButton.swift */,
+				4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */,
+				4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4D3A25D027B2A7BC006FFF3A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4D3A25D127B2A7D0006FFF3A /* Accessory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		64D2E0C6D66283464FD89C68 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FA8ADA23ABED86E2BC671BD /* libPods-SmartHome.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		746D5EF8A540F33341565CCE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA2CBF62D601F946D69E5F8B /* Pods-SmartHome.debug.xcconfig */,
+				E8C45EACA7711408C293915D /* Pods-SmartHome.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +135,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D3A25CA27B29E75006FFF3A /* Build configuration list for PBXNativeTarget "SmartHome" */;
 			buildPhases = (
+				9847CC092E01619787DFA510 /* [CP] Check Pods Manifest.lock */,
 				4D3A25B827B29E74006FFF3A /* Sources */,
 				4D3A25B927B29E74006FFF3A /* Frameworks */,
 				4D3A25BA27B29E74006FFF3A /* Resources */,
@@ -132,12 +194,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9847CC092E01619787DFA510 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SmartHome-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4D3A25B827B29E74006FFF3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D3A25CF27B2A4AD006FFF3A /* HomeView.swift in Sources */,
+				4D3A25DC27B2E3B8006FFF3A /* BlurView.swift in Sources */,
+				4D3A25D827B2D327006FFF3A /* CustomSlider.swift in Sources */,
+				4D3A25DE27B2E4D8006FFF3A /* CustomCorner.swift in Sources */,
+				4D3A25D427B2A90A006FFF3A /* LightView.swift in Sources */,
 				4D3A25C227B29E74006FFF3A /* ContentView.swift in Sources */,
+				4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */,
+				4D3A25D227B2A7D0006FFF3A /* Accessory.swift in Sources */,
 				4D3A25C027B29E74006FFF3A /* SmartHomeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +357,7 @@
 		};
 		4D3A25CB27B29E75006FFF3A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA2CBF62D601F946D69E5F8B /* Pods-SmartHome.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -292,6 +387,7 @@
 		};
 		4D3A25CC27B29E75006FFF3A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8C45EACA7711408C293915D /* Pods-SmartHome.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
