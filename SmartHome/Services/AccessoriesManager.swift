@@ -20,6 +20,7 @@ class AccessoriesManager: NSObject, ObservableObject {
     var locationManager: CLLocationManager!
     
     var lights: [Light] = []
+    var sockets: [Socket] = []
     
     var temperature = 20.0
     
@@ -29,16 +30,15 @@ class AccessoriesManager: NSObject, ObservableObject {
         self.homeManager.delegate = self
     }
     
-    class func writeData(accessory: HMAccessory, accessoryType: AccessoryType, dataType: DataType, value: Any) {
+    class func writeData(accessory: HMAccessory, accessoryType: AccessoryType, dataType: DataType?, value: Any) {
         var characteristicType: String = ""
         if accessoryType == AccessoryType.light {
             if dataType == DataType.brightness {
                 characteristicType = HMCharacteristicTypeBrightness
             } else if dataType == DataType.hue {
                 characteristicType = HMCharacteristicTypeHue
-                print("HUE: \(value)")
             }
-        } else if accessoryType == AccessoryType.relay {
+        } else if accessoryType == AccessoryType.socket {
             characteristicType = HMCharacteristicTypePowerState
         }
         
@@ -48,6 +48,8 @@ class AccessoriesManager: NSObject, ObservableObject {
                     charateristic.writeValue(value) { error in
                         if error != nil {
                             print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "Unkown error")")
+                        } else {
+                            print("Wrote: \(accessory.name) -> \(value)")
                         }
                     }
                 }
@@ -56,8 +58,13 @@ class AccessoriesManager: NSObject, ObservableObject {
     }
     
     func fetchAccessories() -> Void {
+        self.fetchLights()
+        self.fetchSockets()
+    }
+    
+    func fetchLights() -> Void {
         guard let accessories = self.homeManager.primaryHome?.accessories else {
-            print("Accessories nil")
+            print("Accessories nil lights")
             return
         }
         var i = 0
@@ -67,8 +74,47 @@ class AccessoriesManager: NSObject, ObservableObject {
                 for characteristic in service.characteristics {
                     if characteristic.characteristicType == HMCharacteristicTypeHue {
                         let light = Light(id: i, accessory: accessory)
-                        lights.append(light)
+                        self.lights.append(light)
                         i += 1
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchSockets() -> Void {
+        guard let accessories = self.homeManager.primaryHome?.accessories else {
+            print("Accessories nil sockets")
+            return
+        }
+        var i = 0
+        // rewrite
+        for accessory in accessories {
+            if accessory.model == "switch" || accessory.name.contains("Bureau"){
+                let socket = Socket(id: i, accessory: accessory)
+                self.sockets.append(socket)
+                i += 1
+            }
+        }
+        //print(self.sockets)
+    }
+    
+    func fetchBrightness(light: HMAccessory) -> Void {
+        for service in light.services {
+            for characteristic in service.characteristics {
+                if characteristic.characteristicType == HMCharacteristicTypeBrightness {
+                    for i in 0...lights.count {
+                        if lights[i].accessory == light {
+                            characteristic.readValue { _ in
+                                let value = characteristic.value
+                                let brightness = value as! Double
+                                if brightness > 0 {
+                                    self.lights[i].on = true
+                                } else {
+                                    self.lights[i].on = false
+                                }
+                            }
+                        }
                     }
                 }
             }

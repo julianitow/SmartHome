@@ -13,7 +13,7 @@ struct HomeView: View {
     @State var heaterOn: Bool = false
     @State var deskOn: Bool = false
     @State var percentage: Float = 100.0
-    @State var isOnLight: Bool = false
+    //@State var isOnLight: Bool = false
     @State var isOnHeater: Bool = false
     @State var showLightView: Bool = false
     
@@ -29,8 +29,6 @@ struct HomeView: View {
     var lights: [HMAccessory]!
     
     func fetchData() {
-        /**TODO: find another solution to wait for accessories to be reachable **/
-        sleep(1)
         self.accessoriesManager.fetchValues(valueType: ValueType.temperature) { temp in
             self.temperature = temp
         }
@@ -38,7 +36,11 @@ struct HomeView: View {
             self.humidity = hum
         }
         
-        print(self.accessoriesManager.lights)
+        for light in self.accessoriesManager.lights {
+            self.accessoriesManager.fetchBrightness(light: light.accessory!)
+        }
+        
+        print(self.accessoriesManager.sockets)
     }
     
     var body: some View {
@@ -70,51 +72,39 @@ struct HomeView: View {
                             .padding()
                     }
                     
-                    /*HStack {
-                        Toggle("Chauffage:", isOn: $heaterOn)
-                        
-                        if self.heaterOn {
-                            Text("Chauffage allumé")
-                        } else {
-                            Text("Chauffage éteint")
-                        }
-                    }
-                    
-                    HStack {
-                        Toggle("Bureau:", isOn: $deskOn)
-                        
-                        if self.deskOn {
-                            Text("Bureau allumé")
-                        } else {
-                            Text("Bureau éteint")
-                        }
-                    }*/
                     HStack {
                         ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                            CustomButton(isOn: $isOnLight, showLightView: $showLightView, type: AccessoryType.light, name: light.accessory!.name)
+                            CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
                                 .gesture(LongPressGesture()
                                 .onEnded { action in
                                     self.showLightView = true
                                     self.currentLight = light
                                 })
                         }
+                        ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                            CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                        }
                         //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
                     }
-                    
-                    
-                    //HStack {
-                    //    CustomSlider(percentage: $percentage)
-                    //}
                     let value = String(format: "%.1f", self.percentage)
                     Text(value)
                 }
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
+                        .onChange(of: percentage) { _ in
+                            if self.percentage > 0 {
+                                self.currentLight.on = true
+                            } else {
+                                self.currentLight.on = false
+                            }
+                        }
                 }
             }
         }
         .onAppear {
             self.accessoriesManager.fetchAccessories()
+            /**TODO: find another solution to wait for accessories to be reachable **/
+            sleep(1)
             self.fetchData()
         }
     }

@@ -8,11 +8,28 @@
 import Foundation
 import HomeKit
 
-struct Light {
-    var id: Int
-    let accessory: HMAccessory?
+protocol Accessory {
+    var id: Int { get set }
+    var accessory: HMAccessory? { get set }
+    var on: Bool { get set }
 }
 
-enum DataType { case hue, brightness}
+struct Light: Accessory {
+    var id: Int
+    var accessory: HMAccessory?
+    var on: Bool = false
+    var brightness: Double?
+    var hue: Double?
+    var saturation: Double?
+}
 
-enum AccessoryType{ case relay, light }
+struct Socket: Accessory {
+    var id: Int
+    var accessory: HMAccessory?
+    var on: Bool = false
+}
+
+enum DataType { case hue, brightness, powerState}
+
+enum AccessoryType { case socket, light }
+
