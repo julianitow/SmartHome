@@ -22,12 +22,14 @@
 		4D3A25E427B3DB72006FFF3A /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D3A25E327B3DB72006FFF3A /* HomeKit.framework */; };
 		4D3A25E727B41CDE006FFF3A /* ColorPick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25E627B41CDE006FFF3A /* ColorPick.swift */; };
 		4D3A25EA27B4242B006FFF3A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25E927B4242B006FFF3A /* UIColor.swift */; };
-		4D3A25EC27B538B8006FFF3A /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25EB27B538B8006FFF3A /* TextFieldAlert.swift */; };
 		4D3A25EE27B53AFF006FFF3A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */; };
 		4DC3E2D727B544F600886859 /* AutoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2D627B544F600886859 /* AutoView.swift */; };
 		4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2D827B5450200886859 /* SettingsView.swift */; };
 		4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2DA27B56ED000886859 /* MapView.swift */; };
 		4DC3E2DD27B56F4F00886859 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2DC27B56F4F00886859 /* LocationManager.swift */; };
+		4DC3E2E127B5C40A00886859 /* IdentifiableLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E027B5C40A00886859 /* IdentifiableLocation.swift */; };
+		4DC3E2E327B5C4A800886859 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E227B5C4A800886859 /* Address.swift */; };
+		4DC3E2E527B5C4C800886859 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E427B5C4C800886859 /* Home.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,12 +50,14 @@
 		4D3A25E327B3DB72006FFF3A /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		4D3A25E627B41CDE006FFF3A /* ColorPick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPick.swift; sourceTree = "<group>"; };
 		4D3A25E927B4242B006FFF3A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		4D3A25EB27B538B8006FFF3A /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
 		4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		4DC3E2D627B544F600886859 /* AutoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoView.swift; sourceTree = "<group>"; };
 		4DC3E2D827B5450200886859 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4DC3E2DA27B56ED000886859 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4DC3E2DC27B56F4F00886859 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		4DC3E2E027B5C40A00886859 /* IdentifiableLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableLocation.swift; sourceTree = "<group>"; };
+		4DC3E2E227B5C4A800886859 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		4DC3E2E427B5C4C800886859 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +77,6 @@
 			children = (
 				4D3A25BE27B29E74006FFF3A /* SmartHome */,
 				4D3A25BD27B29E74006FFF3A /* Products */,
-				746D5EF8A540F33341565CCE /* Pods */,
 				64D2E0C6D66283464FD89C68 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -126,7 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				4D3A25D127B2A7D0006FFF3A /* Accessories.swift */,
-				4D3A25EB27B538B8006FFF3A /* TextFieldAlert.swift */,
+				4DC3E2E027B5C40A00886859 /* IdentifiableLocation.swift */,
+				4DC3E2E227B5C4A800886859 /* Address.swift */,
+				4DC3E2E427B5C4C800886859 /* Home.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,13 +173,6 @@
 				4D3A25E327B3DB72006FFF3A /* HomeKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		746D5EF8A540F33341565CCE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +249,7 @@
 				4D3A25EA27B4242B006FFF3A /* UIColor.swift in Sources */,
 				4D3A25DC27B2E3B8006FFF3A /* BlurView.swift in Sources */,
 				4D3A25D827B2D327006FFF3A /* CustomSlider.swift in Sources */,
+				4DC3E2E127B5C40A00886859 /* IdentifiableLocation.swift in Sources */,
 				4D3A25DE27B2E4D8006FFF3A /* CustomCorner.swift in Sources */,
 				4D3A25E727B41CDE006FFF3A /* ColorPick.swift in Sources */,
 				4D3A25D427B2A90A006FFF3A /* LightView.swift in Sources */,
@@ -259,12 +258,13 @@
 				4D3A25E127B3DA14006FFF3A /* AccessoriesManager.swift in Sources */,
 				4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */,
 				4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */,
+				4DC3E2E527B5C4C800886859 /* Home.swift in Sources */,
 				4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */,
+				4DC3E2E327B5C4A800886859 /* Address.swift in Sources */,
 				4D3A25D227B2A7D0006FFF3A /* Accessories.swift in Sources */,
 				4D3A25EE27B53AFF006FFF3A /* NavigationBar.swift in Sources */,
 				4DC3E2D727B544F600886859 /* AutoView.swift in Sources */,
 				4D3A25C027B29E74006FFF3A /* SmartHomeApp.swift in Sources */,
-				4D3A25EC27B538B8006FFF3A /* TextFieldAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

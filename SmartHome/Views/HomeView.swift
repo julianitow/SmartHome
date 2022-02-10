@@ -92,9 +92,11 @@ struct HomeView: View {
                                 CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
                             }
                             //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
-                        }.padding()
+                        }
                         VStack {
-                            MapView()
+                            MapView(address: Address(country: "France", postalCode: 75014, street: "Villa d'Alésia", number: 20, city: "Paris"))
+                                .offset(y: -200)
+                                .padding()
                         }
                         NavigationBar(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
                     }
@@ -111,9 +113,6 @@ struct HomeView: View {
                 }
             }
         }.onAppear() {
-            //self.accessoriesManager.fetchAccessories()
-            /**TODO: find another solution to wait for accessories to be reachable **/
-            sleep(1)
             self.fetchData()
         }
     }
