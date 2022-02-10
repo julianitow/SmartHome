@@ -29,6 +29,13 @@ struct Socket: Accessory {
     var on: Bool = false
 }
 
+struct Thermometre: Accessory {
+    var id: Int
+    var accessory: HMAccessory?
+    var on: Bool
+    var temperature: Float
+}
+
 enum DataType { case hue, brightness, powerState}
 
 enum AccessoryType { case socket, light }

@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct SmartHomeApp: App {
+    var accessoriesManager = AccessoriesManager()
+    var locationManager = LocationManager()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(accessoriesManager)
+                .environmentObject(locationManager)
         }
     }
 }

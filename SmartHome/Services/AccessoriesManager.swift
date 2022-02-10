@@ -19,17 +19,20 @@ class AccessoriesManager: NSObject, ObservableObject {
     var primaryHome: HMHome!
     var locationManager: CLLocationManager!
     
+    @Published var temperature: Float = 20.0
+    @Published var humidity: Float = 44
     var lights: [Light] = []
     var sockets: [Socket] = []
     
-    var temperature = 20.0
-    
+    @State var minTemp: Float = 20.0
+    @State var maxTemp: Float = 23.0
+        
     override init() {
         super.init()
         self.homeManager = HMHomeManager()
         self.homeManager.delegate = self
     }
-    
+
     class func writeData(accessory: HMAccessory, accessoryType: AccessoryType, dataType: DataType?, value: Any) {
         var characteristicType: String = ""
         if accessoryType == AccessoryType.light {
@@ -72,6 +75,11 @@ class AccessoriesManager: NSObject, ObservableObject {
             accessory.delegate = self
             for service in accessory.services {
                 for characteristic in service.characteristics {
+                    characteristic.enableNotification(true) { error in
+                        if error != nil {
+                            //print("ERROR: \(accessory.name) -> unable to enable notifications: \(error?.localizedDescription)")
+                        }
+                    }
                     if characteristic.characteristicType == HMCharacteristicTypeHue {
                         let light = Light(id: i, accessory: accessory)
                         self.lights.append(light)
@@ -176,8 +184,33 @@ class AccessoriesManager: NSObject, ObservableObject {
 }
 
 extension AccessoriesManager: HMAccessoryDelegate {
+    
     func accessory(_ accessory: HMAccessory, service: HMService, didUpdateValueFor characteristic: HMCharacteristic) {
-        print(accessory.name)
+        //print(accessory.name, "->", characteristic.value)
+        if characteristic.characteristicType == HMCharacteristicTypeCurrentTemperature {
+            print("TEMPERATURE: \(characteristic.value as! Float)")
+            let temp = characteristic.value as! Float
+            self.temperature = temp
+            if temp < self.minTemp {
+                for socket in self.sockets {
+                    if socket.accessory!.name == "Chauffage" {
+                        AccessoriesManager.writeData(accessory: socket.accessory!, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: true)
+                    }
+                }
+            } else if temp > self.maxTemp {
+                for socket in self.sockets {
+                    if socket.accessory!.name == "Chauffage" {
+                        AccessoriesManager.writeData(accessory: socket.accessory!, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: false)
+                    }
+                }
+            }
+        } else if characteristic.characteristicType == HMCharacteristicTypeCurrentRelativeHumidity {
+            print("HUMIDITY: \(characteristic.value as! Float)")
+            let hum = characteristic.value as! Float
+            self.humidity = hum
+        } else if characteristic.characteristicType == HMCharacteristicTypePowerState {
+            
+        }
     }
 }
 
