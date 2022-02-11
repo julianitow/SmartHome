@@ -19,6 +19,18 @@ struct SettingsView: View {
         } else if self.showSettings {
             VStack {
                 Text("Settings")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                Form {
+                    Section(header: Text("Clear data")) {
+                        Button(role: .destructive) {
+                            KeychainManager.clearKeychain()
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                }
+                Spacer()
                 NavigationBar(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
             }
         } else if showHome {

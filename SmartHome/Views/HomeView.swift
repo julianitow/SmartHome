@@ -29,7 +29,8 @@ struct HomeView: View {
     @State var showSettings = false
     @State var minTemp: Float = 20.0
     @State var maxTemp: Float = 23.0
-    
+    @State var firstLaunch = true
+    @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
     
     var lights: [HMAccessory]!
@@ -43,6 +44,12 @@ struct HomeView: View {
             self.accessoriesManager.humidity = hum
             self.humidity = hum
         }
+    }
+    
+    init() {
+        /***Fetch address from keychain **/
+        let addr = KeychainManager.getHomeAddress()
+        self.address = addr
     }
     
     var body: some View {
@@ -94,9 +101,11 @@ struct HomeView: View {
                             //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
                         }
                         VStack {
-                            MapView(address: Address(country: "France", postalCode: 75014, street: "Villa d'Alésia", number: 20, city: "Paris"))
-                                .offset(y: -200)
-                                .padding()
+                            if self.address != nil {
+                                MapView(address: self.address)
+                                    .offset(y: -200)
+                                    .padding()
+                            }
                         }
                         NavigationBar(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
                     }
@@ -110,10 +119,16 @@ struct HomeView: View {
                                 //}
                             }
                     }
+                    if self.firstLaunch {
+                        SetupView(isOpen: $firstLaunch)
+                    }
                 }
             }
         }.onAppear() {
             self.fetchData()
+            if self.address != nil {
+                self.firstLaunch = false
+            }
         }
     }
 }

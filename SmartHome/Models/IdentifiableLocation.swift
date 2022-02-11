@@ -21,7 +21,11 @@ struct IdentifiableLocation: Identifiable, Equatable {
     }
     
     static func == (lhs: IdentifiableLocation, rhs: IdentifiableLocation) -> Bool {
-        if lhs.location.latitude == rhs.location.latitude && lhs.location.longitude == rhs.location.longitude {
+        let lhsLat = Float(String(format: "%.3f", lhs.location.latitude))
+        let rhsLast = Float(String(format: "%.3f", rhs.location.latitude))
+        let lhsLong = Float(String(format: "%.3f", lhs.location.longitude))
+        let rhsLong = Float(String(format: "%.3f", rhs.location.longitude))
+        if lhsLat == rhsLast && lhsLong == rhsLong {
             return true
         } else {
             return false

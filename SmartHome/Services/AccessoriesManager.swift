@@ -209,7 +209,7 @@ extension AccessoriesManager: HMAccessoryDelegate {
             let hum = characteristic.value as! Float
             self.humidity = hum
         } else if characteristic.characteristicType == HMCharacteristicTypePowerState {
-            
+            print(accessory.name, "->", characteristic.value!)
         }
     }
 }

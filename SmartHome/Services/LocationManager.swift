@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 final class LocationManager: NSObject, ObservableObject {
-    @Published var location: CLLocation?
+    @Published var currentLocation: CLLocation?
     @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.828564, longitude: 2.322384), latitudinalMeters: 750, longitudinalMeters: 750)
     
     var locationManager = CLLocationManager()
@@ -38,12 +38,45 @@ final class LocationManager: NSObject, ObservableObject {
             completion(location!)
         }
     }
+    
+    func getAddress(from location: CLLocation, completion: @escaping (Address) -> Void) -> Void {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { (infos, err) in
+            if err != nil {
+                print("Error while reversing \(location): ", err! )
+                return
+            }
+            if infos == nil {
+                return
+            }
+            let addresses = infos! as [CLPlacemark]
+            let addr: CLPlacemark = addresses[0]
+            var address: Address = Address()
+            
+            if addr.locality != nil {
+                address.city = addr.locality
+            }
+            if addr.country != nil {
+                address.country = addr.country
+            }
+            if addr.postalCode != nil {
+                address.postalCode = Int(addr.postalCode!)
+            }
+            if addr.thoroughfare != nil {
+                address.street = addr.thoroughfare
+            }
+            if addr.subThoroughfare != nil {
+                address.number = Int(addr.subThoroughfare!)
+            }
+            completion(address)
+        }
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.location = location
+            self.currentLocation = location
             
             if !hasSetRegion {
                 self.region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 750, longitudinalMeters: 750)

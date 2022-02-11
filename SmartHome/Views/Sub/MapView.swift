@@ -13,16 +13,20 @@ struct MapView: View {
     @State var displayMap: Bool = false
     @State var displayHome: Bool = false
     @State var address: Address
-    @State var location: IdentifiableLocation!
+    @State var homeLocation: IdentifiableLocation!
+    @State var currentLocation: IdentifiableLocation!
     
     var body: some View {
         GeometryReader{ geometry in
             VStack {
                 if displayMap {
-                    Map(coordinateRegion: $locationManager.region, annotationItems: [location]) { loc in
-                        MapAnnotation(coordinate: location.location) {
-                            if location.isHome {
+                    Map(coordinateRegion: $locationManager.region, annotationItems: [homeLocation, currentLocation]) { loc in
+                        MapAnnotation(coordinate: loc.location) {
+                            if loc.isHome {
                                 Image(systemName: "house.fill")
+                                    .frame(width: 50, height: 50)
+                            } else {
+                                Image(systemName: "person.fill")
                                     .frame(width: 50, height: 50)
                             }
                              //().stroke(Color.blue)
@@ -31,11 +35,15 @@ struct MapView: View {
                     }
                     .frame(width:  geometry.size.width, height: geometry.size.height)
                 }
-            }.onChange(of: locationManager.location) { _ in
+            }.onChange(of: locationManager.currentLocation) { _ in
+                /****TMP TO MOVE ELSEWHERE*/
                 LocationManager.getLocation(from: address) { loc in
-                    self.location = IdentifiableLocation(lat: loc.coordinate.latitude, long: loc.coordinate.longitude, isHome: true)
+                    self.homeLocation = IdentifiableLocation(lat: loc.coordinate.latitude, long: loc.coordinate.longitude, isHome: true)
                 }
-            }.onChange(of: location) { _ in
+                let loc = locationManager.currentLocation
+                self.currentLocation = IdentifiableLocation(lat: (loc?.coordinate.latitude)!, long: (loc?.coordinate.longitude)!, isHome: false)
+                // print(self.currentLocation)
+            }.onChange(of: homeLocation) { _ in
                 self.displayMap = true
             }
         }

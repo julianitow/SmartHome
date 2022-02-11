@@ -72,7 +72,7 @@ struct AutoView: View {
         } else if self.showSettings {
             //SettingsView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
         } else if showHome {
-            HomeView(minTemp: self.minTemp)
+            HomeView()
         }
     }
 }
