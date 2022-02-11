@@ -96,7 +96,7 @@ struct HomeView: View {
                         }
                         
                         HStack {
-                            ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                            ForEach(accessoriesManager.lights, id: \.id) { light in
                                 CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
                                     .gesture(LongPressGesture()
                                     .onEnded { action in
@@ -104,7 +104,7 @@ struct HomeView: View {
                                         self.currentLight = light
                                     })
                             }
-                            ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                            ForEach(accessoriesManager.sockets, id: \.id) { socket in
                                 CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
                             }
                             //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
@@ -112,7 +112,7 @@ struct HomeView: View {
                         VStack {
                             if self.addrAvailable {
                                 MapView(address: self.address)
-                                    .offset(y: -200)
+                                    .offset(y: 100)
                                     .padding()
                             }
                         }
@@ -139,6 +139,8 @@ struct HomeView: View {
             }
         }.onAppear() {
             self.fetchData()
+        }
+        .onChange(of: self.accessoriesManager.updatedHome) { _ in
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SetupView: View {
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var accessoriesManager: AccessoriesManager
     @Binding var isOpen: Bool
     @State var height: CGFloat = 0
     @State var blurOffset: CGFloat = 0
@@ -21,6 +22,8 @@ struct SetupView: View {
     @State var country: String = ""
     @State var postalCode: String = ""
     @State var number: String = ""
+    @State var homeName: String = ""
+    @State var isHomeAvailable: Bool = false
     
     var body: some View {
         ZStack {
@@ -69,6 +72,7 @@ struct SetupView: View {
                                                 }
                                                 let addr = Address(country: self.country, postalCode: Int(self.postalCode), street: self.street, number: Int(self.number), city: self.city)
                                                 KeychainManager.storeAddress(address: addr)
+                                                self.isOpen = false
                                             }) {
                                                 HStack {
                                                     Image(systemName: "checkmark")
@@ -96,8 +100,41 @@ struct SetupView: View {
                                                 }
                                             }
                                         }
+                                        if !self.isHomeAvailable {
+                                            Section(header: Text("Ajouter accessoire(s)")) {
+                                                TextField("Nom domicile", text: $homeName)
+                                               
+                                                Button {
+                                                    if self.homeName != "" {
+                                                        self.accessoriesManager.homeManager.addHome(withName: self.homeName) { home, error in
+                                                            if error != nil {
+                                                                print("ERROR - 1: \(error?.localizedDescription ?? "unkown error")")
+                                                                return
+                                                            }
+                                                            self.accessoriesManager.primaryHome = home
+                                                        }
+                                                    }
+                                                    DispatchQueue.main.async {
+                                                        self.accessoriesManager.primaryHome.addAndSetupAccessories() { error in
+                                                            if error != nil {
+                                                                print("ERROR - 2: \(error?.localizedDescription ?? "unkown error")")
+                                                                return
+                                                            }
+                                                        }
+                                                    }
+                                                } label: {
+                                                    HStack {
+                                                        Image(systemName: "plus")
+                                                            .resizable()
+                                                            .frame(width: 25, height: 25)
+                                                        Text("Ajouter un accesssoire/bridge")
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                                
                             }
                         }
                     }
@@ -109,6 +146,9 @@ struct SetupView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .shadow(color: .gray, radius: 13.0)
+        .onChange(of: accessoriesManager.primaryHome) {  _ in
+            self.isHomeAvailable = true
+        }
     }
     
     func onChange() {

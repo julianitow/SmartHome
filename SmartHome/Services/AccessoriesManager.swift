@@ -16,13 +16,16 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     var stateTemperature: Binding<Double>!
     var homeManager: HMHomeManager!
-    var primaryHome: HMHome!
+    @Published var primaryHome: HMHome!
     var locationManager: CLLocationManager!
     
     @Published var temperature: Float = 20.0
     @Published var humidity: Float = 44
-    var lights: [Light] = []
-    var sockets: [Socket] = []
+    @Published var lights: [Light] = []
+    @Published var sockets: [Socket] = []
+    
+    @Published var accessories: [HMAccessory] = []
+    @Published var updatedHome: Int = 0
     
     @State var minTemp: Float = 20.0
     @State var maxTemp: Float = 23.0
@@ -61,6 +64,9 @@ class AccessoriesManager: NSObject, ObservableObject {
     }
     
     func fetchAccessories() -> Void {
+        for accessory in self.primaryHome.accessories {
+            self.accessories.append(accessory)
+        }
         self.fetchLights()
         self.fetchSockets()
     }
@@ -98,6 +104,7 @@ class AccessoriesManager: NSObject, ObservableObject {
         var i = 0
         // rewrite
         for accessory in accessories {
+            print(accessory.name, accessory.model)
             if accessory.model == "switch" || accessory.name.contains("Bureau"){
                 let socket = Socket(id: i, accessory: accessory)
                 self.sockets.append(socket)
@@ -135,11 +142,11 @@ class AccessoriesManager: NSObject, ObservableObject {
             return
         }
         for accessory in accessories {
-            if accessory.name.contains("temp") && valueType == ValueType.temperature {
+            if accessory.name.lowercased().contains("temp") && valueType == ValueType.temperature {
                 self.fetchTemp(thermometre: accessory) { temp in
                     completion(temp)
                 }
-            } else if accessory.name.contains("hum") && valueType == ValueType.humidity {
+            } else if accessory.name.lowercased().contains("hum") && valueType == ValueType.humidity {
                 self.fetchHum(hygrometre: accessory) { hum in
                     completion(hum)
                 }
@@ -216,8 +223,12 @@ extension AccessoriesManager: HMAccessoryDelegate {
 
 extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        self.primaryHome = self.homeManager.homes.first
-        self.primaryHome.delegate = self
-        self.fetchAccessories()
+        self.updatedHome += 1
+        if manager.homes.first != nil {
+            // manager.removeHome(manager.homes.first!) { _ in}
+            self.primaryHome = self.homeManager.homes.first
+            self.primaryHome.delegate = self
+            self.fetchAccessories()
+        }
     }
 }
