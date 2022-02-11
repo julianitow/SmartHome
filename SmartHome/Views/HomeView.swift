@@ -32,6 +32,7 @@ struct HomeView: View {
     @State var firstLaunch = true
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
+    @State var addrAvailable: Bool
     
     var lights: [HMAccessory]!
     
@@ -49,7 +50,15 @@ struct HomeView: View {
     init() {
         /***Fetch address from keychain **/
         let addr = KeychainManager.getHomeAddress()
-        self.address = addr
+        if addr == nil {
+            self.addrAvailable = false
+            self.firstLaunch = true
+            return
+        } else {
+            self.firstLaunch = false
+            self.addrAvailable = true
+            self.address = addr
+        }
     }
     
     var body: some View {
@@ -101,7 +110,7 @@ struct HomeView: View {
                             //CustomButton(isOn: $isOnHeater, showLightView: $showLightView, type: AccessoryType.heater)
                         }
                         VStack {
-                            if self.address != nil {
+                            if self.addrAvailable {
                                 MapView(address: self.address)
                                     .offset(y: -200)
                                     .padding()
@@ -121,14 +130,15 @@ struct HomeView: View {
                     }
                     if self.firstLaunch {
                         SetupView(isOpen: $firstLaunch)
+                            .onDisappear {
+                                self.addrAvailable = true
+                                self.address = KeychainManager.getHomeAddress()
+                            }
                     }
                 }
             }
         }.onAppear() {
             self.fetchData()
-            if self.address != nil {
-                self.firstLaunch = false
-            }
         }
     }
 }
