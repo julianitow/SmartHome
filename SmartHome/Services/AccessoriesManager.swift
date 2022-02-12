@@ -225,7 +225,7 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         self.updatedHome += 1
         if manager.homes.first != nil {
-            // manager.removeHome(manager.homes.first!) { _ in}
+            //manager.removeHome(manager.homes.first!) { _ in}
             self.primaryHome = self.homeManager.homes.first
             self.primaryHome.delegate = self
             self.fetchAccessories()

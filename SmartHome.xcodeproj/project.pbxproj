@@ -25,6 +25,7 @@
 		4D3A25EE27B53AFF006FFF3A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */; };
 		4D9F9FF627B6BB0200E43B8E /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F9FF527B6BB0200E43B8E /* KeychainManager.swift */; };
 		4D9F9FF927B6BCC800E43B8E /* KeychainSwiftDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F9FF827B6BCC800E43B8E /* KeychainSwiftDistrib.swift */; };
+		4D9F9FFB27B82B6B00E43B8E /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F9FFA27B82B6B00E43B8E /* Toolbar.swift */; };
 		4DC3E2D727B544F600886859 /* AutoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2D627B544F600886859 /* AutoView.swift */; };
 		4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2D827B5450200886859 /* SettingsView.swift */; };
 		4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2DA27B56ED000886859 /* MapView.swift */; };
@@ -55,6 +56,7 @@
 		4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		4D9F9FF527B6BB0200E43B8E /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		4D9F9FF827B6BCC800E43B8E /* KeychainSwiftDistrib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwiftDistrib.swift; sourceTree = "<group>"; };
+		4D9F9FFA27B82B6B00E43B8E /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		4DC3E2D627B544F600886859 /* AutoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoView.swift; sourceTree = "<group>"; };
 		4DC3E2D827B5450200886859 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4DC3E2DA27B56ED000886859 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				4D3A25E927B4242B006FFF3A /* UIColor.swift */,
+				4D9F9FFA27B82B6B00E43B8E /* Toolbar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */,
 				4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */,
 				4D9F9FF627B6BB0200E43B8E /* KeychainManager.swift in Sources */,
+				4D9F9FFB27B82B6B00E43B8E /* Toolbar.swift in Sources */,
 				4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */,
 				4DC3E2E327B5C4A800886859 /* Address.swift in Sources */,
 				4D3A25D227B2A7D0006FFF3A /* Accessories.swift in Sources */,

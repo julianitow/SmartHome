@@ -16,7 +16,7 @@ struct SetupView: View {
     @State var lastOffset: CGFloat = 0
     @GestureState var gestureOffset = 0
     
-    @State @State var address: Address = Address()
+    @State var address: Address = Address()
     @State var street: String = ""
     @State var city: String  = ""
     @State var country: String = ""
@@ -24,6 +24,7 @@ struct SetupView: View {
     @State var number: String = ""
     @State var homeName: String = ""
     @State var isHomeAvailable: Bool = false
+    @State var isAddressAvailable = false
     
     var body: some View {
         ZStack {
@@ -58,51 +59,54 @@ struct SetupView: View {
                                 
                                 VStack {
                                     Form {
-                                        Section(header: Text("Adresse du domicile")) {
-                                            TextField("France", text: $country)
-                                            TextField("Paris", text: $city)
-                                            TextField("Rue du Général De Gaulle", text: $street)
-                                            TextField("75014", text: $postalCode)
-                                            TextField("22", text: $number)
-                                        }
-                                        Section {
-                                            Button(action: {
-                                                guard self.country != "", self.postalCode != "", self.street != "", self.number != "", self.city != "" else {
-                                                    return
-                                                }
-                                                let addr = Address(country: self.country, postalCode: Int(self.postalCode), street: self.street, number: Int(self.number), city: self.city)
-                                                KeychainManager.storeAddress(address: addr)
-                                                self.isOpen = false
-                                            }) {
-                                                HStack {
-                                                    Image(systemName: "checkmark")
-                                                        .resizable()
-                                                        .frame(width: 20, height: 20)
-                                                    Text("Valider")
-                                                }
+                                        if !self.isAddressAvailable {
+                                            Section(header: Text("Adresse du domicile")) {
+                                                TextField("France", text: $country)
+                                                TextField("Paris", text: $city)
+                                                TextField("Rue du Général De Gaulle", text: $street)
+                                                TextField("75014", text: $postalCode)
+                                                TextField("22", text: $number)
                                             }
-                                            Button(action: {
-                                                guard let location = locationManager.currentLocation else {
-                                                    print("Current location nil")
-                                                    return
-                                                }
-                                                self.locationManager.getAddress(from: location) { addr in
-                                                    self.address = addr
+                                            Section {
+                                                Button(action: {
+                                                    guard self.country != "", self.postalCode != "", self.street != "", self.number != "", self.city != "" else {
+                                                        return
+                                                    }
+                                                    let addr = Address(country: self.country, postalCode: Int(self.postalCode), street: self.street, number: Int(self.number), city: self.city)
                                                     KeychainManager.storeAddress(address: addr)
-                                                    self.isOpen = false
+                                                    self.isAddressAvailable = true
+                                                }) {
+                                                    HStack {
+                                                        Image(systemName: "checkmark")
+                                                            .resizable()
+                                                            .frame(width: 20, height: 20)
+                                                        Text("Valider")
+                                                    }
                                                 }
-                                            }) {
-                                                HStack {
-                                                    Image(systemName: "location")
-                                                        .resizable()
-                                                        .frame(width: 20, height: 20)
-                                                    Text("Utiliser la position actuelle")
+                                                Button(action: {
+                                                    guard let location = locationManager.currentLocation else {
+                                                        print("Current location nil")
+                                                        return
+                                                    }
+                                                    self.locationManager.getAddress(from: location) { addr in
+                                                        self.address = addr
+                                                        KeychainManager.storeAddress(address: addr)
+                                                        self.isAddressAvailable = true
+                                                    }
+                                                }) {
+                                                    HStack {
+                                                        Image(systemName: "location")
+                                                            .resizable()
+                                                            .frame(width: 20, height: 20)
+                                                        Text("Utiliser la position actuelle")
+                                                    }
                                                 }
                                             }
                                         }
+                                        
                                         if !self.isHomeAvailable {
-                                            Section(header: Text("Ajouter accessoire(s)")) {
-                                                TextField("Nom domicile", text: $homeName)
+                                            Section(header: Text("Ajouter une lieu")) {
+                                                TextField("Nom du lieu", text: $homeName)
                                                
                                                 Button {
                                                     if self.homeName != "" {
@@ -114,6 +118,20 @@ struct SetupView: View {
                                                             self.accessoriesManager.primaryHome = home
                                                         }
                                                     }
+                                                } label: {
+                                                    HStack {
+                                                        Image(systemName: "plus")
+                                                            .resizable()
+                                                            .frame(width: 25, height: 25)
+                                                        Text("Ajouter un Domicile")
+                                                    }
+                                                }
+                                            }
+                                            Text("Ajoutez une adresse et lieu pour continuer")
+                                                .foregroundColor(.red)
+                                        } else {
+                                            Section(header: Text("Ajouter accessoire(s)")) {
+                                                Button {
                                                     DispatchQueue.main.async {
                                                         self.accessoriesManager.primaryHome.addAndSetupAccessories() { error in
                                                             if error != nil {
@@ -129,6 +147,22 @@ struct SetupView: View {
                                                             .frame(width: 25, height: 25)
                                                         Text("Ajouter un accesssoire/bridge")
                                                     }
+                                                }
+                                            }
+                                            
+                                            if self.isAddressAvailable {
+                                                Section {
+                                                    Button(action: {
+                                                        self.isOpen = false
+                                                    }, label: {
+                                                        Text("Terminer configuration")
+                                                            .foregroundColor(.green)
+                                                    })
+                                                }
+                                            } else {
+                                                Section {
+                                                    Text("Veuillez saisir une adresse pour continuer")
+                                                        .foregroundColor(.red)
                                                 }
                                             }
                                         }

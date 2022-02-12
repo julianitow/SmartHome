@@ -13,7 +13,7 @@ struct SettingsView: View {
     @Binding var showAuto: Bool
     @Binding var showSettings: Bool
     @Binding var temperature: String
-    
+    @State var showAlert = false
     @State var refresh: Bool = false
     
     var body: some View {
@@ -28,9 +28,10 @@ struct SettingsView: View {
                     Section(header: Text("Clear data")) {
                         Button(role: .destructive) {
                             KeychainManager.clearKeychain()
+                            self.showAlert.toggle()
                         } label: {
-                            Label("Clear saved address", systemImage: "trash")
-                        }
+                            Label("Supprimer adresse enregistrée", systemImage: "trash")
+                        }.alert(Text("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications."), isPresented: $showAlert, actions: {})
                     }
                     Section(header: Text("Ajout d'accessoire(s)")) {
                         if accessoriesManager.primaryHome == nil {
@@ -95,10 +96,9 @@ struct SettingsView: View {
                                     Text("Supprimer domicile \" \(self.accessoriesManager.primaryHome.name)\"")
                                 }
                             }
+                        }
+                        Section(header: Text("Accessoires disponibles:")) {
                             
-                            Section(header: Text("Accessoires disponibles:")) {
-                                
-                            }
                         }
                     }
                 }

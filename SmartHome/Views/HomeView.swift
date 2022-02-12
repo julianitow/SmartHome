@@ -82,7 +82,7 @@ struct HomeView: View {
                 SettingsView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings, temperature: $tempSetMin)
             } else {
                 VStack {
-                    Text(self.homeName)
+                    Text(self.accessoriesManager.homeManager.primaryHome?.name ?? "Domicile name")
                         .fontWeight(.semibold)
                         .font(.system(size: 30))
                     Form {
@@ -114,6 +114,10 @@ struct HomeView: View {
                         }
                         Section(header: Text("Actions")) {
                             HStack {
+                                if self.accessoriesManager.accessories.count == 0 {
+                                    Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
+                                        .fontWeight(.semibold)
+                                }
                                 ForEach(self.accessoriesManager.lights, id: \.id) { light in
                                     CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
                                         .gesture(LongPressGesture()
@@ -139,37 +143,42 @@ struct HomeView: View {
                 .frame(alignment: .center)
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
-                        Spacer()
-                        Image(systemName: "house")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(Color.blue)
-                            .onTapGesture {
-                                showHome = true
-                                showAuto = false
-                                showSettings = false
-                            }
-                        Spacer()
-                        Image(systemName: "clock")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .onTapGesture {
-                                showHome = false
-                                showAuto = true
-                                showSettings = false
-                            }
-                        Spacer()
-                        Image(systemName: "gear")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .onTapGesture {
-                                showHome = false
-                                showAuto = false
-                                showSettings = true
-                            }
-                        Spacer()
+                        if !self.firstLaunch {
+                            Spacer()
+                            Image(systemName: "house")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color.blue)
+                                .onTapGesture {
+                                    showHome = true
+                                    showAuto = false
+                                    showSettings = false
+                                }
+                            Spacer()
+                            Image(systemName: "clock")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    showHome = false
+                                    showAuto = true
+                                    showSettings = false
+                                }
+                            Spacer()
+                            Image(systemName: "gear")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    showHome = false
+                                    showAuto = false
+                                    showSettings = true
+                                }
+                            Spacer()
+                        }
                     }
                 }
+                .background(NavigationConfigurator { nc in
+                    nc.setToolbarHidden(true, animated: true)
+                })
                 
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
@@ -191,7 +200,11 @@ struct HomeView: View {
                 }
             }
         }.onAppear() {
-            self.fetchData()
+            if self.accessoriesManager.homeManager.primaryHome == nil {
+                self.firstLaunch = true
+            } else {
+                self.fetchData()
+            }
         }
         .onChange(of: self.accessoriesManager.updatedHome) { _ in
         }
