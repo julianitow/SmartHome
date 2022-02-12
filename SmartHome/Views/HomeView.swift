@@ -19,8 +19,8 @@ struct HomeView: View {
     @State var isOnHeater: Bool = false
     @State var showLightView: Bool = false
     @State var accessories: [HMAccessory]!
-    @State var tempSetMin: String = "20.0"
-    @State var tempSetMax: String = "23.0"
+    @State var tempSetMin: String = "N/A"
+    @State var tempSetMax: String = "N/A"
     @State var temperature: Float = 20.0
     @State var humidity: Float = 44
     @State var currentLight: Light!
@@ -176,9 +176,6 @@ struct HomeView: View {
                         }
                     }
                 }
-                .background(NavigationConfigurator { nc in
-                    nc.setToolbarHidden(true, animated: true)
-                })
                 
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
