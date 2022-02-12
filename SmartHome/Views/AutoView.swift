@@ -43,7 +43,7 @@ struct AutoView: View {
                         HStack {
                             Image(systemName: "location.fill").foregroundColor(Color.green)
                             Text("Rayon domicile :")
-                            Stepper("\(Int(minTemp)) m", value: $minTemp)
+                            Stepper("\(Int(minTemp)) m", value: $minTemp, step: 5)
                         }
                     }
                 }

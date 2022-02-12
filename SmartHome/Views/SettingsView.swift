@@ -21,20 +21,31 @@ struct SettingsView: View {
             AutoView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings, temperatureMin: "", temperatureMax: "")
         } else if self.showSettings {
             VStack {
+                
                 Text("Settings")
-                    .font(.largeTitle)
+                    .font(.system(size: 30))
                     .fontWeight(.semibold)
+                
                 Form {
-                    Section(header: Text("Clear data")) {
-                        Button(role: .destructive) {
+                    
+                    Section(header: Text("Gestion des données")) {
+                        HStack {
+                            Image(systemName: "trash").foregroundColor(Color.red)
+                            Text("Supprimer les adresses enregistrées")
+                                .foregroundColor(Color.red)
+                        }.onTapGesture {
                             KeychainManager.clearKeychain()
-                        } label: {
-                            Label("Clear saved address", systemImage: "trash")
                         }
                     }
-                    Section(header: Text("Ajout d'accessoire(s)")) {
+                    
+                    Section(header: Text("Gestion des accessoires")) {
                         if accessoriesManager.primaryHome == nil {
-                            Button {
+                            HStack {
+                                Image(systemName: "plus")
+                                    .foregroundColor(Color.blue)
+                                Text("Ajouter un accessoire")
+                                    .foregroundColor(Color.blue)
+                            }.onTapGesture {
                                 DispatchQueue.main.async {
                                     if self.accessoriesManager.primaryHome == nil {
                                         self.accessoriesManager.homeManager.addHome(withName: "SmartHome") { home, error in
@@ -45,18 +56,16 @@ struct SettingsView: View {
                                         }
                                     }
                                 }
-                            } label: {
-                                HStack {
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 25, height: 25)
-                                    Text("Ajouter un domicile")
-                                }
                             }
                         }
                         
                         if accessoriesManager.primaryHome != nil {
-                            Button {
+                            HStack {
+                                Image(systemName: "plus")
+                                    .foregroundColor(Color.blue)
+                                Text("Ajouter un accessoire")
+                                    .foregroundColor(Color.blue)
+                            }.onTapGesture {
                                 DispatchQueue.main.async {
                                     if self.accessoriesManager.primaryHome == nil {
                                         return
@@ -69,16 +78,13 @@ struct SettingsView: View {
                                         self.refresh.toggle()
                                     }
                                 }
-                            } label: {
-                                HStack {
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 25, height: 25)
-                                    Text("Ajouter un accesssoire/bridge")
-                                }
                             }
-                            
-                            Button(role: .destructive) {
+                            HStack {
+                                Image(systemName: "trash")
+                                    .foregroundColor(Color.red)
+                                Text("Supprimer la maison \(self.accessoriesManager.primaryHome.name)")
+                                    .foregroundColor(Color.red)
+                            }.onTapGesture {
                                 DispatchQueue.main.async {
                                     if accessoriesManager.primaryHome == nil {
                                         return
@@ -87,15 +93,7 @@ struct SettingsView: View {
                                     self.accessoriesManager.homeManager.removeHome(home!) { _ in}
                                     self.refresh.toggle()
                                 }
-                            } label: {
-                                HStack {
-                                    Image(systemName: "trash")
-                                        .resizable()
-                                        .frame(width: 25, height: 25)
-                                    Text("Supprimer domicile \" \(self.accessoriesManager.primaryHome.name)\"")
-                                }
                             }
-                            
                             Section(header: Text("Accessoires disponibles:")) {
                                 
                             }
@@ -103,7 +101,38 @@ struct SettingsView: View {
                     }
                 }
                 Spacer()
-                NavigationBar(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
+            }.toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Spacer()
+                    Image(systemName: "house")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .onTapGesture {
+                            showHome = true
+                            showAuto = false
+                            showSettings = false
+                        }
+                    Spacer()
+                    Image(systemName: "clock")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .onTapGesture {
+                            showHome = false
+                            showAuto = true
+                            showSettings = false
+                        }
+                    Spacer()
+                    Image(systemName: "gear")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color.blue)
+                        .onTapGesture {
+                            showHome = false
+                            showAuto = false
+                            showSettings = true
+                        }
+                    Spacer()
+                }
             }
         } else if showHome {
             HomeView()

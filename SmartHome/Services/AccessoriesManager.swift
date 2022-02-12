@@ -180,7 +180,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                             print("ERROR: \(thermometre.name) -> \(err?.localizedDescription ?? "Unknown error")")
                         }
                         let value = characteristic.value
-                        let result = value as! Float
+                        let result = (value as? NSNumber)!.floatValue
                         completion(result)
                     }
                 }
@@ -195,8 +195,8 @@ extension AccessoriesManager: HMAccessoryDelegate {
     func accessory(_ accessory: HMAccessory, service: HMService, didUpdateValueFor characteristic: HMCharacteristic) {
         //print(accessory.name, "->", characteristic.value)
         if characteristic.characteristicType == HMCharacteristicTypeCurrentTemperature {
-            print("TEMPERATURE: \(characteristic.value as! Float)")
-            let temp = characteristic.value as! Float
+            print("TEMPERATURE: \((characteristic.value as? NSNumber)!.floatValue)")
+            let temp = (characteristic.value as? NSNumber)!.floatValue
             self.temperature = temp
             if temp < self.minTemp {
                 for socket in self.sockets {

@@ -50,7 +50,7 @@ struct HomeView: View {
     func getTempColor(value : Int) -> Color{
         switch value {
         case Int.min..<20 :
-            return Color.blue
+            return Color.cyan
         case 20...23 :
             return Color.green
         case 23..<Int.max :
@@ -90,7 +90,7 @@ struct HomeView: View {
                             HStack {
                                 Spacer()
                                 VStack(spacing: 0) {
-                                    Text("Temperature")
+                                    Text("Température")
                                     Text(String(self.accessoriesManager.temperature) + "°C")
                                         .frame(width: 80, height: 80)
                                         .clipShape(Circle())
@@ -101,36 +101,44 @@ struct HomeView: View {
                                 }
                                 
                                 VStack(spacing: 0) {
-                                    Text("Humidity")
+                                    Text("Humidité")
                                     Text(String(self.accessoriesManager.humidity) + "%")
                                         .frame(width: 80, height: 80)
                                         .clipShape(Circle())
                                         .shadow(radius: 3)
                                         .overlay(Circle().stroke(Color.blue, lineWidth: 2))
                                         .padding()
+                                        .foregroundColor(Color.blue)
                                 }
                                 Spacer()
                             }
                         }
                         Section(header: Text("Actions")) {
-                            HStack {
-                                ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
-                                        .gesture(LongPressGesture()
-                                                    .onEnded { action in
-                                                        self.showLightView = true
-                                                        self.currentLight = light
-                                        })
-                                }
-                                ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                            ScrollView {
+                                HStack {
+                                    Spacer()
+                                    ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
+                                            .gesture(LongPressGesture()
+                                                        .onEnded { action in
+                                                            self.showLightView = true
+                                                            self.currentLight = light
+                                            })
+                                        Spacer()
+                                    }
+                                    ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                                        Spacer()
+                                    }
+                                    Spacer()
                                 }
                             }
+                            
                         }
                         Section(header: Text("Localisation")) {
                             if self.addrAvailable {
                                 MapView(address: self.address)
-                                    .frame(height: 300, alignment: .center)
+                                    .frame(height: 250)
                             }
                         }
                     
