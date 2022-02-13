@@ -63,6 +63,27 @@ class AccessoriesManager: NSObject, ObservableObject {
         }
     }
     
+    class func fetchCharacteristicValue(accessory: HMAccessory, dataType: DataType, completion: @escaping (Bool) -> Void) {
+        var characteristicType = ""
+        if dataType == DataType.powerState {
+            characteristicType = HMCharacteristicTypePowerState
+        }
+        for service in accessory.services {
+            for characteristic in service.characteristics {
+                if characteristic.characteristicType == characteristicType {
+                    characteristic.readValue { error in
+                        if error != nil {
+                            print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "unkown error")")
+                            return
+                        }
+                        let res = characteristic.value as! Bool
+                        completion(res)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchAccessories() -> Void {
         for accessory in self.primaryHome.accessories {
             self.accessories.append(accessory)
@@ -87,7 +108,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                         }
                     }
                     if characteristic.characteristicType == HMCharacteristicTypeHue {
-                        let light = Light(id: i, accessory: accessory)
+                        let light = Light(accessory: accessory)
                         self.lights.append(light)
                         i += 1
                     }
@@ -104,9 +125,9 @@ class AccessoriesManager: NSObject, ObservableObject {
         var i = 0
         // rewrite
         for accessory in accessories {
-            print(accessory.name, accessory.model)
-            if accessory.model == "switch" || accessory.name.contains("Bureau"){
-                let socket = Socket(id: i, accessory: accessory)
+            
+            if accessory.model == "switch" || accessory.name.lowercased().contains("prise"){
+                let socket = Socket(accessory: accessory)
                 self.sockets.append(socket)
                 i += 1
             }
@@ -200,14 +221,14 @@ extension AccessoriesManager: HMAccessoryDelegate {
             self.temperature = temp
             if temp < self.minTemp {
                 for socket in self.sockets {
-                    if socket.accessory!.name == "Chauffage" {
-                        AccessoriesManager.writeData(accessory: socket.accessory!, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: true)
+                    if socket.accessory.name == "Relais" || socket.accessory.name == "Chauffage" {
+                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: true)
                     }
                 }
             } else if temp > self.maxTemp {
                 for socket in self.sockets {
-                    if socket.accessory!.name == "Chauffage" {
-                        AccessoriesManager.writeData(accessory: socket.accessory!, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: false)
+                    if socket.accessory.name == "Relais" || socket.accessory.name == "Chauffage" {
+                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: false)
                     }
                 }
             }
@@ -216,7 +237,12 @@ extension AccessoriesManager: HMAccessoryDelegate {
             let hum = characteristic.value as! Float
             self.humidity = hum
         } else if characteristic.characteristicType == HMCharacteristicTypePowerState {
-            print(accessory.name, "->", characteristic.value!)
+            for var socket in self.sockets {
+                if socket.accessory == accessory {
+                    let state = characteristic.value as! Bool
+                    socket.on = state
+                }
+            }
         }
     }
 }
@@ -225,10 +251,29 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         self.updatedHome += 1
         if manager.homes.first != nil {
-            // manager.removeHome(manager.homes.first!) { _ in}
+            //manager.removeHome(manager.homes.first!) { _ in}
             self.primaryHome = self.homeManager.homes.first
             self.primaryHome.delegate = self
             self.fetchAccessories()
         }
+    }
+    
+    func homeManager(_ manager: HMHomeManager, didAdd home: HMHome) {
+        self.updatedHome += 1
+    }
+    
+    func home(_ home: HMHome, didAdd accessory: HMAccessory) {
+        self.updatedHome += 1
+    }
+    
+    func homeManager(_ manager: HMHomeManager, didRemove home: HMHome) {
+        print("REMOVE PRIMARY HOME")
+        self.primaryHome = nil
+        self.updatedHome += 1
+    }
+    
+    func homeManagerDidUpdatePrimaryHome(_ manager: HMHomeManager) {
+        print("UPDATE PRIMARY HOME")
+        self.updatedHome += 1
     }
 }

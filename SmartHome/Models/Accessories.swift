@@ -9,31 +9,43 @@ import Foundation
 import HomeKit
 
 protocol Accessory {
-    var id: Int { get set }
-    var accessory: HMAccessory? { get set }
+    var id: UUID { get set }
+    var accessory: HMAccessory { get set }
     var on: Bool { get set }
 }
 
 struct Light: Accessory {
-    var id: Int
-    var accessory: HMAccessory?
+    var id: UUID
+    var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
     var brightness: Double?
     var hue: Double?
     var saturation: Double?
+    init(accessory: HMAccessory) {
+        self.id = UUID()
+        self.accessory = accessory
+    }
 }
 
 struct Socket: Accessory {
-    var id: Int
-    var accessory: HMAccessory?
+    var id: UUID
+    var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
+    init(accessory: HMAccessory) {
+        self.id = UUID()
+        self.accessory = accessory
+    }
 }
 
 struct Thermometre: Accessory {
-    var id: Int
-    var accessory: HMAccessory?
-    var on: Bool
-    var temperature: Float
+    var id: UUID
+    var accessory: HMAccessory = HMAccessory()
+    var on: Bool = false
+    var temperature: Float = 0.0
+    init(accessory: HMAccessory) {
+        self.id = UUID()
+        self.accessory = accessory
+    }
 }
 
 enum DataType { case hue, brightness, powerState}

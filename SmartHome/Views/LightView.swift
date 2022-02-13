@@ -40,11 +40,7 @@ struct LightView: View {
             }.ignoresSafeArea()
             
             GeometryReader { geometry -> AnyView in
-                guard let accessory = self.light.accessory else {
-                    return AnyView(
-                        Text("Accessory Nil")
-                    )
-                }
+                let accessory = self.light.accessory
                 if !isOpen {
                     DispatchQueue.main.async {
                         self.blurOffset = geometry.frame(in: .global).height

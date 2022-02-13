@@ -13,7 +13,7 @@ struct SettingsView: View {
     @Binding var showAuto: Bool
     @Binding var showSettings: Bool
     @Binding var temperature: String
-    
+    @State var showAlert = false
     @State var refresh: Bool = false
     
     var body: some View {
@@ -35,7 +35,10 @@ struct SettingsView: View {
                                 .foregroundColor(Color.red)
                         }.onTapGesture {
                             KeychainManager.clearKeychain()
-                        }
+                            self.showAlert.toggle()
+                        } label: {
+                            Label("Supprimer adresse enregistrée", systemImage: "trash")
+                        }.alert(Text("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications."), isPresented: $showAlert, actions: {})
                     }
                     
                     Section(header: Text("Gestion des accessoires")) {
@@ -52,6 +55,8 @@ struct SettingsView: View {
                                             if error != nil {
                                                 print("ERROR: \(error?.localizedDescription ?? "unknown error")")
                                             }
+                                            self.accessoriesManager.primaryHome = home
+                                            self.accessoriesManager.updatedHome += 1
                                             self.refresh.toggle()
                                         }
                                     }
@@ -79,28 +84,36 @@ struct SettingsView: View {
                                     }
                                 }
                             }
-                            HStack {
-                                Image(systemName: "trash")
-                                    .foregroundColor(Color.red)
-                                Text("Supprimer la maison \(self.accessoriesManager.primaryHome.name)")
-                                    .foregroundColor(Color.red)
-                            }.onTapGesture {
-                                DispatchQueue.main.async {
-                                    if accessoriesManager.primaryHome == nil {
-                                        return
-                                    }
-                                    let home = self.accessoriesManager.homeManager.primaryHome
-                                    self.accessoriesManager.homeManager.removeHome(home!) { _ in}
-                                    self.refresh.toggle()
+                            
+                            Button(role: .destructive) {
+                                if accessoriesManager.primaryHome == nil {
+                                    return
                                 }
-                            }
-                            Section(header: Text("Accessoires disponibles:")) {
-                                
+                                let home = self.accessoriesManager.homeManager.primaryHome
+                                self.accessoriesManager.homeManager.removeHome(home!) { error in
+                                    if error != nil {
+                                        print("ERROR: \(error?.localizedDescription ?? "unkown error")")
+                                    }
+                                    accessoriesManager.primaryHome = nil
+                                    self.accessoriesManager.updatedHome += 1
+                                }
+                                self.refresh.toggle()
+                            } label: {
+                                HStack {
+                                    Image(systemName: "trash")
+                                        .resizable()
+                                        .frame(width: 25, height: 25)
+                                    Text("Supprimer domicile \" \(self.accessoriesManager.primaryHome.name)\"")
+                                }
                             }
                         }
                     }
+                    Section(header: Text("Accessoires disponibles:")) {
+                        
+                    }
                 }
-            }.toolbar {
+            }
+            .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Spacer()
                     Image(systemName: "house")

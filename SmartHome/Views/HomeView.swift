@@ -19,8 +19,8 @@ struct HomeView: View {
     @State var isOnHeater: Bool = false
     @State var showLightView: Bool = false
     @State var accessories: [HMAccessory]!
-    @State var tempSetMin: String = "20.0"
-    @State var tempSetMax: String = "23.0"
+    @State var tempSetMin: String = "N/A"
+    @State var tempSetMax: String = "N/A"
     @State var temperature: Float = 20.0
     @State var humidity: Float = 44
     @State var currentLight: Light!
@@ -32,8 +32,8 @@ struct HomeView: View {
     @State var firstLaunch = true
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
-    @State var addrAvailable: Bool
-    
+    @State var addrAvailable: Bool = false
+    @State var refresh: Bool = false
     var lights: [HMAccessory]!
     
     func fetchData() {
@@ -66,11 +66,10 @@ struct HomeView: View {
         if addr == nil {
             self.addrAvailable = false
             self.firstLaunch = true
-            return
         } else {
-            self.firstLaunch = false
             self.addrAvailable = true
             self.address = addr
+            self.firstLaunch = false
         }
     }
     
@@ -82,7 +81,7 @@ struct HomeView: View {
                 SettingsView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings, temperature: $tempSetMin)
             } else {
                 VStack {
-                    Text(self.homeName)
+                    Text(self.accessoriesManager.homeManager.primaryHome?.name ?? "Domicile name")
                         .fontWeight(.semibold)
                         .font(.system(size: 30))
                     Form {
@@ -114,27 +113,26 @@ struct HomeView: View {
                             }
                         }
                         Section(header: Text("Actions")) {
-                            ScrollView {
-                                HStack {
-                                    Spacer()
-                                    ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                        CustomButton(showLightView: $showLightView, type: AccessoryType.light, accessory: light)
-                                            .gesture(LongPressGesture()
-                                                        .onEnded { action in
-                                                            self.showLightView = true
-                                                            self.currentLight = light
-                                            })
-                                        Spacer()
-                                    }
-                                    ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                        CustomButton(showLightView: $showLightView, type: AccessoryType.socket, accessory: socket)
-                                        Spacer()
-                                    }
-                                    Spacer()
+                            HStack {
+                                if self.accessoriesManager.accessories.count == 0 {
+                                    Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
+                                        .fontWeight(.semibold)
+                                }
+                                ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
+                                        .gesture(LongPressGesture()
+                                                    .onEnded { action in
+                                                        self.showLightView = true
+                                                        self.currentLight = light
+                                        })
+                                }
+                                ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
                                 }
                             }
                             
                         }
+                        .frame(height: 75)
                         Section(header: Text("Localisation")) {
                             if self.addrAvailable {
                                 MapView(address: self.address)
@@ -147,46 +145,43 @@ struct HomeView: View {
                 .frame(alignment: .center)
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
-                        Spacer()
-                        Image(systemName: "house")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(Color.blue)
-                            .onTapGesture {
-                                showHome = true
-                                showAuto = false
-                                showSettings = false
-                            }
-                        Spacer()
-                        Image(systemName: "clock")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .onTapGesture {
-                                showHome = false
-                                showAuto = true
-                                showSettings = false
-                            }
-                        Spacer()
-                        Image(systemName: "gear")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .onTapGesture {
-                                showHome = false
-                                showAuto = false
-                                showSettings = true
-                            }
-                        Spacer()
+                        if !self.firstLaunch {
+                            Spacer()
+                            Image(systemName: "house")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color.blue)
+                                .onTapGesture {
+                                    showHome = true
+                                    showAuto = false
+                                    showSettings = false
+                                }
+                            Spacer()
+                            Image(systemName: "clock")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    showHome = false
+                                    showAuto = true
+                                    showSettings = false
+                                }
+                            Spacer()
+                            Image(systemName: "gear")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    showHome = false
+                                    showAuto = false
+                                    showSettings = true
+                                }
+                            Spacer()
+                        }
                     }
                 }
                 
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
                         .onChange(of: percentage) { _ in
-                            //if self.percentage > 0 {
-                            //    self.currentLight.on = true
-                            //} else {
-                            //    self.currentLight.on = false
-                            //}
                         }
                 }
                 
@@ -199,9 +194,19 @@ struct HomeView: View {
                 }
             }
         }.onAppear() {
-            self.fetchData()
+            if self.accessoriesManager.homeManager.primaryHome == nil {
+                self.firstLaunch = true
+            } else {
+                self.fetchData()
+            }
+        }
+        .onChange(of: self.firstLaunch) { _ in
+            print("FIRST LAUCNH TOGGLED", self.firstLaunch)
         }
         .onChange(of: self.accessoriesManager.updatedHome) { _ in
+            if self.accessoriesManager.primaryHome == nil {
+                self.firstLaunch = true
+            }
         }
     }
 }
