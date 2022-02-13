@@ -88,6 +88,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                             print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "unkown error")")
                             return
                         }
+                        
                         let res = characteristic.value
                         completion(res!)
                     }
@@ -128,6 +129,18 @@ class AccessoriesManager: NSObject, ObservableObject {
                                 light.hue = characteristic.value as? Double
                             }
                         }
+                        for characteristic in service.characteristics {
+                            if characteristic.characteristicType == HMCharacteristicTypeBrightness {
+                                characteristic.readValue { error in
+                                    if error != nil {
+                                        print(error?.localizedDescription ?? "Unknown Error")
+                                    } else {
+                                        light.brightness = characteristic.value as! Float
+                                    }
+                                }
+                            }
+                        }
+                        
                         self.lights.append(light)
                         i += 1
                     }
@@ -152,29 +165,6 @@ class AccessoriesManager: NSObject, ObservableObject {
             }
         }
         //print(self.sockets)
-    }
-    
-    func fetchBrightness(light: HMAccessory) -> Void {
-        for service in light.services {
-            for characteristic in service.characteristics {
-                if characteristic.characteristicType == HMCharacteristicTypeBrightness {
-                    for i in 0...lights.count {
-                        if lights[i].accessory == light {
-                            characteristic.readValue { _ in
-                                let value = characteristic.value
-                                let brightness = value as! Double
-                                if brightness > 0 {
-                                    self.lights[i].on = true
-                                } else {
-                                    self.lights[i].on = false
-                                }
-                                self.lights[i].brightness = value as! Double
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     func fetchValues(valueType: ValueType, completion: @escaping (Float) -> Void) -> Void {

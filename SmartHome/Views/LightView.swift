@@ -65,7 +65,7 @@ struct LightView: View {
                             CustomSlider(percentage: $percentage, tintColor: $selectedColor)
                                 .onChange(of: percentage) { value in
                                     AccessoriesManager.writeData(accessory: accessory, accessoryType: AccessoryType.light, dataType: DataType.brightness, value: value)
-                                    self.light.brightness = Double(percentage)
+                                    self.light.brightness = percentage
                                 }
                             
                             HStack {
@@ -100,7 +100,11 @@ struct LightView: View {
                         }))
                 )
             }
-        }.ignoresSafeArea(.all, edges: .bottom)
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        .onAppear {
+            self.percentage = self.light.brightness
+        }
     }
     
     func onChange() {

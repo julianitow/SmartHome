@@ -127,8 +127,11 @@ struct HomeView: View {
                                                     .gesture(LongPressGesture()
                                                         .onEnded { action in
                                                         self.currentLight = light
-                                                        self.percentage = Float(light.brightness)
-                                                        self.showLightView = true
+                                                        AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
+                                                            self.currentLight?.brightness = brightness as! Float
+                                                            self.showLightView = true
+                                                            print(currentLight)
+                                                        }
                                                     })
                                             }
                                         }
@@ -192,14 +195,6 @@ struct HomeView: View {
                 
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight!)
-                        .onChange(of: percentage) { _ in
-                            print("PERCENTAGE \(percentage)")
-                            self.currentLight?.brightness = Double(percentage)
-                            print("BRIGHTNESS \(self.currentLight?.brightness)")
-                        }
-                        .onAppear {
-                            self.percentage = Float(self.currentLight!.brightness)
-                        }
                 }
                 
                 if self.firstLaunch {

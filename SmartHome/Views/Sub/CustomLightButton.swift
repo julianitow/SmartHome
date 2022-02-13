@@ -30,7 +30,7 @@ struct CustomLightButton: View {
         .padding([.top, .bottom], 10)
         .onTapGesture {
             self.light.on.toggle()
-            AccessoriesManager.writeData(accessory: light.accessory, accessoryType: AccessoryType.socket, dataType: nil, value: light.on)
+            AccessoriesManager.writeData(accessory: light.accessory, accessoryType: AccessoryType.light, dataType: nil, value: light.on)
             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.powerState) { state in
                 self.light.on = state as! Bool
                 self.isOn = state as! Bool
@@ -46,7 +46,14 @@ struct CustomLightButton: View {
             }
             var light = Light(accessory: light.accessory)
             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
-                light.brightness = brightness as! Double
+                print("GETTER BRIGHTNESS \(brightness)")
+                light.brightness = brightness as! Float
+                if light.brightness > 0 {
+                    light.on = true
+                } else {
+                    light.on = false
+                }
+                print("LIGHT BRIGHTNESS : \(light.brightness)")
             }
             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
                 light.hue = hue as? Double
