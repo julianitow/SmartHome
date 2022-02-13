@@ -130,7 +130,7 @@ struct HomeView: View {
                                                         AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
                                                             self.currentLight?.brightness = brightness as! Float
                                                             self.showLightView = true
-                                                            print(currentLight)
+                                                            print(currentLight!)
                                                         }
                                                     })
                                             }

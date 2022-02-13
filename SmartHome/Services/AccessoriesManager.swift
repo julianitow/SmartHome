@@ -53,7 +53,8 @@ class AccessoriesManager: NSObject, ObservableObject {
         for service in accessory.services {
             for charateristic in service.characteristics {
                 if charateristic.characteristicType == characteristicType {
-                    charateristic.writeValue(value) { error in
+                    print(type(of: value))
+                    charateristic.writeValue((value as Float) as NSNumber) { error in
                         if error != nil {
                             print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "Unkown error")")
                         } else {
