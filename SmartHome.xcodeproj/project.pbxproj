@@ -15,14 +15,13 @@
 		4D3A25D227B2A7D0006FFF3A /* Accessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D127B2A7D0006FFF3A /* Accessories.swift */; };
 		4D3A25D427B2A90A006FFF3A /* LightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D327B2A90A006FFF3A /* LightView.swift */; };
 		4D3A25D827B2D327006FFF3A /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D727B2D327006FFF3A /* CustomSlider.swift */; };
-		4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D927B2DB44006FFF3A /* CustomButton.swift */; };
+		4D3A25DA27B2DB44006FFF3A /* CustomLightButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25D927B2DB44006FFF3A /* CustomLightButton.swift */; };
 		4D3A25DC27B2E3B8006FFF3A /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */; };
 		4D3A25DE27B2E4D8006FFF3A /* CustomCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */; };
 		4D3A25E127B3DA14006FFF3A /* AccessoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25E027B3DA14006FFF3A /* AccessoriesManager.swift */; };
 		4D3A25E427B3DB72006FFF3A /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D3A25E327B3DB72006FFF3A /* HomeKit.framework */; };
 		4D3A25E727B41CDE006FFF3A /* ColorPick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25E627B41CDE006FFF3A /* ColorPick.swift */; };
 		4D3A25EA27B4242B006FFF3A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25E927B4242B006FFF3A /* UIColor.swift */; };
-		4D3A25EE27B53AFF006FFF3A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */; };
 		4D9F9FF627B6BB0200E43B8E /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F9FF527B6BB0200E43B8E /* KeychainManager.swift */; };
 		4D9F9FF927B6BCC800E43B8E /* KeychainSwiftDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F9FF827B6BCC800E43B8E /* KeychainSwiftDistrib.swift */; };
 		4DC3E2D727B544F600886859 /* AutoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2D627B544F600886859 /* AutoView.swift */; };
@@ -32,6 +31,7 @@
 		4DC3E2E127B5C40A00886859 /* IdentifiableLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E027B5C40A00886859 /* IdentifiableLocation.swift */; };
 		4DC3E2E327B5C4A800886859 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E227B5C4A800886859 /* Address.swift */; };
 		4DC3E2E727B6764400886859 /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC3E2E627B6764400886859 /* SetupView.swift */; };
+		6B3B7CD727B99DD000B5024D /* CustomSwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B7CD627B99DD000B5024D /* CustomSwitchButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 		4D3A25D127B2A7D0006FFF3A /* Accessories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessories.swift; sourceTree = "<group>"; };
 		4D3A25D327B2A90A006FFF3A /* LightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightView.swift; sourceTree = "<group>"; };
 		4D3A25D727B2D327006FFF3A /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
-		4D3A25D927B2DB44006FFF3A /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		4D3A25D927B2DB44006FFF3A /* CustomLightButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLightButton.swift; sourceTree = "<group>"; };
 		4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCorner.swift; sourceTree = "<group>"; };
 		4D3A25E027B3DA14006FFF3A /* AccessoriesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoriesManager.swift; sourceTree = "<group>"; };
@@ -52,7 +52,6 @@
 		4D3A25E327B3DB72006FFF3A /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		4D3A25E627B41CDE006FFF3A /* ColorPick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPick.swift; sourceTree = "<group>"; };
 		4D3A25E927B4242B006FFF3A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		4D9F9FF527B6BB0200E43B8E /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		4D9F9FF827B6BCC800E43B8E /* KeychainSwiftDistrib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwiftDistrib.swift; sourceTree = "<group>"; };
 		4DC3E2D627B544F600886859 /* AutoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoView.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		4DC3E2E027B5C40A00886859 /* IdentifiableLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableLocation.swift; sourceTree = "<group>"; };
 		4DC3E2E227B5C4A800886859 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		4DC3E2E627B6764400886859 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
+		6B3B7CD627B99DD000B5024D /* CustomSwitchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitchButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,11 +156,11 @@
 				4D3A25D727B2D327006FFF3A /* CustomSlider.swift */,
 				4D3A25DB27B2E3B8006FFF3A /* BlurView.swift */,
 				4D3A25DD27B2E4D8006FFF3A /* CustomCorner.swift */,
-				4D3A25D927B2DB44006FFF3A /* CustomButton.swift */,
+				4D3A25D927B2DB44006FFF3A /* CustomLightButton.swift */,
 				4D3A25E627B41CDE006FFF3A /* ColorPick.swift */,
-				4D3A25ED27B53AFF006FFF3A /* NavigationBar.swift */,
 				4DC3E2DA27B56ED000886859 /* MapView.swift */,
 				4DC3E2E627B6764400886859 /* SetupView.swift */,
+				6B3B7CD627B99DD000B5024D /* CustomSwitchButton.swift */,
 			);
 			path = Sub;
 			sourceTree = "<group>";
@@ -259,6 +259,7 @@
 				4D3A25D827B2D327006FFF3A /* CustomSlider.swift in Sources */,
 				4DC3E2E127B5C40A00886859 /* IdentifiableLocation.swift in Sources */,
 				4D3A25DE27B2E4D8006FFF3A /* CustomCorner.swift in Sources */,
+				6B3B7CD727B99DD000B5024D /* CustomSwitchButton.swift in Sources */,
 				4D3A25E727B41CDE006FFF3A /* ColorPick.swift in Sources */,
 				4D3A25D427B2A90A006FFF3A /* LightView.swift in Sources */,
 				4D3A25C227B29E74006FFF3A /* ContentView.swift in Sources */,
@@ -268,11 +269,10 @@
 				4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */,
 				4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */,
 				4D9F9FF627B6BB0200E43B8E /* KeychainManager.swift in Sources */,
-				4D3A25DA27B2DB44006FFF3A /* CustomButton.swift in Sources */,
+				4D3A25DA27B2DB44006FFF3A /* CustomLightButton.swift in Sources */,
 				4DC3E2E327B5C4A800886859 /* Address.swift in Sources */,
 				4D3A25D227B2A7D0006FFF3A /* Accessories.swift in Sources */,
 				4D9F9FF927B6BCC800E43B8E /* KeychainSwiftDistrib.swift in Sources */,
-				4D3A25EE27B53AFF006FFF3A /* NavigationBar.swift in Sources */,
 				4DC3E2D727B544F600886859 /* AutoView.swift in Sources */,
 				4D3A25C027B29E74006FFF3A /* SmartHomeApp.swift in Sources */,
 			);
@@ -406,7 +406,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartHome/Preview Content\"";
-				DEVELOPMENT_TEAM = 8Y746A2BHG;
+				DEVELOPMENT_TEAM = YRQ424FS9D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Yes I Know but I need it";
@@ -422,7 +422,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.julienguillan.SmartHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sokaii.SmartHome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -439,7 +439,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartHome/Preview Content\"";
-				DEVELOPMENT_TEAM = 8Y746A2BHG;
+				DEVELOPMENT_TEAM = YRQ424FS9D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Yes I Know but I need it";
@@ -455,7 +455,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.julienguillan.SmartHome;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sokaii.SmartHome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
