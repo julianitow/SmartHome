@@ -47,16 +47,16 @@ struct HomeView: View {
         }
     }
     
-    func getTempColor(value : Int) -> Color{
+    func getTempColor(value : Float) -> Color{
         switch value {
-        case Int.min..<20 :
+        case Float(Int.min)..<accessoriesManager.minTemp :
             return Color.cyan
-        case 20...23 :
+        case accessoriesManager.minTemp...accessoriesManager.maxTemp :
             return Color.green
-        case 23..<Int.max :
+        case accessoriesManager.maxTemp..<Float(Int.max) :
             return Color.red
         default:
-            return Color.black
+            return Color.white
         }
     }
     
@@ -94,8 +94,8 @@ struct HomeView: View {
                                         .frame(width: 80, height: 80)
                                         .clipShape(Circle())
                                         .shadow(radius: 3)
-                                        .overlay(Circle().stroke(getTempColor(value: Int(self.accessoriesManager.temperature)), lineWidth: 2))
-                                        .foregroundColor(getTempColor(value: Int(self.accessoriesManager.temperature)))
+                                        .overlay(Circle().stroke(getTempColor(value: self.accessoriesManager.temperature), lineWidth: 2))
+                                        .foregroundColor(getTempColor(value: self.accessoriesManager.temperature))
                                         .padding()
                                 }
                                 
@@ -112,8 +112,10 @@ struct HomeView: View {
                                 Spacer()
                             }
                         }
+                        
                         Section(header: Text("Actions")) {
                             HStack {
+                                Spacer()
                                 if self.accessoriesManager.accessories.count == 0 {
                                     Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
                                         .fontWeight(.semibold)
@@ -125,14 +127,16 @@ struct HomeView: View {
                                                         self.showLightView = true
                                                         self.currentLight = light
                                         })
+                                    Spacer()
                                 }
                                 ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
                                     CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                                    Spacer()
                                 }
+                                Spacer()
                             }
-                            
                         }
-                        .frame(height: 75)
+                        
                         Section(header: Text("Localisation")) {
                             if self.addrAvailable {
                                 MapView(address: self.address)

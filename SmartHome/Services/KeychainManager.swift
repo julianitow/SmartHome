@@ -21,6 +21,32 @@ struct KeychainManager {
         return nil
     }
     
+    static func storeMinTemp(minTemp: Float) {
+        if let min = try? JSONEncoder().encode(minTemp) {
+            KeychainSwift().set(min, forKey: "minTemp")
+        }
+    }
+    
+    static func getMinTemp() -> Float? {
+        if let minTempData = KeychainSwift().getData("minTemp"), let minTemp = try? JSONDecoder().decode(Float.self, from: minTempData) {
+            return minTemp
+        }
+        return nil
+    }
+    
+    static func storeMaxTemp(maxTemp: Float) {
+        if let max = try? JSONEncoder().encode(maxTemp) {
+            KeychainSwift().set(max, forKey: "maxTemp")
+        }
+    }
+    
+    static func getMaxTemp() -> Float? {
+        if let maxTempData = KeychainSwift().getData("maxTemp"), let maxTemp = try? JSONDecoder().decode(Float.self, from: maxTempData) {
+            return maxTemp
+        }
+        return nil
+    }
+    
     static func clearKeychain() {
         KeychainSwift().clear()
     }

@@ -10,7 +10,7 @@ import SwiftUI
 struct AutoView: View {
     @EnvironmentObject var accessoriesManager: AccessoriesManager
     @Binding var showHome: Bool
-    @Binding var showAuto: Bool
+    @Binding var showAuto: Bool 
     @Binding var showSettings: Bool
     @State var temperatureMin: String
     @State var temperatureMax: String
@@ -18,7 +18,7 @@ struct AutoView: View {
     @FocusState var tempMaxFocused: Bool
     @State var minTemp: Float = 20.0
     @State var maxTemp: Float = 23.0
-    
+ 
     var body: some View {
         if self.showAuto {
             VStack {
@@ -28,14 +28,16 @@ struct AutoView: View {
                 Form{
                     Section(header: Text("Chauffage")) {
                         HStack {
-                            Image(systemName: "snowflake").foregroundColor(Color.blue)
+                            Image(systemName: "snowflake").foregroundColor(.cyan)
                             Text("Température min :")
-                            Stepper("\(Int(minTemp)) °C", value: $minTemp).foregroundColor(.blue)
+                            Stepper("\(Int(accessoriesManager.minTemp)) °C", value: $accessoriesManager.minTemp, in: Float(Int.min)...accessoriesManager.maxTemp)
+                                .foregroundColor(.cyan)
                         }
                         HStack {
-                            Image(systemName: "sun.max").foregroundColor(Color.red)
+                            Image(systemName: "flame.fill").foregroundColor(Color.red)
                             Text("Température max :")
-                            Stepper("\(Int(maxTemp)) °C", value: $maxTemp).foregroundColor(.red)
+                            Stepper("\(Int(accessoriesManager.maxTemp)) °C", value: $accessoriesManager.maxTemp, in: accessoriesManager.minTemp...Float(Int.max))
+                                .foregroundColor(.red)
                         }
                     }
                     
@@ -55,6 +57,8 @@ struct AutoView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                         .onTapGesture {
+                            KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
+                            KeychainManager.storeMaxTemp(maxTemp: accessoriesManager.maxTemp)
                             showHome = true
                             showAuto = false
                             showSettings = false
@@ -74,6 +78,8 @@ struct AutoView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                         .onTapGesture {
+                            KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
+                            KeychainManager.storeMaxTemp(maxTemp: accessoriesManager.maxTemp)
                             showHome = false
                             showAuto = false
                             showSettings = true

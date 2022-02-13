@@ -27,10 +27,12 @@ class AccessoriesManager: NSObject, ObservableObject {
     @Published var accessories: [HMAccessory] = []
     @Published var updatedHome: Int = 0
     
-    @State var minTemp: Float = 20.0
-    @State var maxTemp: Float = 23.0
+    @Published var minTemp: Float
+    @Published var maxTemp: Float
         
     override init() {
+        minTemp = KeychainManager.getMinTemp() ?? 19.0
+        maxTemp = KeychainManager.getMaxTemp() ?? 22.0
         super.init()
         self.homeManager = HMHomeManager()
         self.homeManager.delegate = self

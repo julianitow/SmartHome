@@ -27,28 +27,23 @@ struct SettingsView: View {
                     .fontWeight(.semibold)
                 
                 Form {
-                    
                     Section(header: Text("Gestion des données")) {
-                        HStack {
-                            Image(systemName: "trash").foregroundColor(Color.red)
-                            Text("Supprimer les adresses enregistrées")
-                                .foregroundColor(Color.red)
-                        }.onTapGesture {
+                        Button {
                             KeychainManager.clearKeychain()
                             self.showAlert.toggle()
-                        } label: {
-                            Label("Supprimer adresse enregistrée", systemImage: "trash")
-                        }.alert(Text("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications."), isPresented: $showAlert, actions: {})
+                            alert(Text("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications."), isPresented: $showAlert, actions: {})
+                        } label : {
+                            HStack {
+                                Image(systemName: "trash").foregroundColor(Color.red)
+                                Text("Supprimer les adresses enregistrées")
+                                    .foregroundColor(Color.red)
+                            }
+                        }
                     }
                     
                     Section(header: Text("Gestion des accessoires")) {
                         if accessoriesManager.primaryHome == nil {
-                            HStack {
-                                Image(systemName: "plus")
-                                    .foregroundColor(Color.blue)
-                                Text("Ajouter un accessoire")
-                                    .foregroundColor(Color.blue)
-                            }.onTapGesture {
+                            Button {
                                 DispatchQueue.main.async {
                                     if self.accessoriesManager.primaryHome == nil {
                                         self.accessoriesManager.homeManager.addHome(withName: "SmartHome") { home, error in
@@ -61,16 +56,19 @@ struct SettingsView: View {
                                         }
                                     }
                                 }
+                            } label : {
+                                HStack {
+                                    Image(systemName: "plus")
+                                        .foregroundColor(Color.blue)
+                                    Text("Ajouter un accessoire")
+                                        .foregroundColor(Color.blue)
+                                }
                             }
                         }
                         
                         if accessoriesManager.primaryHome != nil {
-                            HStack {
-                                Image(systemName: "plus")
-                                    .foregroundColor(Color.blue)
-                                Text("Ajouter un accessoire")
-                                    .foregroundColor(Color.blue)
-                            }.onTapGesture {
+                            
+                            Button {
                                 DispatchQueue.main.async {
                                     if self.accessoriesManager.primaryHome == nil {
                                         return
@@ -82,6 +80,13 @@ struct SettingsView: View {
                                         }
                                         self.refresh.toggle()
                                     }
+                                }
+                            } label : {
+                                HStack {
+                                    Image(systemName: "plus")
+                                        .foregroundColor(Color.blue)
+                                    Text("Ajouter un accessoire")
+                                        .foregroundColor(Color.blue)
                                 }
                             }
                             
@@ -103,7 +108,7 @@ struct SettingsView: View {
                                     Image(systemName: "trash")
                                         .resizable()
                                         .frame(width: 25, height: 25)
-                                    Text("Supprimer domicile \" \(self.accessoriesManager.primaryHome.name)\"")
+                                    Text("Supprimer le domicile \"\(self.accessoriesManager.primaryHome.name)\"")
                                 }
                             }
                         }

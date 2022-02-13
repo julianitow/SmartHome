@@ -52,9 +52,10 @@ struct SetupView: View {
                                 .fontWeight(.semibold)
                                 .foregroundColor(.black)
                                 .padding()
+                                .multilineTextAlignment(.center)
                             
                             VStack {
-                                Text("Ou se trouve votre domicile ?")
+                                Text("Où se trouve votre domicile ?")
                                     .font(.title)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.black)
@@ -64,12 +65,13 @@ struct SetupView: View {
                                     Form {
                                         if !self.isAddressAvailable {
                                             Section(header: Text("Adresse du domicile")) {
-                                                TextField("France", text: $country)
-                                                TextField("Paris", text: $city)
+                                                TextField("22", text: $number)
                                                 TextField("Rue du Général De Gaulle", text: $street)
                                                 TextField("75014", text: $postalCode)
-                                                TextField("22", text: $number)
+                                                TextField("Paris", text: $city)
+                                                TextField("France", text: $country)
                                             }
+                                            
                                             Section {
                                                 Button(action: {
                                                     guard self.country != "", self.postalCode != "", self.street != "", self.number != "", self.city != "" else {
@@ -81,12 +83,13 @@ struct SetupView: View {
                                                 }) {
                                                     HStack {
                                                         Image(systemName: "checkmark")
-                                                            .resizable()
-                                                            .frame(width: 20, height: 20)
+                                                            .foregroundColor(Color(.systemGreen))
                                                         Text("Valider")
+                                                            .foregroundColor(Color(.systemGreen))
                                                     }
                                                 }
-                                                Button(action: {
+                                                
+                                                Button {
                                                     guard let location = locationManager.currentLocation else {
                                                         print("Current location nil")
                                                         return
@@ -96,11 +99,9 @@ struct SetupView: View {
                                                         KeychainManager.storeAddress(address: addr)
                                                         self.isAddressAvailable = true
                                                     }
-                                                }) {
+                                                } label : {
                                                     HStack {
                                                         Image(systemName: "location")
-                                                            .resizable()
-                                                            .frame(width: 20, height: 20)
                                                         Text("Utiliser la position actuelle")
                                                     }
                                                 }
@@ -108,7 +109,7 @@ struct SetupView: View {
                                         }
                                         
                                         if !self.isHomeAvailable {
-                                            Section(header: Text("Ajouter une lieu")) {
+                                            Section(header: Text("Ajouter un lieu")) {
                                                 TextField("Nom du lieu", text: $homeName)
                                                
                                                 Button {
@@ -124,9 +125,7 @@ struct SetupView: View {
                                                 } label: {
                                                     HStack {
                                                         Image(systemName: "plus")
-                                                            .resizable()
-                                                            .frame(width: 25, height: 25)
-                                                        Text("Ajouter un Domicile")
+                                                        Text("Ajouter un domicile")
                                                     }
                                                 }
                                             }
@@ -146,8 +145,6 @@ struct SetupView: View {
                                                 } label: {
                                                     HStack {
                                                         Image(systemName: "plus")
-                                                            .resizable()
-                                                            .frame(width: 25, height: 25)
                                                         Text("Ajouter un accesssoire/bridge")
                                                     }
                                                 }
