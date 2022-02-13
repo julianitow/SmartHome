@@ -31,13 +31,14 @@ struct SettingsView: View {
                         Button {
                             KeychainManager.clearKeychain()
                             self.showAlert.toggle()
-                            alert(Text("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications."), isPresented: $showAlert, actions: {})
                         } label : {
                             HStack {
                                 Image(systemName: "trash").foregroundColor(Color.red)
-                                Text("Supprimer les adresses enregistrées")
+                                Text("Supprimer les données enregistrées")
                                     .foregroundColor(Color.red)
                             }
+                        }.alert("Données supprimées, veuillez-relancer l'application pour prendre en compte les modifications.", isPresented: $showAlert) {
+                            Button("OK", role: .cancel) { }
                         }
                     }
                     
