@@ -100,7 +100,6 @@ struct SettingsView: View {
                         }
                     }
                 }
-                Spacer()
             }.toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Spacer()

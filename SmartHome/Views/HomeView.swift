@@ -118,7 +118,7 @@ struct HomeView: View {
                                 HStack {
                                     Spacer()
                                     ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
+                                        CustomButton(showLightView: $showLightView, type: AccessoryType.light, accessory: light)
                                             .gesture(LongPressGesture()
                                                         .onEnded { action in
                                                             self.showLightView = true
@@ -127,7 +127,7 @@ struct HomeView: View {
                                         Spacer()
                                     }
                                     ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                                        CustomButton(showLightView: $showLightView, type: AccessoryType.socket, accessory: socket)
                                         Spacer()
                                     }
                                     Spacer()
