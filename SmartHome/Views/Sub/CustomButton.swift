@@ -55,13 +55,20 @@ struct CustomButton: View {
             .gesture(TapGesture()
             .onEnded { action in
                 self.accessory.on.toggle()
-                AccessoriesManager.writeData(accessory: accessory.accessory!, accessoryType: AccessoryType.socket, dataType: nil, value: accessory.on)
+                self.isOn.toggle()
+                AccessoriesManager.writeData(accessory: accessory.accessory, accessoryType: AccessoryType.socket, dataType: nil, value: self.isOn)
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
+                    self.accessory.on = state
+                    self.isOn = state
+                }
             })
-            .onChange(of: percentage) { _ in
-                if percentage > 0 {
-                    self.accessory.on = true
-                } else {
-                    self.accessory.on = false
+            .onChange(of: self.accessory.on) { _ in
+                // print(self.accessory.on)
+            }
+            .onAppear {
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
+                    self.accessory.on = state
+                    self.isOn = state
                 }
             }
         }

@@ -23,7 +23,7 @@ struct SetupView: View {
     @State var postalCode: String = ""
     @State var number: String = ""
     @State var homeName: String = ""
-    @State var isHomeAvailable: Bool = false
+    @State var isHomeAvailable = false
     @State var isAddressAvailable = false
     
     var body: some View {
@@ -35,9 +35,12 @@ struct SetupView: View {
             GeometryReader { geometry -> AnyView in
                 if !isOpen {
                     DispatchQueue.main.async {
-                        self.blurOffset = geometry.frame(in: .global).height
+                        withAnimation {
+                            self.blurOffset = geometry.frame(in: .global).height
+                        }
                     }
                 } else {
+                    
                 }
                 return AnyView(
                     ZStack {
@@ -182,12 +185,6 @@ struct SetupView: View {
         .shadow(color: .gray, radius: 13.0)
         .onChange(of: accessoriesManager.primaryHome) {  _ in
             self.isHomeAvailable = true
-        }
-    }
-    
-    func onChange() {
-        DispatchQueue.main.async {
-            self.blurOffset = CGFloat(gestureOffset) + lastOffset
         }
     }
 }

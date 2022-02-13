@@ -32,8 +32,8 @@ struct HomeView: View {
     @State var firstLaunch = true
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
-    @State var addrAvailable: Bool
-    
+    @State var addrAvailable: Bool = false
+    @State var refresh: Bool = false
     var lights: [HMAccessory]!
     
     func fetchData() {
@@ -66,11 +66,10 @@ struct HomeView: View {
         if addr == nil {
             self.addrAvailable = false
             self.firstLaunch = true
-            return
         } else {
-            self.firstLaunch = false
             self.addrAvailable = true
             self.address = addr
+            self.firstLaunch = false
         }
     }
     
@@ -131,6 +130,7 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        .frame(height: 75)
                         Section(header: Text("Localisation")) {
                             if self.addrAvailable {
                                 MapView(address: self.address)
@@ -180,11 +180,6 @@ struct HomeView: View {
                 if showLightView {
                     LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
                         .onChange(of: percentage) { _ in
-                            //if self.percentage > 0 {
-                            //    self.currentLight.on = true
-                            //} else {
-                            //    self.currentLight.on = false
-                            //}
                         }
                 }
                 
@@ -203,7 +198,13 @@ struct HomeView: View {
                 self.fetchData()
             }
         }
+        .onChange(of: self.firstLaunch) { _ in
+            print("FIRST LAUCNH TOGGLED", self.firstLaunch)
+        }
         .onChange(of: self.accessoriesManager.updatedHome) { _ in
+            if self.accessoriesManager.primaryHome == nil {
+                self.firstLaunch = true
+            }
         }
     }
 }
