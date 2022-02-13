@@ -72,7 +72,8 @@ struct LightView: View {
                                 ForEach(colors, id: \.id) { color in
                                     ColorPick(color: color.color)
                                         .onTapGesture {
-                                            let hue = color.color.hsbComponents.hue
+                                            let hue = color.color.getHue()
+                                            print(hue)
                                             self.selectedColor = Color(color.color)
                                             AccessoriesManager.writeData(accessory: accessory, accessoryType: AccessoryType.light, dataType: DataType.hue, value: hue)
                                         }
@@ -104,6 +105,8 @@ struct LightView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             self.percentage = self.light.brightness
+            print("COLOR", self.light.hue)
+            self.selectedColor = Color(uiColor: UIColor(hue: CGFloat(self.light.hue / 360), saturation: 100.0, brightness: CGFloat(self.light.brightness), alpha: 0.5))
         }
     }
     

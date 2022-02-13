@@ -14,9 +14,9 @@
             filePath = "SmartHome/Services/AccessoriesManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "homeManagerDidUpdateHomes(_:)"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "accessory(_:service:didUpdateValueFor:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

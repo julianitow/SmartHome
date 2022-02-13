@@ -28,7 +28,7 @@ struct CustomSwitchButton: View {
         .padding([.top, .bottom], 10)
         .onTapGesture {
             self.accessory.on.toggle()
-            AccessoriesManager.writeData(accessory: accessory.accessory, accessoryType: AccessoryType.socket, dataType: nil, value: accessory.on)
+            AccessoriesManager.writeData(accessory: accessory.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: accessory.on)
             AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
                 self.accessory.on = state as! Bool
                 self.isOn = state as! Bool

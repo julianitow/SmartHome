@@ -38,7 +38,7 @@ class AccessoriesManager: NSObject, ObservableObject {
         self.homeManager.delegate = self
     }
 
-    class func writeData(accessory: HMAccessory, accessoryType: AccessoryType, dataType: DataType?, value: Any) {
+    class func writeData(accessory: HMAccessory, accessoryType: AccessoryType, dataType: DataType, value: Any) {
         var characteristicType: String = ""
         if accessoryType == AccessoryType.light {
             if dataType == DataType.brightness {
@@ -46,15 +46,16 @@ class AccessoriesManager: NSObject, ObservableObject {
             } else if dataType == DataType.hue {
                 characteristicType = HMCharacteristicTypeHue
             }
-        } else if accessoryType == AccessoryType.socket {
+        }
+        
+        if dataType == DataType.powerState {
             characteristicType = HMCharacteristicTypePowerState
         }
         
         for service in accessory.services {
             for charateristic in service.characteristics {
                 if charateristic.characteristicType == characteristicType {
-                    print(type(of: value))
-                    charateristic.writeValue((value as Float) as NSNumber) { error in
+                    charateristic.writeValue(value) { error in
                         if error != nil {
                             print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "Unkown error")")
                         } else {
@@ -127,7 +128,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                             if error != nil {
                                 print(error?.localizedDescription ?? "Unknown Error")
                             } else {
-                                light.hue = characteristic.value as? Double
+                                light.hue = characteristic.value as! Float
                             }
                         }
                         for characteristic in service.characteristics {

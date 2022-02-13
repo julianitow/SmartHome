@@ -7,7 +7,6 @@
 
 import SwiftUI
 import HomeKit
-import WrappingHStack
 
 struct HomeView: View {
     
@@ -129,8 +128,10 @@ struct HomeView: View {
                                                         self.currentLight = light
                                                         AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
                                                             self.currentLight?.brightness = brightness as! Float
-                                                            self.showLightView = true
-                                                            print(currentLight!)
+                                                            AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
+                                                                self.currentLight?.hue = hue as! Float
+                                                                self.showLightView = true
+                                                            }
                                                         }
                                                     })
                                             }
