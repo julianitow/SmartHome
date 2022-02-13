@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HomeKit
+import WrappingHStack
 
 struct HomeView: View {
     
@@ -27,8 +28,6 @@ struct HomeView: View {
     @State var showHome = true
     @State var showAuto = false
     @State var showSettings = false
-    @State var minTemp: Float = 20.0
-    @State var maxTemp: Float = 23.0
     @State var firstLaunch = true
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
@@ -114,12 +113,15 @@ struct HomeView: View {
                         }
                         
                         Section(header: Text("Actions")) {
-                            HStack {
-                                Spacer()
+                            WrappingHStack(spacing: .dynamic(minSpacing: 0)) {
                                 if self.accessoriesManager.accessories.count == 0 {
                                     Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
                                         .fontWeight(.semibold)
                                 }
+                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: Light(accessory: HMAccessory()), isOn: true)
+                                
+                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: Socket(accessory: HMAccessory()), isOn: true)
+                                
                                 ForEach(self.accessoriesManager.lights, id: \.id) { light in
                                     CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
                                         .gesture(LongPressGesture()
@@ -127,13 +129,12 @@ struct HomeView: View {
                                                         self.showLightView = true
                                                         self.currentLight = light
                                         })
-                                    Spacer()
+                                    
                                 }
                                 ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
                                     CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
-                                    Spacer()
+                                    
                                 }
-                                Spacer()
                             }
                         }
                         
@@ -197,7 +198,8 @@ struct HomeView: View {
                         }
                 }
             }
-        }.onAppear() {
+        }
+        .onAppear() {
             if self.accessoriesManager.homeManager.primaryHome == nil {
                 self.firstLaunch = true
             } else {

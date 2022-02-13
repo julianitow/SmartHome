@@ -37,7 +37,8 @@ struct SettingsView: View {
                                 Text("Supprimer les données enregistrées")
                                     .foregroundColor(Color.red)
                             }
-                        }.alert("Données supprimées, veuillez-relancer l'application pour prendre en compte les modifications.", isPresented: $showAlert) {
+                        }
+                        .alert("Données supprimées, veuillez-relancer l'application pour prendre en compte les modifications.", isPresented: $showAlert) {
                             Button("OK", role: .cancel) { }
                         }
                     }

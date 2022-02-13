@@ -22,7 +22,7 @@ struct CustomButton: View {
                 .padding(.top, 10)
                 .foregroundColor(.white)
             Text(accessory.accessory.name)
-                .frame(minWidth: 75, idealWidth: 75, maxWidth: 150, minHeight: 75, idealHeight: 75, maxHeight: 75, alignment: .center)
+                .frame(minWidth: 75, idealWidth: 100, maxWidth: 100, minHeight: 75, idealHeight: 75, maxHeight: 75, alignment: .center)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
         }
