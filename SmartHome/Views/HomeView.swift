@@ -118,20 +118,28 @@ struct HomeView: View {
                                     .fontWeight(.semibold)
                                     .multilineTextAlignment(.center)
                             } else {
-                                WrappingHStack(alignment : .leading, spacing: .dynamic(minSpacing: 0)) {
-                                    ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
-                                            .gesture(LongPressGesture()
-                                                        .onEnded { action in
-                                                            self.showLightView = true
-                                                            self.currentLight = light
-                                            })
-                                        
+                                ScrollView(.horizontal) {
+                                    VStack(alignment: .leading) {
+                                        HStack(alignment: .bottom) {
+                                            ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
+                                                    .gesture(LongPressGesture()
+                                                                .onEnded { action in
+                                                                    self.showLightView = true
+                                                                    self.currentLight = light
+                                                    })
+                                                    .padding(5)
+                                            }
+                                        }
+                                        HStack(alignment: .bottom)  {
+                                            ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                                            
+                                            }
+                                            .padding(5)
+                                        }
                                     }
-                                    ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
-                                        
-                                    }
+                                
                                 }
                             }
                         }

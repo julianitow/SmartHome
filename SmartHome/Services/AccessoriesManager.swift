@@ -128,7 +128,7 @@ class AccessoriesManager: NSObject, ObservableObject {
         // rewrite
         for accessory in accessories {
             
-            if accessory.model == "switch" || accessory.name.lowercased().contains("prise"){
+            if accessory.model?.lowercased() == "switch" || accessory.name.lowercased().contains("prise"){
                 let socket = Socket(accessory: accessory)
                 self.sockets.append(socket)
                 i += 1
