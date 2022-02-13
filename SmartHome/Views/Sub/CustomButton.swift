@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct CustomButton: View {
-    let width = CGFloat(75)
-    let height = CGFloat(75)
-    
     @Binding var showLightView: Bool
     @State var type: AccessoryType
     @State var accessory: Accessory
@@ -23,7 +20,7 @@ struct CustomButton: View {
                 .padding(.top, 10)
                 .foregroundColor(.white)
             Text(accessory.accessory!.name)
-                .frame(minWidth: self.width, idealWidth: self.width, maxWidth: 150, minHeight: self.height, idealHeight: self.height, maxHeight: self.height, alignment: .center)
+                .frame(minWidth: 75, idealWidth: 75, maxWidth: 150, minHeight: 75, idealHeight: 75, maxHeight: 75, alignment: .center)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
         }
