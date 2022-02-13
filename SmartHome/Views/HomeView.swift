@@ -113,27 +113,25 @@ struct HomeView: View {
                         }
                         
                         Section(header: Text("Actions")) {
-                            WrappingHStack(spacing: .dynamic(minSpacing: 0)) {
-                                if self.accessoriesManager.accessories.count == 0 {
-                                    Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
-                                        .fontWeight(.semibold)
-                                }
-                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: Light(accessory: HMAccessory()), isOn: true)
-                                
-                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: Socket(accessory: HMAccessory()), isOn: true)
-                                
-                                ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
-                                        .gesture(LongPressGesture()
-                                                    .onEnded { action in
-                                                        self.showLightView = true
-                                                        self.currentLight = light
-                                        })
-                                    
-                                }
-                                ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                    CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
-                                    
+                            if self.accessoriesManager.accessories.count == 0 {
+                                Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
+                                    .fontWeight(.semibold)
+                                    .multilineTextAlignment(.center)
+                            } else {
+                                WrappingHStack(alignment : .leading, spacing: .dynamic(minSpacing: 0)) {
+                                    ForEach(self.accessoriesManager.lights, id: \.id) { light in
+                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
+                                            .gesture(LongPressGesture()
+                                                        .onEnded { action in
+                                                            self.showLightView = true
+                                                            self.currentLight = light
+                                            })
+                                        
+                                    }
+                                    ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
+                                        CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
+                                        
+                                    }
                                 }
                             }
                         }
