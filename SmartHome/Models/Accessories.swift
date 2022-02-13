@@ -18,7 +18,7 @@ struct Light: Accessory {
     var id: UUID
     var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
-    var brightness: Double?
+    var brightness: Double = 0
     var hue: Double?
     var saturation: Double?
     init(accessory: HMAccessory) {

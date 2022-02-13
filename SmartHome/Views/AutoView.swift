@@ -50,6 +50,12 @@ struct AutoView: View {
                     }
                 }
             }
+            .onChange(of: accessoriesManager.maxTemp , perform: { _ in
+                KeychainManager.storeMaxTemp(maxTemp: accessoriesManager.maxTemp)
+            })
+            .onChange(of: accessoriesManager.minTemp, perform: { _ in
+                KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
+            })
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Spacer()
@@ -57,8 +63,6 @@ struct AutoView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                         .onTapGesture {
-                            KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
-                            KeychainManager.storeMaxTemp(maxTemp: accessoriesManager.maxTemp)
                             showHome = true
                             showAuto = false
                             showSettings = false
@@ -78,8 +82,6 @@ struct AutoView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                         .onTapGesture {
-                            KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
-                            KeychainManager.storeMaxTemp(maxTemp: accessoriesManager.maxTemp)
                             showHome = false
                             showAuto = false
                             showSettings = true

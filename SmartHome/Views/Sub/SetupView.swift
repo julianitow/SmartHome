@@ -55,16 +55,13 @@ struct SetupView: View {
                                 .multilineTextAlignment(.center)
                             
                             VStack {
-                                Text("Où se trouve votre domicile ?")
-                                    .font(.title)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.black)
-                                    .padding()
-                                
                                 VStack {
                                     Form {
+                                      
                                         if !self.isAddressAvailable {
-                                            Section(header: Text("Adresse du domicile")) {
+                                            Section(header: Text("Où se trouve votre domicile ?")
+                                                        .fontWeight(.semibold)
+                                            ) {
                                                 TextField("22", text: $number)
                                                 TextField("Rue du Général De Gaulle", text: $street)
                                                 TextField("75014", text: $postalCode)
@@ -167,13 +164,11 @@ struct SetupView: View {
                                             }
                                         }
                                     }
+                                    .background(.clear)
                                 }
                                 
                             }
                         }
-                    }
-                    .onAppear {
-                        UITableView.appearance().backgroundColor = .clear
                     }
                 )
             }

@@ -24,7 +24,7 @@ struct HomeView: View {
     @State var tempSetMax: String = "N/A"
     @State var temperature: Float = 20.0
     @State var humidity: Float = 44
-    @State var currentLight: Light!
+    @State var currentLight: Light?
     @State var showHome = true
     @State var showAuto = false
     @State var showSettings = false
@@ -122,21 +122,21 @@ struct HomeView: View {
                                     VStack(alignment: .leading) {
                                         HStack(alignment: .bottom) {
                                             ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.light, accessory: light)
-                                                    .gesture(LongPressGesture()
-                                                                .onEnded { action in
-                                                                    self.showLightView = true
-                                                                    self.currentLight = light
-                                                    })
+                                                CustomLightButton(showLightView: $showLightView, percentage: $percentage, light: light)
                                                     .padding(5)
+                                                    .gesture(LongPressGesture()
+                                                        .onEnded { action in
+                                                        self.currentLight = light
+                                                        self.percentage = Float(light.brightness)
+                                                        self.showLightView = true
+                                                    })
                                             }
                                         }
                                         HStack(alignment: .bottom)  {
                                             ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                                CustomButton(showLightView: $showLightView, percentage: $percentage, type: AccessoryType.socket, accessory: socket)
-                                            
+                                                CustomSwitchButton(accessory: socket)
+                                                    .padding(5)
                                             }
-                                            .padding(5)
                                         }
                                     }
                                 
@@ -191,8 +191,14 @@ struct HomeView: View {
                 }
                 
                 if showLightView {
-                    LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
+                    LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight!)
                         .onChange(of: percentage) { _ in
+                            print("PERCENTAGE \(percentage)")
+                            self.currentLight?.brightness = Double(percentage)
+                            print("BRIGHTNESS \(self.currentLight?.brightness)")
+                        }
+                        .onAppear {
+                            self.percentage = Float(self.currentLight!.brightness)
                         }
                 }
                 

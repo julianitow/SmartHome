@@ -7,16 +7,13 @@
 
 import SwiftUI
 
-struct CustomButton: View {
-    @Binding var showLightView: Bool
-    @Binding var percentage: Float
-    @State var type: AccessoryType
+struct CustomSwitchButton: View {
     @State var accessory: Accessory
     @State var isOn: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
-            Image(systemName: self.type == AccessoryType.socket ? "power" : "lightbulb")
+            Image(systemName:"power")
                 .resizable()
                 .frame(width: 30, height: 30)
                 .padding(.top, 10)
@@ -26,15 +23,15 @@ struct CustomButton: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
         }
-        .background(Color(type == AccessoryType.light ? (accessory.on ? .systemGreen : .systemGray4) : ((accessory.on ? .systemBlue : .systemGray4))))
+        .background(Color(accessory.on ? .systemBlue : .systemGray4))
         .cornerRadius(15)
         .padding([.top, .bottom], 10)
         .onTapGesture {
             self.accessory.on.toggle()
             AccessoriesManager.writeData(accessory: accessory.accessory, accessoryType: AccessoryType.socket, dataType: nil, value: accessory.on)
             AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
-                self.accessory.on = state
-                self.isOn = state
+                self.accessory.on = state as! Bool
+                self.isOn = state as! Bool
             }
         }
         .onChange(of: self.accessory.on) { _ in
@@ -42,17 +39,9 @@ struct CustomButton: View {
         }
         .onAppear {
             AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
-                self.accessory.on = state
-                self.isOn = state
+                self.accessory.on = state as! Bool
+                self.isOn = state as! Bool
             }
         }
     }
 }
-
-//struct CustomButton_Previews: PreviewProvider {
-//
-//    @State static var value = false
-//    static var previews: some View {
-//        CustomButton(isOn: .constant(value), showLightView: .constant(true), type: //AccessoryType.relay, name: "Light")
-//    }
-//}

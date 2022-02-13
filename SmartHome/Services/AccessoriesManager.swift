@@ -65,11 +65,21 @@ class AccessoriesManager: NSObject, ObservableObject {
         }
     }
     
-    class func fetchCharacteristicValue(accessory: HMAccessory, dataType: DataType, completion: @escaping (Bool) -> Void) {
+    class func fetchCharacteristicValue(accessory: HMAccessory, dataType: DataType, completion: @escaping (Any) -> Void) {
         var characteristicType = ""
-        if dataType == DataType.powerState {
+        
+        switch dataType {
+        case DataType.hue:
+            characteristicType = HMCharacteristicTypeHue
+            break
+        case DataType.brightness:
+            characteristicType = HMCharacteristicTypeBrightness
+            break
+        case DataType.powerState:
             characteristicType = HMCharacteristicTypePowerState
+            break
         }
+        
         for service in accessory.services {
             for characteristic in service.characteristics {
                 if characteristic.characteristicType == characteristicType {
@@ -78,8 +88,8 @@ class AccessoriesManager: NSObject, ObservableObject {
                             print("ERROR: \(accessory.name) -> \(error?.localizedDescription ?? "unkown error")")
                             return
                         }
-                        let res = characteristic.value as! Bool
-                        completion(res)
+                        let res = characteristic.value
+                        completion(res!)
                     }
                 }
             }
@@ -110,7 +120,14 @@ class AccessoriesManager: NSObject, ObservableObject {
                         }
                     }
                     if characteristic.characteristicType == HMCharacteristicTypeHue {
-                        let light = Light(accessory: accessory)
+                        var light = Light(accessory: accessory)
+                        characteristic.readValue { error in
+                            if error != nil {
+                                print(error?.localizedDescription ?? "Unknown Error")
+                            } else {
+                                light.hue = characteristic.value as? Double
+                            }
+                        }
                         self.lights.append(light)
                         i += 1
                     }
@@ -151,6 +168,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                                 } else {
                                     self.lights[i].on = false
                                 }
+                                self.lights[i].brightness = value as! Double
                             }
                         }
                     }
