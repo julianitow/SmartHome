@@ -255,6 +255,8 @@ extension AccessoriesManager: HMAccessoryDelegate {
                     socket.on = state
                 }
             }
+        } else if characteristic.characteristicType == HMCharacteristicTypeHue {
+            
         }
     }
 }

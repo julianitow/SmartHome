@@ -12,6 +12,7 @@ struct CustomLightButton: View {
     @Binding var percentage: Float
     @State var light: Light
     @State var isOn: Bool = false
+    @State var color: UIColor = .systemGreen
     
     var body: some View {
         VStack(spacing: 0) {
@@ -28,12 +29,12 @@ struct CustomLightButton: View {
         .background(Color(light.on ? .systemGreen : .systemGray4))
         .cornerRadius(15)
         .padding([.top, .bottom], 10)
+        .onChange(of: light, perform: { _ in
+            self.color = UIColor(hue: CGFloat(light.hue / 360), saturation: 100, brightness: CGFloat(light.brightness), alpha: 0.5)
+        })
         .onTapGesture {
             self.light.on.toggle()
             AccessoriesManager.writeData(accessory: light.accessory, accessoryType: AccessoryType.light, dataType: DataType.powerState, value: light.on)
-        }
-        .onChange(of: self.light.on) { _ in
-            // print(self.accessory.on)
         }
         .onAppear {
             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.powerState) { state in
@@ -49,10 +50,12 @@ struct CustomLightButton: View {
                     light.on = false
                 }
             }
+            
+            /* IMPLEMENTATION COULEUR BOUTON NON TERMINEE
             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
                 light.hue = hue as! Float
-                print("HUE", light.hue, hue)
-            }
+                self.color = UIColor(hue: CGFloat(light.hue / 360), saturation: 100, brightness: CGFloat(light.brightness), alpha: 0.5)
+            }*/
         }
     }
 }

@@ -25,7 +25,7 @@ struct LightView: View {
     @State var selectedColor: Color = Color(UIColor.yellow.withAlphaComponent(0.5))
     
     let red = Color_(id: 0, color: .red)
-    let white = Color_(id: 1, color: .white)
+//    let white = Color_(id: 1, color: .white)
     let blue = Color_(id: 2, color: .blue)
     let orange = Color_(id: 3, color: .orange)
     let yellow = Color_(id: 4, color: UIColor.yellow.withAlphaComponent(0.5))
@@ -33,7 +33,7 @@ struct LightView: View {
     let pink = Color_(id: 6, color: .systemPink)
     
     var body: some View {
-        let colors: [Color_] = [red, white, blue, orange, yellow, brown, pink]
+        let colors: [Color_] = [red, blue, orange, yellow, brown, pink]
         ZStack {
             GeometryReader { geometry in
                 
@@ -73,9 +73,9 @@ struct LightView: View {
                                     ColorPick(color: color.color)
                                         .onTapGesture {
                                             let hue = color.color.getHue()
-                                            print(hue)
                                             self.selectedColor = Color(color.color)
                                             AccessoriesManager.writeData(accessory: accessory, accessoryType: AccessoryType.light, dataType: DataType.hue, value: hue)
+                                            self.light.hue = Float(hue)
                                         }
                                 }
                             }.offset(y: -200)

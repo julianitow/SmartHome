@@ -14,7 +14,7 @@ protocol Accessory {
     var on: Bool { get set }
 }
 
-struct Light: Accessory {
+struct Light: Accessory, Equatable {
     var id: UUID
     var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
