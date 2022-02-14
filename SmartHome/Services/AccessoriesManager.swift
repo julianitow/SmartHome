@@ -21,6 +21,7 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     @Published var temperature: Float = 20.0
     @Published var humidity: Float = 44
+    
     @Published var lights: [Light] = []
     @Published var sockets: [Socket] = []
     
@@ -31,7 +32,9 @@ class AccessoriesManager: NSObject, ObservableObject {
     @Published var maxTemp: Float
     
     @Published var distanceFromHome: Int
-        
+    
+    @Published var onChangeSocketId: [UUID: Bool]!
+            
     override init() {
         minTemp = KeychainManager.getMinTemp() ?? 19.0
         maxTemp = KeychainManager.getMaxTemp() ?? 22.0
@@ -235,8 +238,7 @@ class AccessoriesManager: NSObject, ObservableObject {
         } else {
             print("Déjà à la maison")
         }
-    }
-    
+    }    
 }
 
 extension AccessoriesManager: HMAccessoryDelegate {
@@ -248,15 +250,17 @@ extension AccessoriesManager: HMAccessoryDelegate {
             let temp = (characteristic.value as? NSNumber)!.floatValue
             self.temperature = temp
             if temp < self.minTemp {
-                for socket in self.sockets {
+                for var socket in self.sockets {
                     if socket.accessory.name == "Relais" || socket.accessory.name == "Chauffage" {
-                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: true)
+                        socket.on = true
+                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: socket.on)
                     }
                 }
             } else if temp > self.maxTemp {
-                for socket in self.sockets {
+                for var socket in self.sockets {
                     if socket.accessory.name == "Relais" || socket.accessory.name == "Chauffage" {
-                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: false)
+                        socket.on = false
+                        AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: socket.on)
                     }
                 }
             }
@@ -269,10 +273,17 @@ extension AccessoriesManager: HMAccessoryDelegate {
                 if socket.accessory == accessory {
                     let state = characteristic.value as! Bool
                     socket.on = state
+                    self.onChangeSocketId = [socket.id: socket.on]
                 }
             }
-        } else if characteristic.characteristicType == HMCharacteristicTypeHue {
             
+            for var light in self.lights {
+                if light.accessory == accessory {
+                    let state = characteristic.value as! Bool
+                    light.on = state
+                    self.onChangeSocketId = [light.id: light.on]
+                }
+            }
         }
     }
 }

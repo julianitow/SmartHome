@@ -138,7 +138,7 @@ struct HomeView: View {
                                         }
                                         HStack(alignment: .bottom)  {
                                             ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                                CustomSwitchButton(accessory: socket)
+                                                CustomSwitchButton(socket: socket)
                                                     .padding(5)
                                             }
                                         }

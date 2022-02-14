@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomSwitchButton: View {
-    @State var accessory: Accessory
+    @EnvironmentObject var accessoriesManager: AccessoriesManager
+    @State var socket: Accessory
     @State var isOn: Bool = false
     
     var body: some View {
@@ -18,28 +19,30 @@ struct CustomSwitchButton: View {
                 .frame(width: 30, height: 30)
                 .padding(.top, 10)
                 .foregroundColor(.white)
-            Text(accessory.accessory.name)
+            Text(socket.accessory.name)
                 .frame(minWidth: 100, idealWidth: 100, maxWidth: 100, minHeight: 75, idealHeight: 75, maxHeight: 75, alignment: .center)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
         }
-        .background(Color(accessory.on ? .systemBlue : .systemGray4))
+        .background(Color(socket.on ? .systemBlue : .systemGray4))
         .cornerRadius(15)
         .padding([.top, .bottom], 10)
         .onTapGesture {
-            self.accessory.on.toggle()
-            AccessoriesManager.writeData(accessory: accessory.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: accessory.on)
-            AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
-                self.accessory.on = state as! Bool
+            self.socket.on.toggle()
+            AccessoriesManager.writeData(accessory: socket.accessory, accessoryType: AccessoryType.socket, dataType: DataType.powerState, value: socket.on)
+            AccessoriesManager.fetchCharacteristicValue(accessory: socket.accessory, dataType: DataType.powerState) { state in
+                self.socket.on = state as! Bool
                 self.isOn = state as! Bool
             }
         }
-        .onChange(of: self.accessory.on) { _ in
-            // print(self.accessory.on)
+        .onChange(of: accessoriesManager.onChangeSocketId) { _ in
+            if accessoriesManager.onChangeSocketId.first?.key == socket.id {
+                socket.on = accessoriesManager.onChangeSocketId.first!.value
+            }
         }
         .onAppear {
-            AccessoriesManager.fetchCharacteristicValue(accessory: accessory.accessory, dataType: DataType.powerState) { state in
-                self.accessory.on = state as! Bool
+            AccessoriesManager.fetchCharacteristicValue(accessory: socket.accessory, dataType: DataType.powerState) { state in
+                self.socket.on = state as! Bool
                 self.isOn = state as! Bool
             }
         }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CustomLightButton: View {
+    @EnvironmentObject var accessoriesManager: AccessoriesManager
     @Binding var showLightView: Bool
     @Binding var percentage: Float
     @State var light: Light
@@ -56,6 +57,11 @@ struct CustomLightButton: View {
                 light.hue = hue as! Float
                 self.color = UIColor(hue: CGFloat(light.hue / 360), saturation: 100, brightness: CGFloat(light.brightness), alpha: 0.5)
             }*/
+        }
+        .onChange(of: accessoriesManager.onChangeSocketId) { _ in
+            if accessoriesManager.onChangeSocketId.first?.key == light.id {
+                light.on = accessoriesManager.onChangeSocketId.first!.value
+            }
         }
     }
 }
