@@ -7,13 +7,19 @@
 
 import Foundation
 import MapKit
+import SwiftUI
 
 final class LocationManager: NSObject, ObservableObject {
-    @Published var currentLocation: CLLocation?
-    @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.828564, longitude: 2.322384), latitudinalMeters: 750, longitudinalMeters: 750)
     
+    @Published var currentLocation: CLLocation?
+    @Published var homeLocation: CLLocation?
+    @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.828564, longitude: 2.322384), latitudinalMeters: 750, longitudinalMeters: 750)
+    @Published var distanceFromHome: CLLocationDistance!
+    
+    var homeAddress: Address!
     var locationManager = CLLocationManager()
     var hasSetRegion = false
+    
     override init() {
         super.init()
         self.locationManager.delegate = self
@@ -21,6 +27,11 @@ final class LocationManager: NSObject, ObservableObject {
         self.locationManager.distanceFilter = kCLDistanceFilterNone
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        guard let homeAddr = KeychainManager.getHomeAddress() else {
+            print("Error home address nil")
+            return
+        }
+        self.homeAddress = homeAddr
     }
     
     class func getLocation(from address: Address, completion: @escaping (CLLocation) -> Void) -> Void {
@@ -82,6 +93,12 @@ extension LocationManager: CLLocationManagerDelegate {
                 self.region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 750, longitudinalMeters: 750)
                 print(region)
                 self.hasSetRegion = true
+            }
+            
+            //GESTION DE LA DISTANCE HORS HOME
+            LocationManager.getLocation(from: self.homeAddress) { [self] homeLocation in
+                let distance = homeLocation.distance(from: location)
+                self.distanceFromHome = distance
             }
         }
     }

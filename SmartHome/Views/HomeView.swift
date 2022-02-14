@@ -11,6 +11,7 @@ import HomeKit
 struct HomeView: View {
     
     @EnvironmentObject var accessoriesManager: AccessoriesManager
+    @EnvironmentObject var locationManager: LocationManager
     @State var homeName: String = "Home Name"
     @State var heaterOn: Bool = false
     @State var deskOn: Bool = false
@@ -27,10 +28,10 @@ struct HomeView: View {
     @State var showHome = true
     @State var showAuto = false
     @State var showSettings = false
-    @State var firstLaunch = true
+    @State var firstLaunch: Bool
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var thermometre: Thermometre!
-    @State var addrAvailable: Bool = false
+    @State var addrAvailable: Bool
     @State var refresh: Bool = false
     var lights: [HMAccessory]!
     
@@ -59,18 +60,17 @@ struct HomeView: View {
     }
     
     init() {
-        /***Fetch address from keychain **/
         let addr = KeychainManager.getHomeAddress()
         if addr == nil {
-            self.addrAvailable = false
-            self.firstLaunch = true
+            _firstLaunch = State(initialValue: true)
+            _addrAvailable = State(initialValue: false)
         } else {
-            self.addrAvailable = true
-            self.address = addr
-            self.firstLaunch = false
+            _address = State(initialValue: addr)
+            _addrAvailable = State(initialValue: true)
+            _firstLaunch = State(initialValue: false)
         }
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             if self.showAuto {
@@ -214,51 +214,8 @@ struct HomeView: View {
                 self.fetchData()
             }
         }
-        .onChange(of: self.firstLaunch) { _ in
-            print("FIRST LAUCNH TOGGLED", self.firstLaunch)
-        }
-        .onChange(of: self.accessoriesManager.updatedHome) { _ in
-            if self.accessoriesManager.primaryHome == nil {
-                self.firstLaunch = true
-            }
-        }
+        .onChange(of: locationManager.distanceFromHome, perform: { _ in
+            self.accessoriesManager.checkDistanceFromHome(distance: locationManager.distanceFromHome)
+        })
     }
 }
-
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//    }
-//}
-
-//ZStack {
-//    VStack {
-//
-//        VStack {
-//            if self.addrAvailable {
-//                MapView(address: self.address)
-//                    .padding()
-//            }
-//        }
-//        NavigationBar(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
-//    }
-//
-//    if showLightView {
-//        LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight)
-//            .onChange(of: percentage) { _ in
-//                //if self.percentage > 0 {
-//                //    self.currentLight.on = true
-//                //} else {
-//                //    self.currentLight.on = false
-//                //}
-//            }
-//    }
-//
-//    if self.firstLaunch {
-//        SetupView(isOpen: $firstLaunch)
-//            .onDisappear {
-//                self.addrAvailable = true
-//                self.address = KeychainManager.getHomeAddress()
-//            }
-//    }
-//}

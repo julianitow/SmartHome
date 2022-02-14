@@ -29,10 +29,13 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     @Published var minTemp: Float
     @Published var maxTemp: Float
+    
+    @Published var distanceFromHome: Int
         
     override init() {
         minTemp = KeychainManager.getMinTemp() ?? 19.0
         maxTemp = KeychainManager.getMaxTemp() ?? 22.0
+        self.distanceFromHome = KeychainManager.getDistanceFromHome() ?? 20
         super.init()
         self.homeManager = HMHomeManager()
         self.homeManager.delegate = self
@@ -218,6 +221,19 @@ class AccessoriesManager: NSObject, ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    func checkDistanceFromHome(distance: CLLocationDistance) {
+        let currentDistance = Int(distance)
+        if currentDistance >= self.distanceFromHome {
+            for var light in self.lights {
+                light.on = false
+                AccessoriesManager.writeData(accessory: light.accessory, accessoryType: AccessoryType.light, dataType: DataType.powerState, value: light.on)
+                print("\(light.accessory.name) -> \(light.on)")
+            }
+        } else {
+            print("Déjà à la maison")
         }
     }
     

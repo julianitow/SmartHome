@@ -45,7 +45,7 @@ struct AutoView: View {
                         HStack {
                             Image(systemName: "location.fill").foregroundColor(Color.green)
                             Text("Rayon domicile :")
-                            Stepper("\(Int(minTemp)) m", value: $minTemp, step: 5)
+                            Stepper("\(accessoriesManager.distanceFromHome) m", value: $accessoriesManager.distanceFromHome, in: 10...500, step: 10)
                         }
                     }
                 }
@@ -55,6 +55,9 @@ struct AutoView: View {
             })
             .onChange(of: accessoriesManager.minTemp, perform: { _ in
                 KeychainManager.storeMinTemp(minTemp: accessoriesManager.minTemp)
+            })
+            .onChange(of: accessoriesManager.distanceFromHome, perform: { _ in
+                KeychainManager.storeDistanceFromHome(distance: accessoriesManager.distanceFromHome)
             })
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {

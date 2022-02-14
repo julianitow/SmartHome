@@ -47,6 +47,19 @@ struct KeychainManager {
         return nil
     }
     
+    static func storeDistanceFromHome(distance: Int) {
+        if let distance = try? JSONEncoder().encode(distance) {
+            KeychainSwift().set(distance, forKey: "distanceFromHome")
+        }
+    }
+    
+    static func getDistanceFromHome() -> Int? {
+        if let distance = KeychainSwift().getData("distanceFromHome"), let distanceFromHome = try? JSONDecoder().decode(Int.self, from: distance) {
+            return distanceFromHome
+        }
+        return nil
+    }
+    
     static func clearKeychain() {
         KeychainSwift().clear()
     }
