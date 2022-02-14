@@ -11,13 +11,14 @@ struct CustomSlider: View {
     
     @Binding var percentage: Float
     @Binding var tintColor: Color
-    let bgColor = Color(UIColor.gray.withAlphaComponent(0.5))
-    //let tintColor = Color(UIColor.yellow.withAlphaComponent(0.5))
+    
+    let backgroundColor = Color(UIColor.gray.withAlphaComponent(0.5))
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
-                    .foregroundColor(self.bgColor)
+                    .foregroundColor(self.backgroundColor)
                 Rectangle()
                     .foregroundColor(tintColor)
                     .frame(width: geometry.size.width * CGFloat(self.percentage / 100))

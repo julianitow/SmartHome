@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomLightButton: View {
     @EnvironmentObject var accessoriesManager: AccessoriesManager
     @Binding var showLightView: Bool
-    @Binding var percentage: Float
+    @Binding var brightnessLevel: Float
     @State var light: Light
     @State var isOn: Bool = false
     @State var color: UIColor = .systemGreen
@@ -65,11 +65,3 @@ struct CustomLightButton: View {
         }
     }
 }
-
-//struct CustomButton_Previews: PreviewProvider {
-//
-//    @State static var value = false
-//    static var previews: some View {
-//        CustomButton(isOn: .constant(value), showLightView: .constant(true), type: //AccessoryType.relay, name: "Light")
-//    }
-//}

@@ -12,37 +12,26 @@ struct HomeView: View {
     
     @EnvironmentObject var accessoriesManager: AccessoriesManager
     @EnvironmentObject var locationManager: LocationManager
-    @State var homeName: String = "Home Name"
-    @State var heaterOn: Bool = false
-    @State var deskOn: Bool = false
-    @State var percentage: Float = 100.0
-    //@State var isOnLight: Bool = false
-    @State var isOnHeater: Bool = false
+    @State var brightnessLevel: Float = 100.0
     @State var showLightView: Bool = false
-    @State var accessories: [HMAccessory]!
-    @State var tempSetMin: String = "N/A"
-    @State var tempSetMax: String = "N/A"
     @State var temperature: Float = 20.0
-    @State var humidity: Float = 44
+    @State var humidity: Int = 44
     @State var currentLight: Light?
     @State var showHome = true
     @State var showAuto = false
     @State var showSettings = false
     @State var firstLaunch: Bool
     @State var address: Address! = KeychainManager.getHomeAddress()
-    @State var thermometre: Thermometre!
     @State var addrAvailable: Bool
-    @State var refresh: Bool = false
-    var lights: [HMAccessory]!
     
     func fetchData() {
-        self.accessoriesManager.fetchValues(valueType: ValueType.temperature) { temp in
-            self.accessoriesManager.temperature = temp
-            self.temperature = temp
+        self.accessoriesManager.fetchValues(dataType: .temperature) { temp in
+            self.accessoriesManager.temperature = temp as! Float
+            self.temperature = temp as! Float
         }
-        self.accessoriesManager.fetchValues(valueType: ValueType.humidity) { hum in
-            self.accessoriesManager.humidity = hum
-            self.humidity = hum
+        self.accessoriesManager.fetchValues(dataType: .humidity) { hum in
+            self.accessoriesManager.humidity = hum as! Int
+            self.humidity = hum as! Int
         }
     }
     
@@ -74,12 +63,12 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geometry in
             if self.showAuto {
-                AutoView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings, temperatureMin: tempSetMin, temperatureMax: tempSetMax)
+                AutoView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
             } else if self.showSettings {
-                SettingsView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings, temperature: $tempSetMin)
+                SettingsView(showHome: $showHome, showAuto: $showAuto, showSettings: $showSettings)
             } else {
                 VStack {
-                    Text(self.accessoriesManager.homeManager.primaryHome?.name ?? "Domicile name")
+                    Text(self.accessoriesManager.homeManager.primaryHome?.name ?? "Mon Domicile")
                         .fontWeight(.semibold)
                         .font(.system(size: 30))
                     Form {
@@ -121,7 +110,7 @@ struct HomeView: View {
                                     VStack(alignment: .leading) {
                                         HStack(alignment: .bottom) {
                                             ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                                CustomLightButton(showLightView: $showLightView, percentage: $percentage, light: light)
+                                                CustomLightButton(showLightView: $showLightView, brightnessLevel: $brightnessLevel, light: light)
                                                     .padding(5)
                                                     .gesture(LongPressGesture()
                                                         .onEnded { action in
@@ -195,7 +184,7 @@ struct HomeView: View {
                 }
                 
                 if showLightView {
-                    LightView(isOpen: $showLightView, percentage: $percentage, light: currentLight!)
+                    LightView(isOpen: $showLightView, brightnessLevel: $brightnessLevel, light: currentLight!)
                 }
                 
                 if self.firstLaunch {

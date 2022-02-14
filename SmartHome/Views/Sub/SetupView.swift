@@ -180,11 +180,3 @@ struct SetupView: View {
         }
     }
 }
-
-// struct SetupView_Previews: PreviewProvider {
-//     let addr = Address(country: "France", postalCode: 75014, street: "Rue du général de Gaulle", // number: 20, city: "Paris")
-//
-//     static var previews: some View {
-//         SetupView(isOpen: .constant(true))
-//     }
-// }

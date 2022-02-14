@@ -29,20 +29,16 @@ struct MapView: View {
                                 Image(systemName: "person.fill")
                                     .frame(width: 50, height: 50)
                             }
-                             //().stroke(Color.blue)
-                            
                         }
                     }
                     .frame(width:  geometry.size.width, height: geometry.size.height)
                 }
             }.onChange(of: locationManager.currentLocation) { _ in
-                /****TMP TO MOVE ELSEWHERE*/
                 LocationManager.getLocation(from: address) { loc in
                     self.homeLocation = IdentifiableLocation(lat: loc.coordinate.latitude, long: loc.coordinate.longitude, isHome: true)
                 }
                 let loc = locationManager.currentLocation
                 self.currentLocation = IdentifiableLocation(lat: (loc?.coordinate.latitude)!, long: (loc?.coordinate.longitude)!, isHome: false)
-                // print(self.currentLocation)
             }.onChange(of: homeLocation) { _ in
                 self.displayMap = true
             }

@@ -10,17 +10,12 @@ import HomeKit
 import CoreLocation
 import SwiftUI
 
-enum ValueType { case temperature, humidity}
-
 class AccessoriesManager: NSObject, ObservableObject {
     
-    var stateTemperature: Binding<Double>!
-    var homeManager: HMHomeManager!
     @Published var primaryHome: HMHome!
-    var locationManager: CLLocationManager!
     
     @Published var temperature: Float = 20.0
-    @Published var humidity: Float = 44
+    @Published var humidity: Int = 44
     
     @Published var lights: [Light] = []
     @Published var sockets: [Socket] = []
@@ -34,6 +29,8 @@ class AccessoriesManager: NSObject, ObservableObject {
     @Published var distanceFromHome: Int
     
     @Published var onChangeSocketId: [UUID: Bool]!
+    
+    var homeManager: HMHomeManager!
             
     override init() {
         minTemp = KeychainManager.getMinTemp() ?? 19.0
@@ -73,19 +70,42 @@ class AccessoriesManager: NSObject, ObservableObject {
         }
     }
     
+    func fetchValues(dataType: DataType, completion: @escaping (Any) -> Void) {
+        guard let accessories = self.homeManager.primaryHome?.accessories else {
+                    print("Accessories nil")
+                    return
+                }
+        for accessory in accessories {
+            if accessory.name.lowercased().contains("temp") && dataType == .temperature {
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .temperature) { temp in
+                    completion(temp)
+                }
+            } else if accessory.name.lowercased().contains("hum") && dataType == .humidity {
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .humidity) { hum in
+                    completion(hum)
+                }
+            }
+        }
+    }
+    
     class func fetchCharacteristicValue(accessory: HMAccessory, dataType: DataType, completion: @escaping (Any) -> Void) {
         var characteristicType = ""
         
         switch dataType {
-        case DataType.hue:
+        case .hue:
             characteristicType = HMCharacteristicTypeHue
             break
-        case DataType.brightness:
+        case .brightness:
             characteristicType = HMCharacteristicTypeBrightness
             break
-        case DataType.powerState:
+        case .powerState:
             characteristicType = HMCharacteristicTypePowerState
             break
+        case .temperature:
+            characteristicType = HMCharacteristicTypeCurrentTemperature
+            break
+        case .humidity:
+            characteristicType = HMCharacteristicTypeCurrentRelativeHumidity
         }
         
         for service in accessory.services {
@@ -107,6 +127,12 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     func fetchAccessories() -> Void {
         for accessory in self.primaryHome.accessories {
+            accessory.delegate = self
+            for service in accessory.services {
+                for characteristic in service.characteristics {
+                    characteristic.enableNotification(true) { _ in }
+                }
+            }
             self.accessories.append(accessory)
         }
         self.fetchLights()
@@ -118,16 +144,9 @@ class AccessoriesManager: NSObject, ObservableObject {
             print("Accessories nil lights")
             return
         }
-        var i = 0
         for accessory in accessories {
-            accessory.delegate = self
             for service in accessory.services {
                 for characteristic in service.characteristics {
-                    characteristic.enableNotification(true) { error in
-                        if error != nil {
-                            //print("ERROR: \(accessory.name) -> unable to enable notifications: \(error?.localizedDescription)")
-                        }
-                    }
                     if characteristic.characteristicType == HMCharacteristicTypeHue {
                         var light = Light(accessory: accessory)
                         characteristic.readValue { error in
@@ -148,9 +167,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                                 }
                             }
                         }
-                        
                         self.lights.append(light)
-                        i += 1
                     }
                 }
             }
@@ -162,67 +179,11 @@ class AccessoriesManager: NSObject, ObservableObject {
             print("Accessories nil sockets")
             return
         }
-        var i = 0
-        // rewrite
         for accessory in accessories {
             
             if accessory.model?.lowercased() == "switch" || accessory.name.lowercased().contains("prise"){
                 let socket = Socket(accessory: accessory)
                 self.sockets.append(socket)
-                i += 1
-            }
-        }
-        //print(self.sockets)
-    }
-    
-    func fetchValues(valueType: ValueType, completion: @escaping (Float) -> Void) -> Void {
-        guard let accessories = self.homeManager.primaryHome?.accessories else {
-            print("Accessories nil")
-            return
-        }
-        for accessory in accessories {
-            if accessory.name.lowercased().contains("temp") && valueType == ValueType.temperature {
-                self.fetchTemp(thermometre: accessory) { temp in
-                    completion(temp)
-                }
-            } else if accessory.name.lowercased().contains("hum") && valueType == ValueType.humidity {
-                self.fetchHum(hygrometre: accessory) { hum in
-                    completion(hum)
-                }
-            }
-        }
-    }
-    
-    func fetchHum(hygrometre: HMAccessory, completion: @escaping (Float) -> Void) -> Void {
-        for service in hygrometre.services {
-            for characteristic in service.characteristics {
-                if characteristic.characteristicType == HMCharacteristicTypeCurrentRelativeHumidity {
-                    characteristic.readValue { err in
-                        if err != nil {
-                            print("ERROR: \(hygrometre.name) -> \(err?.localizedDescription ?? "Unknown error")")
-                        }
-                        let value = characteristic.value
-                        let result = value as! Float
-                        completion(result)
-                    }
-                }
-            }
-        }
-    }
-    
-    func fetchTemp(thermometre: HMAccessory, completion: @escaping (Float) -> Void) -> Void {
-        for service in thermometre.services {
-            for characteristic in service.characteristics {
-                if characteristic.characteristicType == HMCharacteristicTypeCurrentTemperature {
-                    characteristic.readValue { err in
-                        if err != nil {
-                            print("ERROR: \(thermometre.name) -> \(err?.localizedDescription ?? "Unknown error")")
-                        }
-                        let value = characteristic.value
-                        let result = (value as? NSNumber)!.floatValue
-                        completion(result)
-                    }
-                }
             }
         }
     }
@@ -233,10 +194,7 @@ class AccessoriesManager: NSObject, ObservableObject {
             for var light in self.lights {
                 light.on = false
                 AccessoriesManager.writeData(accessory: light.accessory, accessoryType: AccessoryType.light, dataType: DataType.powerState, value: light.on)
-                print("\(light.accessory.name) -> \(light.on)")
             }
-        } else {
-            print("Déjà à la maison")
         }
     }    
 }
@@ -244,9 +202,7 @@ class AccessoriesManager: NSObject, ObservableObject {
 extension AccessoriesManager: HMAccessoryDelegate {
     
     func accessory(_ accessory: HMAccessory, service: HMService, didUpdateValueFor characteristic: HMCharacteristic) {
-        //print(accessory.name, "->", characteristic.value)
         if characteristic.characteristicType == HMCharacteristicTypeCurrentTemperature {
-            print("TEMPERATURE: \((characteristic.value as? NSNumber)!.floatValue)")
             let temp = (characteristic.value as? NSNumber)!.floatValue
             self.temperature = temp
             if temp < self.minTemp {
@@ -265,8 +221,7 @@ extension AccessoriesManager: HMAccessoryDelegate {
                 }
             }
         } else if characteristic.characteristicType == HMCharacteristicTypeCurrentRelativeHumidity {
-            print("HUMIDITY: \(characteristic.value as! Float)")
-            let hum = characteristic.value as! Float
+            let hum = characteristic.value as! Int
             self.humidity = hum
         } else if characteristic.characteristicType == HMCharacteristicTypePowerState {
             for var socket in self.sockets {
@@ -276,7 +231,6 @@ extension AccessoriesManager: HMAccessoryDelegate {
                     self.onChangeSocketId = [socket.id: socket.on]
                 }
             }
-            
             for var light in self.lights {
                 if light.accessory == accessory {
                     let state = characteristic.value as! Bool
@@ -292,7 +246,6 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         self.updatedHome += 1
         if manager.homes.first != nil {
-            //manager.removeHome(manager.homes.first!) { _ in}
             self.primaryHome = self.homeManager.homes.first
             self.primaryHome.delegate = self
             self.fetchAccessories()

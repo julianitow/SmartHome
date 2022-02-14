@@ -12,7 +12,6 @@ import SwiftUI
 final class LocationManager: NSObject, ObservableObject {
     
     @Published var currentLocation: CLLocation?
-    @Published var homeLocation: CLLocation?
     @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.828564, longitude: 2.322384), latitudinalMeters: 750, longitudinalMeters: 750)
     @Published var distanceFromHome: CLLocationDistance!
     
@@ -38,11 +37,11 @@ final class LocationManager: NSObject, ObservableObject {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address.string) { (placemarks, err) in
             if err != nil {
-                print("ERROR", err?.localizedDescription ?? "unknown error")
+                print("ERROR:", err?.localizedDescription ?? "unknown error")
                 return
             }
             if placemarks == nil {
-                print("ERROR placemarks nil")
+                print("ERROR: placemarks nil")
             }
             
             let location = placemarks?.first?.location
@@ -96,9 +95,11 @@ extension LocationManager: CLLocationManagerDelegate {
             }
             
             //GESTION DE LA DISTANCE HORS HOME
-            LocationManager.getLocation(from: self.homeAddress) { [self] homeLocation in
-                let distance = homeLocation.distance(from: location)
-                self.distanceFromHome = distance
+            if self.homeAddress != nil {
+                LocationManager.getLocation(from: self.homeAddress) { [self] homeLocation in
+                    let distance = homeLocation.distance(from: location)
+                    self.distanceFromHome = distance
+                }
             }
         }
     }

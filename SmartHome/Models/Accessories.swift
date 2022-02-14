@@ -48,7 +48,18 @@ struct Thermometre: Accessory {
     }
 }
 
-enum DataType { case hue, brightness, powerState}
+struct Hygrometre: Accessory {
+    var id: UUID
+    var accessory: HMAccessory = HMAccessory()
+    var on: Bool = false
+    var humidity: Int = 0
+    init(accessory: HMAccessory) {
+        self.id = UUID()
+        self.accessory = accessory
+    }
+}
+
+enum DataType { case hue, brightness, powerState, temperature, humidity}
 
 enum AccessoryType { case socket, light }
 

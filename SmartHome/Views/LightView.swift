@@ -14,7 +14,7 @@ struct Color_ {
 
 struct LightView: View {
     @Binding var isOpen: Bool
-    @Binding var percentage: Float
+    @Binding var brightnessLevel: Float
     @State var light: Light
     @State var height: CGFloat = 0
     
@@ -24,13 +24,13 @@ struct LightView: View {
     
     @State var selectedColor: Color = Color(UIColor.yellow.withAlphaComponent(0.5))
     
-    let red = Color_(id: 0, color: .red)
+    let red = Color_(id: 0, color: UIColor.red.withAlphaComponent(0.5))
 //    let white = Color_(id: 1, color: .white)
-    let blue = Color_(id: 2, color: .blue)
-    let orange = Color_(id: 3, color: .orange)
+    let blue = Color_(id: 2, color: UIColor.blue.withAlphaComponent(0.5))
+    let orange = Color_(id: 3, color: UIColor.orange.withAlphaComponent(0.5))
     let yellow = Color_(id: 4, color: UIColor.yellow.withAlphaComponent(0.5))
-    let brown = Color_(id: 5, color: .brown)
-    let pink = Color_(id: 6, color: .systemPink)
+    let brown = Color_(id: 5, color: UIColor.green.withAlphaComponent(0.5))
+    let pink = Color_(id: 6, color: UIColor.systemPink.withAlphaComponent(0.5))
     
     var body: some View {
         let colors: [Color_] = [red, blue, orange, yellow, brown, pink]
@@ -62,10 +62,10 @@ struct LightView: View {
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
                                 .padding()
-                            CustomSlider(percentage: $percentage, tintColor: $selectedColor)
-                                .onChange(of: percentage) { value in
+                            CustomSlider(percentage: $brightnessLevel, tintColor: $selectedColor)
+                                .onChange(of: brightnessLevel) { value in
                                     AccessoriesManager.writeData(accessory: accessory, accessoryType: AccessoryType.light, dataType: DataType.brightness, value: value)
-                                    self.light.brightness = percentage
+                                    self.light.brightness = brightnessLevel
                                 }
                             
                             HStack {
@@ -73,7 +73,7 @@ struct LightView: View {
                                     ColorPick(color: color.color)
                                         .onTapGesture {
                                             let hue = color.color.getHue()
-                                            self.selectedColor = Color(color.color)
+                                            self.selectedColor = Color(color.color.withAlphaComponent(0.5))
                                             AccessoriesManager.writeData(accessory: accessory, accessoryType: AccessoryType.light, dataType: DataType.hue, value: hue)
                                             self.light.hue = Float(hue)
                                         }
@@ -104,7 +104,7 @@ struct LightView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
-            self.percentage = self.light.brightness
+            self.brightnessLevel = self.light.brightness
             print("COLOR", self.light.hue)
             self.selectedColor = Color(uiColor: UIColor(hue: CGFloat(self.light.hue / 360), saturation: 100.0, brightness: CGFloat(self.light.brightness), alpha: 0.5))
         }
