@@ -69,6 +69,11 @@ struct HomeView: View {
             _firstLaunch = State(initialValue: true)
         }*/
     }
+    
+    func hapticNotification() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.warning)
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -137,6 +142,7 @@ struct HomeView: View {
                                                             AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
                                                                 self.currentLight?.hue = hue as! Float
                                                                 self.showLightView = true
+                                                                self.hapticNotification()
                                                             }
                                                         }
                                                     })
