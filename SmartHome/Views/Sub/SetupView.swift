@@ -185,7 +185,6 @@ struct SetupView: View {
                                             }
                                         }
                                     }
-                                    .background(.clear)
                                 }
                                 
                             }

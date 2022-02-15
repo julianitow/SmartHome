@@ -14,8 +14,6 @@ struct HomeView: View {
     @EnvironmentObject var locationManager: LocationManager
     @State var brightnessLevel: Float = 100.0
     @State var showLightView: Bool = false
-    @State var temperature: Float = 20.0
-    @State var humidity: Int = 44
     @State var currentLight: Light?
     @State var showHome = true
     @State var showAuto = false
@@ -28,11 +26,9 @@ struct HomeView: View {
     func fetchData() {
         self.accessoriesManager.fetchValues(dataType: .temperature) { temp in
             self.accessoriesManager.temperature = temp as! Float
-            self.temperature = temp as! Float
         }
         self.accessoriesManager.fetchValues(dataType: .humidity) { hum in
             self.accessoriesManager.humidity = hum as! Int
-            self.humidity = hum as! Int
         }
     }
     
@@ -96,7 +92,7 @@ struct HomeView: View {
                                             .fontWeight(.semibold)*/
                                         Image(systemName: "thermometer")
                                             .font(Font.system(.largeTitle))
-                                        Text(String(self.accessoriesManager.temperature) + "°C")
+                                        Text(self.accessoriesManager.temperature == -100.0 ? "N/A" : String(self.accessoriesManager.temperature) + "°C")
                                             .frame(width: 80, height: 80)
                                             .clipShape(Circle())
                                             .shadow(radius: 3)
@@ -108,7 +104,7 @@ struct HomeView: View {
                                     VStack(spacing: 0) {
                                         Image(systemName: "humidity")
                                             .font(Font.system(.largeTitle))
-                                        Text(String(self.accessoriesManager.humidity) + "%")
+                                        Text(self.accessoriesManager.humidity == -100 ? "N/A" : String(self.accessoriesManager.humidity) + "%")
                                             .frame(width: 80, height: 80)
                                             .clipShape(Circle())
                                             .shadow(radius: 3)

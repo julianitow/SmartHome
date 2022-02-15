@@ -14,8 +14,8 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     @Published var primaryHome: HMHome!
     
-    @Published var temperature: Float = 20.0
-    @Published var humidity: Int = 44
+    @Published var temperature: Float = -100.0
+    @Published var humidity: Int = -100
     
     @Published var lights: [Light] = []
     @Published var sockets: [Socket] = []
@@ -178,7 +178,15 @@ class AccessoriesManager: NSObject, ObservableObject {
     }
     
     func removeAccessory(at offsets: IndexSet) {
-        //TODO
+        offsets.forEach({ i in
+            let accessory = self.accessories[i]
+            self.primaryHome.removeAccessory(accessory.accessory) { error in
+                if error != nil {
+                    print("ERROR: while deleting \(accessory.accessory.name) \(error?.localizedDescription ?? "unkown error") ")
+                }
+                self.fetchAccessories()
+            }
+        })
     }
     
     func fetchSockets() -> Void {
