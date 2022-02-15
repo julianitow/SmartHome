@@ -17,14 +17,15 @@ struct CustomSwitchButton: View {
             Image(systemName:"power")
                 .resizable()
                 .frame(width: 30, height: 30)
-                .padding(.top, 10)
+                .padding(.top, 20)
                 .foregroundColor(.white)
             Text(socket.accessory.name)
-                .frame(minWidth: 100, idealWidth: 100, maxWidth: 100, minHeight: 75, idealHeight: 75, maxHeight: 75, alignment: .center)
+                .frame(minWidth: 100, idealWidth: 100, maxWidth: 100, minHeight: 60, idealHeight: 60, maxHeight: 75, alignment: .center)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
+                .offset(y: -10)
         }
-        .background(Color(socket.on ? .systemBlue : .systemGray4))
+        .background(Color(socket.on ? .systemRed : .systemGray4))
         .cornerRadius(15)
         .padding([.top, .bottom], 10)
         .onTapGesture {

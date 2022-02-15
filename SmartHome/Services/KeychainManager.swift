@@ -60,6 +60,10 @@ struct KeychainManager {
         return nil
     }
     
+    static func clearAddress() {
+        KeychainSwift().delete("homeAddress")
+    }
+    
     static func clearKeychain() {
         KeychainSwift().clear()
     }

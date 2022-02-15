@@ -10,6 +10,8 @@ import SwiftUI
 struct SetupView: View {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var accessoriesManager: AccessoriesManager
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var isOpen: Bool
     @State var height: CGFloat = 0
     @State var blurOffset: CGFloat = 0
@@ -25,6 +27,7 @@ struct SetupView: View {
     @State var homeName: String = ""
     @State var isHomeAvailable = false
     @State var isAddressAvailable = false
+    @State var locationError = false
     
     var body: some View {
         ZStack {
@@ -44,20 +47,19 @@ struct SetupView: View {
                 }
                 return AnyView(
                     ZStack {
-                        BlurView(style: .systemMaterial)
-                            .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 30))
                         VStack {
-                            Text("Bienvenue sur SmartHome")
-                                .font(.largeTitle)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                                .padding()
-                                .multilineTextAlignment(.center)
-                            
                             VStack {
                                 VStack {
                                     Form {
-                                      
+                                        Text("Configuration de SmartHome")
+                                            .font(.largeTitle)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                                            .multilineTextAlignment(.center)
+                                            .frame(maxWidth: .infinity)
+                                            .multilineTextAlignment(.center)
+                                            
+                                        
                                         if !self.isAddressAvailable {
                                             Section(header: Text("Où se trouve votre domicile ?")
                                                         .fontWeight(.semibold)
@@ -92,22 +94,31 @@ struct SetupView: View {
                                                         return
                                                     }
                                                     self.locationManager.getAddress(from: location) { addr in
-                                                        self.address = addr
-                                                        KeychainManager.storeAddress(address: addr)
-                                                        self.isAddressAvailable = true
+                                                        if addr.isValid {
+                                                            self.address = addr
+                                                            KeychainManager.storeAddress(address: addr)
+                                                            self.isAddressAvailable = true
+                                                        } else {
+                                                            self.locationError = true
+                                                        }
                                                     }
                                                 } label : {
                                                     HStack {
                                                         Image(systemName: "location")
-                                                        Text("Utiliser la position actuelle")
+                                                        if self.locationError {
+                                                            Text("Veuillez réessayer, une erreur s'est produite")
+                                                                .foregroundColor(.red)
+                                                        } else {
+                                                            Text("Utiliser la position actuelle")
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                         
                                         if !self.isHomeAvailable {
-                                            Section(header: Text("Ajouter un lieu")) {
-                                                TextField("Nom du lieu", text: $homeName)
+                                            Section(header: Text("Ajouter un domicile")) {
+                                                TextField("Nom du domicile, ex: \"Maison\"", text: $homeName)
                                                
                                                 Button {
                                                     if self.homeName != "" {
@@ -129,7 +140,7 @@ struct SetupView: View {
                                             Text("Ajoutez une adresse et lieu pour continuer")
                                                 .foregroundColor(.red)
                                         } else {
-                                            Section(header: Text("Ajouter accessoire(s)")) {
+                                            Section(header: Text("\(accessoriesManager.primaryHome.name):")) {
                                                 Button {
                                                     DispatchQueue.main.async {
                                                         self.accessoriesManager.primaryHome.addAndSetupAccessories() { error in
@@ -162,6 +173,16 @@ struct SetupView: View {
                                                         .foregroundColor(.red)
                                                 }
                                             }
+                                            
+                                            if self.isHomeAvailable && self.accessoriesManager.accessories.count > 0 {
+                                                Section (header: Text("Accessoires disponibles:")) {
+                                                    ForEach(self.accessoriesManager.accessories, id: \.id) { accessory in
+                                                        HStack {
+                                                            Text(accessory.accessory.name)
+                                                        }
+                                                    }.onDelete(perform: self.accessoriesManager.removeAccessory)
+                                                }
+                                            }
                                         }
                                     }
                                     .background(.clear)
@@ -177,6 +198,18 @@ struct SetupView: View {
         .shadow(color: .gray, radius: 13.0)
         .onChange(of: accessoriesManager.primaryHome) {  _ in
             self.isHomeAvailable = true
+        }
+        .onAppear {
+            if KeychainManager.getHomeAddress() != nil {
+                self.isAddressAvailable = true
+            } else {
+                self.isAddressAvailable = false
+            }
+            if self.accessoriesManager.primaryHome == nil {
+                self.isHomeAvailable = false
+            } else {
+                self.isHomeAvailable = true
+            }
         }
     }
 }

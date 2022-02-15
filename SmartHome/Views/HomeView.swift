@@ -23,6 +23,7 @@ struct HomeView: View {
     @State var firstLaunch: Bool
     @State var address: Address! = KeychainManager.getHomeAddress()
     @State var addrAvailable: Bool
+    @State var homeAvailable: Bool = false
     
     func fetchData() {
         self.accessoriesManager.fetchValues(dataType: .temperature) { temp in
@@ -58,6 +59,15 @@ struct HomeView: View {
             _addrAvailable = State(initialValue: true)
             _firstLaunch = State(initialValue: false)
         }
+        
+        
+        /*if primaryHome == nil {
+            _homeAvailable = State(initialValue: true)
+            _firstLaunch = State(initialValue: true)
+        } else {
+            _homeAvailable = State(initialValue: false)
+            _firstLaunch = State(initialValue: true)
+        }*/
     }
 
     var body: some View {
@@ -72,31 +82,38 @@ struct HomeView: View {
                         .fontWeight(.semibold)
                         .font(.system(size: 30))
                     Form {
-                        Section {
-                            HStack {
-                                Spacer()
-                                VStack(spacing: 0) {
-                                    Text("Température")
-                                    Text(String(self.accessoriesManager.temperature) + "°C")
-                                        .frame(width: 80, height: 80)
-                                        .clipShape(Circle())
-                                        .shadow(radius: 3)
-                                        .overlay(Circle().stroke(getTempColor(value: self.accessoriesManager.temperature), lineWidth: 2))
-                                        .foregroundColor(getTempColor(value: self.accessoriesManager.temperature))
-                                        .padding()
+                        if self.accessoriesManager.accessories.count > 0 {
+                            Section {
+                                HStack {
+                                    Spacer()
+                                    VStack(spacing: 0) {
+                                        /*Text("Température")
+                                            .fontWeight(.semibold)*/
+                                        Image(systemName: "thermometer")
+                                            .font(Font.system(.largeTitle))
+                                        Text(String(self.accessoriesManager.temperature) + "°C")
+                                            .frame(width: 80, height: 80)
+                                            .clipShape(Circle())
+                                            .shadow(radius: 3)
+                                            .overlay(Circle().stroke(getTempColor(value: self.accessoriesManager.temperature), lineWidth: 2))
+                                            .foregroundColor(getTempColor(value: self.accessoriesManager.temperature))
+                                            .padding()
+                                    }
+                                    
+                                    VStack(spacing: 0) {
+                                        Image(systemName: "humidity")
+                                            .font(Font.system(.largeTitle))
+                                        Text(String(self.accessoriesManager.humidity) + "%")
+                                            .frame(width: 80, height: 80)
+                                            .clipShape(Circle())
+                                            .shadow(radius: 3)
+                                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+                                            .padding(.top, 5)
+                                            .padding()
+                                            .foregroundColor(Color.blue)
+                                    }
+                                    Spacer()
                                 }
-                                
-                                VStack(spacing: 0) {
-                                    Text("Humidité")
-                                    Text(String(self.accessoriesManager.humidity) + "%")
-                                        .frame(width: 80, height: 80)
-                                        .clipShape(Circle())
-                                        .shadow(radius: 3)
-                                        .overlay(Circle().stroke(Color.blue, lineWidth: 2))
-                                        .padding()
-                                        .foregroundColor(Color.blue)
-                                }
-                                Spacer()
                             }
                         }
                         
@@ -138,7 +155,7 @@ struct HomeView: View {
                         }
                         
                         Section(header: Text("Localisation")) {
-                            if self.addrAvailable {
+                            if self.addrAvailable && self.address.isValid {
                                 MapView(address: self.address)
                                     .frame(height: 250)
                             }
@@ -206,5 +223,19 @@ struct HomeView: View {
         .onChange(of: locationManager.distanceFromHome, perform: { _ in
             self.accessoriesManager.checkDistanceFromHome(distance: locationManager.distanceFromHome)
         })
+        .onChange(of: accessoriesManager.updatedHome, perform: { _ in
+            if self.accessoriesManager.primaryHome == nil {
+                self.firstLaunch = true
+            } else {
+                self.firstLaunch = false
+            }
+        })
+        .onChange(of: locationManager.homeAddress, perform: { _ in
+            if locationManager.homeAddress == nil {
+                self.addrAvailable = false
+                self.firstLaunch = true
+            }
+        })
+        
     }
 }

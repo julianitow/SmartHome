@@ -14,8 +14,8 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var currentLocation: CLLocation?
     @Published var region: MKCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.828564, longitude: 2.322384), latitudinalMeters: 750, longitudinalMeters: 750)
     @Published var distanceFromHome: CLLocationDistance!
+    @Published var homeAddress: Address!
     
-    var homeAddress: Address!
     var locationManager = CLLocationManager()
     var hasSetRegion = false
     
@@ -95,7 +95,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
             
             //GESTION DE LA DISTANCE HORS HOME
-            if self.homeAddress != nil {
+            if self.homeAddress != nil && self.homeAddress.isValid {
                 LocationManager.getLocation(from: self.homeAddress) { [self] homeLocation in
                     let distance = homeLocation.distance(from: location)
                     self.distanceFromHome = distance

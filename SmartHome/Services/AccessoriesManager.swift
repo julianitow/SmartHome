@@ -20,7 +20,7 @@ class AccessoriesManager: NSObject, ObservableObject {
     @Published var lights: [Light] = []
     @Published var sockets: [Socket] = []
     
-    @Published var accessories: [HMAccessory] = []
+    @Published var accessories: [Accessory] = []
     @Published var updatedHome: Int = 0
     
     @Published var minTemp: Float
@@ -126,6 +126,9 @@ class AccessoriesManager: NSObject, ObservableObject {
     }
     
     func fetchAccessories() -> Void {
+        self.lights = []
+        self.sockets = []
+        self.accessories = []
         for accessory in self.primaryHome.accessories {
             accessory.delegate = self
             for service in accessory.services {
@@ -133,7 +136,6 @@ class AccessoriesManager: NSObject, ObservableObject {
                     characteristic.enableNotification(true) { _ in }
                 }
             }
-            self.accessories.append(accessory)
         }
         self.fetchLights()
         self.fetchSockets()
@@ -167,11 +169,16 @@ class AccessoriesManager: NSObject, ObservableObject {
                                 }
                             }
                         }
+                        self.accessories.append(light)
                         self.lights.append(light)
                     }
                 }
             }
         }
+    }
+    
+    func removeAccessory(at offsets: IndexSet) {
+        //TODO
     }
     
     func fetchSockets() -> Void {
@@ -183,6 +190,7 @@ class AccessoriesManager: NSObject, ObservableObject {
             
             if accessory.model?.lowercased() == "switch" || accessory.name.lowercased().contains("prise"){
                 let socket = Socket(accessory: accessory)
+                self.accessories.append(socket)
                 self.sockets.append(socket)
             }
         }
@@ -244,7 +252,7 @@ extension AccessoriesManager: HMAccessoryDelegate {
 
 extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        self.updatedHome += 1
+        print("DELEGATE UPDATE HOMES")
         if manager.homes.first != nil {
             self.primaryHome = self.homeManager.homes.first
             self.primaryHome.delegate = self
@@ -253,21 +261,29 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     }
     
     func homeManager(_ manager: HMHomeManager, didAdd home: HMHome) {
-        self.updatedHome += 1
-    }
-    
-    func home(_ home: HMHome, didAdd accessory: HMAccessory) {
+        print("DELEGATE ADD PRIMARY HOME")
         self.updatedHome += 1
     }
     
     func homeManager(_ manager: HMHomeManager, didRemove home: HMHome) {
-        print("REMOVE PRIMARY HOME")
+        print("DELEGATE DIDRAMOVE HOME")
         self.primaryHome = nil
         self.updatedHome += 1
     }
     
     func homeManagerDidUpdatePrimaryHome(_ manager: HMHomeManager) {
-        print("UPDATE PRIMARY HOME")
-        self.updatedHome += 1
+        if manager.homes.first != nil {
+            self.primaryHome = manager.homes.first
+            self.primaryHome.delegate = self
+            print("DELEGATE UPDATE PM: \(self.primaryHome.name)")
+        }
+    }
+    
+    func home(_ home: HMHome, didRemove accessory: HMAccessory) {
+        print("DELEGATE DIDREMOVE", accessory.name)
+    }
+    
+    func home(_ home: HMHome, didAdd accessory: HMAccessory) {
+        self.fetchAccessories()
     }
 }
