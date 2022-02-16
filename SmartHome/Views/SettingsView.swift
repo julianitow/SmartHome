@@ -106,8 +106,7 @@ struct SettingsView: View {
                                 if error != nil {
                                     print("ERROR: \(error?.localizedDescription ?? "unkown error")")
                                 }
-                                accessoriesManager.primaryHome = nil
-                                accessoriesManager.accessories = []
+                                self.accessoriesManager.clear()
                                 self.accessoriesManager.updatedHome += 1
                                 self.refresh.toggle()
                             }
@@ -147,7 +146,7 @@ struct SettingsView: View {
                     Section {
                         if self.accessoriesManager.rooms.count > 0 {
                             ForEach(self.accessoriesManager.rooms) { room in
-                                Text(room.hmroom.name)
+                                Text("\(room.hmroom.name) (\(room.hmroom.accessories.count) accessoires)")
                             }.onDelete(perform: self.accessoriesManager.removeRoom)
                         }
                     }

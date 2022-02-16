@@ -125,6 +125,14 @@ class AccessoriesManager: NSObject, ObservableObject {
         }
     }
     
+    func clear() {
+        self.primaryHome = nil
+        self.accessories = []
+        self.lights = []
+        self.sockets = []
+        self.rooms = []
+    }
+    
     func fetchHome() {
         self.fetchAccessories()
         self.fetchRooms()
@@ -147,6 +155,13 @@ class AccessoriesManager: NSObject, ObservableObject {
             for service in accessory.services {
                 for characteristic in service.characteristics {
                     characteristic.enableNotification(true) { _ in }
+                    
+                    //search for thermometer or hygrometer
+                    if characteristic.characteristicType == HMCharacteristicTypeCurrentTemperature {
+                        self.accessories.append(Thermometre(accessory: accessory))
+                    } else if characteristic.characteristicType == HMCharacteristicTypeCurrentRelativeHumidity {
+                        self.accessories.append(Hygrometre(accessory: accessory))
+                    }
                 }
             }
         }
@@ -318,6 +333,7 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     
     func home(_ home: HMHome, didAdd accessory: HMAccessory) {
         self.fetchAccessories()
+        self.updatedHome += 1
     }
     
     func home(_ home: HMHome, didAdd room: HMRoom, to: HMZone) {
