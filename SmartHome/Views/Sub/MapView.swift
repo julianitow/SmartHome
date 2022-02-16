@@ -24,10 +24,10 @@ struct MapView: View {
                         MapAnnotation(coordinate: loc.location) {
                             if loc.isHome {
                                 Image(systemName: "house.fill")
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 100, height: 100)
                             } else {
                                 Image(systemName: "person.fill")
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 100, height: 100)
                             }
                         }
                     }

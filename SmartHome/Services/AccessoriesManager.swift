@@ -19,7 +19,7 @@ class AccessoriesManager: NSObject, ObservableObject {
     
     @Published var lights: [Light] = []
     @Published var sockets: [Socket] = []
-    
+    @Published var rooms: [Room] = []
     @Published var accessories: [Accessory] = []
     @Published var updatedHome: Int = 0
     
@@ -70,24 +70,6 @@ class AccessoriesManager: NSObject, ObservableObject {
         }
     }
     
-    func fetchValues(dataType: DataType, completion: @escaping (Any) -> Void) {
-        guard let accessories = self.homeManager.primaryHome?.accessories else {
-                    print("Accessories nil")
-                    return
-                }
-        for accessory in accessories {
-            if accessory.name.lowercased().contains("temp") && dataType == .temperature {
-                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .temperature) { temp in
-                    completion(temp)
-                }
-            } else if accessory.name.lowercased().contains("hum") && dataType == .humidity {
-                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .humidity) { hum in
-                    completion(hum)
-                }
-            }
-        }
-    }
-    
     class func fetchCharacteristicValue(accessory: HMAccessory, dataType: DataType, completion: @escaping (Any) -> Void) {
         var characteristicType = ""
         
@@ -122,6 +104,37 @@ class AccessoriesManager: NSObject, ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    func fetchValues(dataType: DataType, completion: @escaping (Any) -> Void) {
+        guard let accessories = self.homeManager.primaryHome?.accessories else {
+                    print("Accessories nil")
+                    return
+                }
+        for accessory in accessories {
+            if accessory.name.lowercased().contains("temp") && dataType == .temperature {
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .temperature) { temp in
+                    completion(temp)
+                }
+            } else if accessory.name.lowercased().contains("hum") && dataType == .humidity {
+                AccessoriesManager.fetchCharacteristicValue(accessory: accessory, dataType: .humidity) { hum in
+                    completion(hum)
+                }
+            }
+        }
+    }
+    
+    func fetchHome() {
+        self.fetchAccessories()
+        self.fetchRooms()
+    }
+    
+    func fetchRooms() {
+        self.rooms = []
+        for hmroom in self.primaryHome.rooms {
+            let room = Room(from: hmroom)
+            self.rooms.append(room)
         }
     }
     
@@ -175,6 +188,18 @@ class AccessoriesManager: NSObject, ObservableObject {
                 }
             }
         }
+    }
+    
+    func removeRoom(at offsets: IndexSet) {
+        offsets.forEach({ i in
+            let room = self.rooms[i]
+            self.primaryHome.removeRoom(room.hmroom) { error in
+                if error != nil {
+                    print("ERROR: while deleting \(room.hmroom.name) \(error?.localizedDescription ?? "unkown error") ")
+                }
+                self.rooms.remove(at: i)
+            }
+        })
     }
     
     func removeAccessory(at offsets: IndexSet) {
@@ -264,7 +289,7 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
         if manager.homes.first != nil {
             self.primaryHome = self.homeManager.homes.first
             self.primaryHome.delegate = self
-            self.fetchAccessories()
+            self.fetchHome()
         }
     }
     
@@ -293,5 +318,9 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     
     func home(_ home: HMHome, didAdd accessory: HMAccessory) {
         self.fetchAccessories()
+    }
+    
+    func home(_ home: HMHome, didAdd room: HMRoom, to: HMZone) {
+        self.fetchRooms()
     }
 }

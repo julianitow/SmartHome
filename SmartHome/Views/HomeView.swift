@@ -55,15 +55,6 @@ struct HomeView: View {
             _addrAvailable = State(initialValue: true)
             _firstLaunch = State(initialValue: false)
         }
-        
-        
-        /*if primaryHome == nil {
-            _homeAvailable = State(initialValue: true)
-            _firstLaunch = State(initialValue: true)
-        } else {
-            _homeAvailable = State(initialValue: false)
-            _firstLaunch = State(initialValue: true)
-        }*/
     }
     
     func hapticNotification() {

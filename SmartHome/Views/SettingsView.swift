@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HomeKit
 
 struct SettingsView: View {
     @EnvironmentObject var accessoriesManager: AccessoriesManager
@@ -14,10 +15,10 @@ struct SettingsView: View {
     @Binding var showAuto: Bool
     @Binding var showSettings: Bool
     @State var homeName: String = ""
+    @State var roomName: String = ""
     @State var showAlert = false
     @State var refresh = false
     @State var isHomeAvailable = true
-
     
     var body: some View {
         VStack {
@@ -36,9 +37,6 @@ struct SettingsView: View {
                             Text("Supprimer Adresse")
                                 .foregroundColor(Color.red)
                         }
-                    }
-                    .alert("Adresse supprimée, veuillez-relancer l'application pour prendre en compte les modifications.", isPresented: $showAlert) {
-                        Button("OK", role: .cancel) { }
                     }
                     
                     Button {
@@ -123,6 +121,37 @@ struct SettingsView: View {
                 }
                 
                 if self.isHomeAvailable {
+                    Section(header: Text("Gestion des pièces")) {
+                        TextField("Cuisine", text: $roomName)
+                        Button(action: {
+                            if self.roomName != "" {
+                                self.accessoriesManager.homeManager.primaryHome!.addRoom(withName: self.roomName) { hmroom, error in
+                                    if error != nil {
+                                        print("ERROR: while creating room \(self.roomName) -> \(error?.localizedDescription ?? "unknown error")")
+                                        return
+                                    }
+                                    let room = Room(from: hmroom!)
+                                    self.accessoriesManager.rooms.append(room)
+                                    self.roomName = ""
+                                }
+                            }
+                        }, label: {
+                            HStack {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.blue)
+                                Text("Ajouter une pièce")
+                            }
+                        })
+                    }
+                    
+                    Section {
+                        if self.accessoriesManager.rooms.count > 0 {
+                            ForEach(self.accessoriesManager.rooms) { room in
+                                Text(room.hmroom.name)
+                            }.onDelete(perform: self.accessoriesManager.removeRoom)
+                        }
+                    }
+                
                     Section(header: Text("Gestion des accessoires")) {
                         Button {
                             DispatchQueue.main.async {
@@ -149,7 +178,7 @@ struct SettingsView: View {
                 }
                 
                 if self.isHomeAvailable && self.accessoriesManager.accessories.count > 0 {
-                    Section (header: Text("Accessoires disponibles:")) {
+                    Section {
                         ForEach(self.accessoriesManager.accessories, id: \.id) { accessory in
                             HStack {
                                 Text(accessory.accessory.name)
@@ -192,7 +221,6 @@ struct SettingsView: View {
             }
         }
         .onChange(of: accessoriesManager.updatedHome, perform: { _ in
-            print("DELEGATE SETTINGS HERE")
             if self.accessoriesManager.primaryHome == nil {
                 self.isHomeAvailable = false
             } else {
