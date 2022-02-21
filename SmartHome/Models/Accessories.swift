@@ -12,6 +12,8 @@ protocol Accessory {
     var id: UUID { get set }
     var accessory: HMAccessory { get set }
     var on: Bool { get set }
+    var type: AccessoryType { get }
+    var room: Room? { get set }
 }
 
 struct Light: Accessory, Equatable {
@@ -21,9 +23,17 @@ struct Light: Accessory, Equatable {
     var brightness: Float = 0.0
     var hue: Float = 0.0
     var saturation: Double?
+    var type: AccessoryType = .light
+    var room: Room?
     init(accessory: HMAccessory) {
         self.id = UUID()
         self.accessory = accessory
+    }
+    static func == (lhs: Light, rhs: Light) -> Bool {
+        if lhs.id == rhs.id {
+            return true
+        }
+        return false
     }
 }
 
@@ -31,6 +41,8 @@ struct Socket: Accessory {
     var id: UUID
     var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
+    var type: AccessoryType = .socket
+    var room: Room?
     init(accessory: HMAccessory) {
         self.id = UUID()
         self.accessory = accessory
@@ -42,6 +54,8 @@ struct Thermometre: Accessory {
     var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
     var temperature: Float = 0.0
+    var type: AccessoryType = .thermometre
+    var room: Room?
     init(accessory: HMAccessory) {
         self.id = UUID()
         self.accessory = accessory
@@ -53,6 +67,8 @@ struct Hygrometre: Accessory {
     var accessory: HMAccessory = HMAccessory()
     var on: Bool = false
     var humidity: Int = 0
+    var type: AccessoryType = .hygrometre
+    var room: Room?
     init(accessory: HMAccessory) {
         self.id = UUID()
         self.accessory = accessory
@@ -61,5 +77,5 @@ struct Hygrometre: Accessory {
 
 enum DataType { case hue, brightness, powerState, temperature, humidity}
 
-enum AccessoryType { case socket, light }
+enum AccessoryType { case socket, light, thermometre, hygrometre }
 

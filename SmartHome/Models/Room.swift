@@ -11,6 +11,7 @@ import HomeKit
 struct Room: Identifiable {
     var id: UUID
     var hmroom: HMRoom
+    var accessories: [Accessory] = []
     
     init(from hmroom: HMRoom) {
         self.id = UUID()

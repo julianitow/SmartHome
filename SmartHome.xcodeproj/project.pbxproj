@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D26E3AB27C2BB9900FE62E1 /* AccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D26E3AA27C2BB9900FE62E1 /* AccessoryView.swift */; };
 		4D271F1427BD7186008EE509 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D271F1327BD7186008EE509 /* Room.swift */; };
 		4D3A25C027B29E74006FFF3A /* SmartHomeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25BF27B29E74006FFF3A /* SmartHomeApp.swift */; };
 		4D3A25C227B29E74006FFF3A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3A25C127B29E74006FFF3A /* ContentView.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D26E3AA27C2BB9900FE62E1 /* AccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryView.swift; sourceTree = "<group>"; };
 		4D271F1327BD7186008EE509 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		4D3A25BC27B29E74006FFF3A /* SmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D3A25BF27B29E74006FFF3A /* SmartHomeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartHomeApp.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				4D3A25D327B2A90A006FFF3A /* LightView.swift */,
 				4DC3E2D627B544F600886859 /* AutoView.swift */,
 				4DC3E2D827B5450200886859 /* SettingsView.swift */,
+				4D26E3AA27C2BB9900FE62E1 /* AccessoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				4DC3E2DD27B56F4F00886859 /* LocationManager.swift in Sources */,
 				4DC3E2E727B6764400886859 /* SetupView.swift in Sources */,
 				4D271F1427BD7186008EE509 /* Room.swift in Sources */,
+				4D26E3AB27C2BB9900FE62E1 /* AccessoryView.swift in Sources */,
 				4D3A25E127B3DA14006FFF3A /* AccessoriesManager.swift in Sources */,
 				4DC3E2DB27B56ED000886859 /* MapView.swift in Sources */,
 				4DC3E2D927B5450200886859 /* SettingsView.swift in Sources */,

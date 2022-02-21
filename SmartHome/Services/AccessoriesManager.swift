@@ -141,7 +141,13 @@ class AccessoriesManager: NSObject, ObservableObject {
     func fetchRooms() {
         self.rooms = []
         for hmroom in self.primaryHome.rooms {
-            let room = Room(from: hmroom)
+            var room = Room(from: hmroom)
+            for accessory in accessories {
+                if accessory.accessory.room == room.hmroom {
+                    room.accessories.append(accessory)
+                }
+            }
+            print("ROOM:\(room.hmroom.name) -> \(room.accessories)")
             self.rooms.append(room)
         }
     }
@@ -217,6 +223,10 @@ class AccessoriesManager: NSObject, ObservableObject {
         })
     }
     
+    func moveAccessory(accessory: Accessory, to room: Room) {
+        print("MOVING \(accessory.accessory.name) to \(room.hmroom.name)")
+    }
+    
     func removeAccessory(at offsets: IndexSet) {
         offsets.forEach({ i in
             let accessory = self.accessories[i]
@@ -224,7 +234,7 @@ class AccessoriesManager: NSObject, ObservableObject {
                 if error != nil {
                     print("ERROR: while deleting \(accessory.accessory.name) \(error?.localizedDescription ?? "unkown error") ")
                 }
-                self.fetchAccessories()
+                self.fetchHome()
             }
         })
     }
@@ -332,11 +342,12 @@ extension AccessoriesManager: HMHomeManagerDelegate, HMHomeDelegate {
     }
     
     func home(_ home: HMHome, didAdd accessory: HMAccessory) {
-        self.fetchAccessories()
+        self.fetchHome()
         self.updatedHome += 1
     }
     
     func home(_ home: HMHome, didAdd room: HMRoom, to: HMZone) {
         self.fetchRooms()
+        self.updatedHome += 1
     }
 }

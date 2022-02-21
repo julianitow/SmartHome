@@ -108,8 +108,8 @@ struct HomeView: View {
                                 }
                             }
                         }
-                        
-                        Section(header: Text("Actions")) {
+                    ForEach(self.accessoriesManager.rooms) { room in
+                        Section(header: Text("\(room.hmroom.name)")) {
                             if self.accessoriesManager.accessories.count == 0 {
                                 Text("Aucun accessoire disponible, rendez-vous dans les paramètres pour en ajouter")
                                     .fontWeight(.semibold)
@@ -118,27 +118,29 @@ struct HomeView: View {
                                 ScrollView(.horizontal) {
                                     VStack(alignment: .leading) {
                                         HStack(alignment: .bottom) {
-                                            ForEach(self.accessoriesManager.lights, id: \.id) { light in
-                                                CustomLightButton(showLightView: $showLightView, brightnessLevel: $brightnessLevel, light: light)
-                                                    .padding(5)
-                                                    .gesture(LongPressGesture()
-                                                        .onEnded { action in
-                                                        self.currentLight = light
-                                                        AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
-                                                            self.currentLight?.brightness = brightness as! Float
-                                                            AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
-                                                                self.currentLight?.hue = hue as! Float
-                                                                self.showLightView = true
-                                                                self.hapticNotification()
+                                            ForEach(room.accessories, id: \.id) { accessory in
+                                                if accessory.type == .light {
+                                                    CustomLightButton(showLightView: $showLightView, brightnessLevel: $brightnessLevel, light: accessory as! Light)
+                                                        .padding(5)
+                                                        /*.gesture(LongPressGesture()
+                                                            .onEnded { action in
+                                                            self.currentLight = accessory
+                                                            AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.brightness) { brightness in
+                                                                self.currentLight?.brightness = brightness as! Float
+                                                                AccessoriesManager.fetchCharacteristicValue(accessory: light.accessory, dataType: DataType.hue) { hue in
+                                                                    self.currentLight?.hue = hue as! Float
+                                                                    self.showLightView = true
+                                                                    self.hapticNotification()
+                                                                }
                                                             }
-                                                        }
-                                                    })
-                                            }
-                                        }
-                                        HStack(alignment: .bottom)  {
-                                            ForEach(self.accessoriesManager.sockets, id: \.id) { socket in
-                                                CustomSwitchButton(socket: socket)
-                                                    .padding(5)
+                                                        })*/
+                                                } else if accessory.type == .socket{
+                                                    HStack(alignment: .bottom)  {
+                                                        CustomSwitchButton(socket: accessory)
+                                                            .padding(5)
+                                                    }
+                                                }
+                                             
                                             }
                                         }
                                     }
@@ -146,6 +148,7 @@ struct HomeView: View {
                                 }
                             }
                         }
+                    }
                         
                         Section(header: Text("Localisation")) {
                             if self.addrAvailable && self.address.isValid {

@@ -17,8 +17,11 @@ struct SettingsView: View {
     @State var homeName: String = ""
     @State var roomName: String = ""
     @State var showAlert = false
+    @State var showRoomSelection = false
     @State var refresh = false
     @State var isHomeAvailable = true
+    @State var selection: Int?
+    @State var selectedAccessory: Accessory!
     
     var body: some View {
         VStack {
@@ -146,7 +149,17 @@ struct SettingsView: View {
                     Section {
                         if self.accessoriesManager.rooms.count > 0 {
                             ForEach(self.accessoriesManager.rooms) { room in
-                                Text("\(room.hmroom.name) (\(room.hmroom.accessories.count) accessoires)")
+                                HStack {
+                                    Text("\(room.hmroom.name) (\(room.hmroom.accessories.count) accessoires)")
+                                }.contextMenu {
+                                    VStack {
+                                        Button(action: {
+                                            
+                                        }, label: {
+                                            Text("Ajouter accessoire")
+                                        })
+                                    }
+                                }
                             }.onDelete(perform: self.accessoriesManager.removeRoom)
                         }
                     }
@@ -182,7 +195,23 @@ struct SettingsView: View {
                             HStack {
                                 Text(accessory.accessory.name)
                             }
-                        }.onDelete(perform: self.accessoriesManager.removeAccessory)
+                            .contextMenu {
+                                Button {
+                                    self.selectedAccessory = accessory
+                                    self.showRoomSelection.toggle()
+                                } label: {
+                                    Text("Déplacer vers...")
+                                }
+                            }
+                        }
+                        .onDelete(perform: self.accessoriesManager.removeAccessory)
+                        .confirmationDialog("Quelle pièce?", isPresented: self.$showRoomSelection, titleVisibility: .visible ) {
+                            ForEach(accessoriesManager.rooms, id: \.id) { room in
+                                Button(room.hmroom.name) {
+                                    self.accessoriesManager.moveAccessory(accessory: self.selectedAccessory, to: room)
+                                }
+                            }
+                        }
                     }
                 }
         }
